@@ -1,5 +1,6 @@
 import ContactForm from "./components/ContactForm";
 import Enso from "./components/Enso";
+import Water from "./components/Water";
 import { businesses, SLOT_COUNT } from "./businesses";
 
 const steps = [
@@ -28,6 +29,7 @@ export default function Home() {
 
   return (
     <>
+      <Water />
       <header className="site band">
         <div className="wrap">
           <a className="logo" href="#top"><span className="seal">ARA</span><b>ARA COMPANY</b></a>

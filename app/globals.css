@@ -1,31 +1,22 @@
-/* Layout: 和紙の地に墨の円相を一つ。縦書きの言葉と朱の落款を添え、下は罫線で区切った帳面のように流す。 */
+/* Layout: 夜の黒い水面の上に、白い墨の円相を一つ。縦書きの言葉と朱の落款を添え、罫線で区切って流す。
+   水面と合わせるため、ライト・ダークの切り替えはせず黒一色で固定する。 */
 :root {
-  --paper: #EDEBE5;
-  --paper-2: #E3E0D8;
-  --ink: #161513;
-  --ink-soft: #57534B;
-  --line: #C7C2B7;
-  --shu: #B5381F;
+  --paper: #08090A;
+  --paper-2: #121315;
+  --ink: #ECE8DE;
+  --ink-soft: #9E9A91;
+  --line: #2B2C2E;
+  --shu: #C8432B;
   --seal-fg: #F4F0E8;
-  --band: #161513;
-  --band-fg: #EDEBE5;
+  --band: rgba(8, 9, 10, 0.72);
+  --band-fg: #ECE8DE;
   --f-brush: var(--font-brush), "Yuji Syuku", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --f-mincho: var(--font-mincho), "Hiragino Mincho ProN", "Yu Mincho", serif;
   --f-body: var(--font-gothic), "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
   --gutter-l: max(16px, env(safe-area-inset-left, 0px));
   --gutter-r: max(16px, env(safe-area-inset-right, 0px));
   --wrap: 1120px;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #131210; --paper-2: #1B1A17; --ink: #ECE7DC; --ink-soft: #A29D92;
-    --line: #36332D; --shu: #CF4F35; --band: #1E1C19; --band-fg: #ECE7DC; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #131210; --paper-2: #1B1A17; --ink: #ECE7DC; --ink-soft: #A29D92;
-  --line: #36332D; --shu: #CF4F35; --band: #1E1C19; --band-fg: #ECE7DC; color-scheme: dark;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -33,8 +24,6 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background-color: var(--paper); color: var(--ink);
-  /* 和紙の繊維 */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.06' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
   font-family: var(--f-body); font-size: 16px; line-height: 1.9;
   -webkit-font-smoothing: antialiased;
 }
@@ -43,6 +32,9 @@ body::before {
   height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper);
 }
 img { max-width: 100%; }
+
+/* 水面 */
+.water { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; pointer-events: none; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--shu); outline-offset: 3px; }
 h1, h2, h3 { text-wrap: balance; word-break: auto-phrase; margin: 0; font-weight: 400; }
@@ -67,8 +59,8 @@ p { margin: 0; }
 /* Header */
 header.site {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--paper) 55%, transparent);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
@@ -209,7 +201,7 @@ section.block + section.block .wrap { border-top: 1px solid var(--line); }
 }
 
 /* Contact */
-.contact { background: var(--band); color: var(--band-fg); }
+.contact { background: var(--band); color: var(--band-fg); backdrop-filter: blur(6px); border-top: 1px solid var(--line); }
 .contact .wrap { padding-block: clamp(64px, 9vw, 120px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px; }
 @media (max-width: 860px) { .contact .wrap { grid-template-columns: minmax(0, 1fr); } }
 .contact h2 { font-family: var(--f-brush); font-size: clamp(3.4rem, 9vw, 6.4rem); line-height: 1.1; }
@@ -223,7 +215,7 @@ form.inq { display: grid; gap: 16px; }
   border: 0; border-bottom: 1px solid color-mix(in srgb, var(--band-fg) 38%, transparent);
   padding: 8px 0; border-radius: 0;
 }
-.field select option { color: #161513; background: #EDEBE5; }
+.field select option { color: var(--ink); background: var(--paper-2); }
 .field textarea { resize: vertical; min-height: 96px; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--band-fg); }
 .contact .btn { background: var(--shu); color: var(--seal-fg); }
