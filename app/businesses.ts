@@ -1,6 +1,6 @@
 // 事業を追加・更新するときは、この配列を編集するとトップの印と事業セクションに反映されます。
-// status は実態に合わせること（構想段階の事業を「始動中」にしない）。
-export type BusinessStatus = "active" | "concept" | "future";
+// status は実態に合わせること（準備中・構想段階の事業を「運営中」にしない）。
+export type BusinessStatus = "active" | "preparing" | "concept" | "future";
 
 export type Business = {
   id: string;
@@ -13,7 +13,8 @@ export type Business = {
 };
 
 export const statusLabel: Record<BusinessStatus, string> = {
-  active: "始動中",
+  active: "運営中",
+  preparing: "立ち上げ準備中",
   concept: "構想段階",
   future: "将来構想",
 };
@@ -25,9 +26,9 @@ export const businesses: Business[] = [
     category: "Fashion & Culture",
     kanji: "装",
     title: "ORMOSCIA",
-    status: "active",
+    status: "preparing",
     description:
-      "現在始動しているファッションブランド。シンプルながら独自性のあるデザインを通じて、ファッションとスポーツカルチャーを融合させます。",
+      "立ち上げ準備中のファッションブランド。シンプルながら独自性のあるデザインを通じて、ファッションとスポーツカルチャーの融合を目指します。",
   },
   {
     id: "technology",
@@ -59,5 +60,5 @@ export const businesses: Business[] = [
   },
 ];
 
-// ORMOSCIA の公式サイトが公開されたら URL を入れる。null の間は問い合わせへの導線のみ表示する。
-export const ORMOSCIA_URL: string | null = null;
+// 印を朱で塗る（主力として扱う）事業。準備中を含む。
+export const isLead = (b: Business) => b.status === "active" || b.status === "preparing";

@@ -2,7 +2,8 @@ import ContactForm from "./components/ContactForm";
 import Enso from "./components/Enso";
 import Water from "./components/Water";
 import ScrollFx from "./components/ScrollFx";
-import { businesses, statusLabel, ORMOSCIA_URL } from "./businesses";
+import { businesses, statusLabel, isLead } from "./businesses";
+import { site, contactEnabled, profileRows } from "./site";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
 const PURPOSE_EN = "Creating possibilities beyond limits.";
@@ -48,18 +49,15 @@ const message = [
   "ARA COMPANYは、挑戦する人とともに成長し続ける会社を目指します。",
 ];
 
-// 確認済みの情報だけを載せる。代表者・所在地・設立日などは確認後に追加する。
 const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
 
-const profile = [
-  { label: "会社名", value: "ARA COMPANY" },
-  { label: "展開ブランド", value: "ORMOSCIA" },
-  { label: "事業方針", value: "ファッションを起点に、将来的にはAI・テクノロジー、スポーツ支援、コミュニティ事業などへ展開する。" },
-];
+// 確認済みの情報だけを載せる（項目は app/site.ts で管理）。
+const profile = profileRows(
+  businesses.filter(isLead).map((b) => `${b.name}（${statusLabel[b.status]}）`).join("、")
+);
 
 export default function Home() {
   const year = new Date().getFullYear();
-  const activeCount = businesses.filter((b) => b.status === "active").length;
 
   return (
     <>
@@ -73,7 +71,7 @@ export default function Home() {
             <a href="#philosophy">PHILOSOPHY</a>
             <a href="#business">BUSINESS</a>
             <a href="#story">OUR STORY</a>
-            <a className="cta-link" href="#contact">CONTACT</a>
+            {contactEnabled && <a className="cta-link" href="#contact">CONTACT</a>}
           </nav>
         </div>
       </header>
@@ -93,7 +91,7 @@ export default function Home() {
             <div className="hero-side">
               <span className="label">Our Purpose</span>
               <p className="en-purpose">{PURPOSE_EN}</p>
-              <p>ARA COMPANYは、ファッションを起点に事業を生み出し、その成長を挑戦する人の支えにつなげていく会社です。</p>
+              <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、事業立ち上げの準備を進めています。</p>
               <a className="btn" href="#story">OUR STORY <span aria-hidden="true">→</span></a>
             </div>
           </div>
@@ -104,15 +102,15 @@ export default function Home() {
             <ul className="marks" aria-label="事業構想">
               {businesses.map((b) => (
                 <li key={b.id}>
-                  <a className={`mark${b.status === "active" ? "" : " open"}`} href={`#${b.id}`}>
-                    {b.status === "active" ? <span className="seal">{b.kanji}</span> : <span className="slot">{b.kanji}</span>}
+                  <a className={`mark${isLead(b) ? "" : " open"}`} href={`#${b.id}`}>
+                    {isLead(b) ? <span className="seal">{b.kanji}</span> : <span className="slot">{b.kanji}</span>}
                     <small>{b.name}</small>
                     <small className="state">{statusLabel[b.status]}</small>
                   </a>
                 </li>
               ))}
             </ul>
-            <span className="label">{activeCount}ブランド始動 / {businesses.length - activeCount}事業 構想中</span>
+            <span className="label">{site.base}を拠点に準備中</span>
           </div>
         </div>
 
@@ -121,8 +119,8 @@ export default function Home() {
             <div className="sec-head" data-reveal>
               <span className="label">About</span>
               <div>
-                <h2>ファッションを起点に、<br />挑戦を支える会社へ。</h2>
-                <p className="lead">ARA COMPANYは、ファッションブランド「ORMOSCIA」から歩みを始めました。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社を目指しています。</p>
+                <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
+                <p className="lead">ARA COMPANYは、{site.base}を拠点に事業の立ち上げを準備しています。最初の取り組みは、ファッションブランド「ORMOSCIA」の立ち上げです。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
               </div>
             </div>
             <table className="profile" data-reveal>
@@ -206,13 +204,13 @@ export default function Home() {
               <span className="label">Business</span>
               <div>
                 <h2>事業構想</h2>
-                <p className="lead">現在はファッションブランド「ORMOSCIA」が始動しています。そのほかの事業は構想段階・将来構想であり、一つずつ形にしていきます。</p>
+                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しています。そのほかの事業は構想段階・将来構想であり、一つずつ形にしていきます。</p>
               </div>
             </div>
 
             <div className="units">
               {businesses.map((b) => (
-                <article key={b.id} className={`unit${b.status === "active" ? "" : " next"}`} id={b.id} data-reveal>
+                <article key={b.id} className={`unit${isLead(b) ? "" : " next"}`} id={b.id} data-reveal>
                   <span className="glyph" aria-hidden="true" data-reveal="ink">{b.kanji}</span>
                   <div className="head">
                     <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
@@ -221,11 +219,11 @@ export default function Home() {
                   <div className="unit-side">
                     <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
                     {b.id === "ormoscia" &&
-                      (ORMOSCIA_URL ? (
-                        <a className="btn" href={ORMOSCIA_URL} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
+                      (site.ormosciaUrl ? (
+                        <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
                       ) : (
                         <>
-                          <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>
+                          {contactEnabled && <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
                           <small className="note-sm">ブランドサイトは準備中です。</small>
                         </>
                       ))}
@@ -262,6 +260,7 @@ export default function Home() {
         </section>
       </main>
 
+      {contactEnabled && (
       <section className="contact band" id="contact">
         <div className="wrap">
           <div data-reveal>
@@ -272,6 +271,7 @@ export default function Home() {
           <ContactForm />
         </div>
       </section>
+      )}
 
       <footer className="site band">
         <div className="wrap">

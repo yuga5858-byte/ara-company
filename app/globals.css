@@ -214,6 +214,7 @@ section.block + section.block .wrap { border-top: 1px solid var(--line); }
   padding: 4px 12px; border: 1px solid var(--ink-soft); color: var(--ink-soft); border-radius: 2px;
 }
 .status-active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.status-preparing { border-color: var(--ink); color: var(--ink); }
 .note-sm { font-size: 0.8rem; color: var(--ink-soft); }
 .unit-side .btn { font-size: 0.86rem; padding: 12px 20px; }
 @media (max-width: 900px) {
