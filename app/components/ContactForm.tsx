@@ -23,15 +23,15 @@ export default function ContactForm() {
       <div className="field"><label htmlFor="f-name">お名前</label><input id="f-name" name="name" type="text" autoComplete="name" required /></div>
       <div className="field"><label htmlFor="f-mail">メールアドレス</label><input id="f-mail" name="email" type="email" autoComplete="email" required /></div>
       <div className="field">
-        <label htmlFor="f-topic">ご相談の分野</label>
+        <label htmlFor="f-topic">お問い合わせの種類</label>
         <select id="f-topic" name="topic">
-          <option>AI導入・活用</option>
-          <option>ブランド開発</option>
-          <option>事業支援</option>
-          <option>協業・その他</option>
+          <option>ORMOSCIAについて</option>
+          <option>協業のご相談</option>
+          <option>取材のご依頼</option>
+          <option>その他</option>
         </select>
       </div>
-      <div className="field"><label htmlFor="f-body">ご相談内容</label><textarea id="f-body" name="body" /></div>
+      <div className="field"><label htmlFor="f-body">お問い合わせ内容</label><textarea id="f-body" name="body" /></div>
       <button className="btn" type="submit">送信する</button>
       <p className="form-msg" aria-live="polite">{message}</p>
     </form>

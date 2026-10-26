@@ -1,31 +1,62 @@
 import ContactForm from "./components/ContactForm";
 import Enso from "./components/Enso";
 import Water from "./components/Water";
-import { businesses, SLOT_COUNT } from "./businesses";
+import { businesses, statusLabel, ORMOSCIA_URL } from "./businesses";
 
-const steps = [
-  { n: "一", title: "ヒアリング", body: "現状と目指す姿をうかがい、課題を整理します。初回のご相談は無料です。" },
-  { n: "二", title: "設計・ご提案", body: "AI・ブランド・支援のどれを、どの順で使うかを組み立ててご提案します。" },
-  { n: "三", title: "実行", body: "ツール開発、デザイン制作、施策の実行まで、手を動かして形にします。" },
-  { n: "四", title: "伴走・改善", body: "数字を見ながら改善を続け、自走できる状態になるまで支えます。" },
-];
+const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
+const PURPOSE_EN = "Creating possibilities beyond limits.";
 
 const mission = [
-  { big: "速", k: "AI", v: "速くする。", d: "手作業や判断の繰り返しをAIに任せ、人が考えるべきことに時間を戻します。" },
-  { big: "伝", k: "BRAND", v: "伝わるようにする。", d: "名前、ロゴ、言葉、Webまで。選ばれる理由を、見える形に整えます。" },
-  { big: "続", k: "SUPPORT", v: "続けられるようにする。", d: "立ち上げから運営まで伴走し、事業が自分たちの力で回る状態をつくります。" },
+  { big: "信", k: "FASHION", v: "ファッションを通じて自信を", },
+  { big: "選", k: "TECHNOLOGY", v: "テクノロジーを通じて新しい選択肢を" },
+  { big: "場", k: "BUSINESS", v: "事業を通じて仕事や居場所を" },
 ];
 
-const profile: { label: string; value: string | null }[] = [
+const values = [
+  { no: "01", en: "CHALLENGE", ja: "挑戦", body: "失敗を恐れず、新しい可能性を追求する。" },
+  { no: "02", en: "RESILIENCE", ja: "再起", body: "立ち止まることを恐れず、何度でも前に進む。" },
+  { no: "03", en: "CONNECTION", ja: "つながり", body: "人と人とのつながりを大切にし、ともに成長する。" },
+  { no: "04", en: "CREATION", ja: "創造", body: "既存の常識にとらわれず、新しい価値を生み出す。" },
+  { no: "05", en: "IMPACT", ja: "社会への還元", body: "事業の成長を、自分たちだけでなく誰かの可能性につなげる。" },
+];
+
+// OUR STORY は本文のまま掲載する。quote: true の段落は引用として強調する。
+const story: { text: string; quote?: boolean }[] = [
+  { text: "私は幼い頃からサッカーに打ち込み、プロサッカー選手になることを目標に挑戦を続けてきました。" },
+  { text: "しかし、大学進学後、度重なる大きな怪我や手術を経験し、思うように競技ができない時間を過ごしました。" },
+  { text: "周囲の仲間が試合で活躍する一方、自分はリハビリを繰り返す日々。これまで積み重ねてきた努力や、自分の将来に対して不安を感じることもありました。" },
+  { text: "それでも、家族や仲間の支えがあり、もう一度前を向くことができました。" },
+  { text: "この経験から強く感じたことがあります。" },
+  { text: "「人は、能力や努力だけで挑戦を続けられるわけではない。支えてくれる人や環境があるからこそ、何度でも立ち上がれる。」", quote: true },
+  { text: "そして、自分と同じように、怪我や挫折によって夢を諦めかけている人たちの力になりたいと考えるようになりました。" },
+  { text: "ただ、誰かを支えるためには、想いだけでは足りません。経済的な力、仕事を生み出す力、そして人が集まる場所が必要です。" },
+  { text: "だからこそ、自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社をつくりたい。" },
+  { text: "その想いから生まれたのが、ARA COMPANYです。" },
+  { text: "私たちは、ファッションをはじめとするさまざまな事業を通じて、人と人をつなぎ、新しい価値を生み出していきます。" },
+  { text: "そしていつか、挑戦したいという気持ちを持つ人が、環境や困難によって可能性を閉ざされない社会を実現したいと考えています。" },
+];
+
+const message = [
+  "私はこれまで、サッカーを通じて挑戦することの喜びと、思うように進めないことの苦しさを経験してきました。",
+  "大きな怪我によって何度も立ち止まり、将来への不安を感じたこともあります。",
+  "それでも、周囲の人たちに支えられ、挑戦を続けることができました。",
+  "この経験が、ARA COMPANYを立ち上げようと考えた原点です。",
+  "私たちは、ファッションやテクノロジーをはじめ、さまざまな事業に挑戦していきます。",
+  "まずは自分たちの手で価値を生み出し、事業を成長させる。そして、その成長を誰かの新しい可能性につなげていきたいと考えています。",
+  "立ち止まることがあっても、そこで終わりではない。",
+  "ARA COMPANYは、挑戦する人とともに成長し続ける会社を目指します。",
+];
+
+// 確認済みの情報だけを載せる。代表者・所在地・設立日などは確認後に追加する。
+const profile = [
   { label: "会社名", value: "ARA COMPANY" },
-  { label: "代表者", value: null },
-  { label: "設立", value: null },
-  { label: "所在地", value: null },
+  { label: "展開ブランド", value: "ORMOSCIA" },
+  { label: "事業方針", value: "ファッションを起点に、将来的にはAI・テクノロジー、スポーツ支援、コミュニティ事業などへ展開する。" },
 ];
 
 export default function Home() {
-  const openSlots = Math.max(SLOT_COUNT - businesses.length, 1);
   const year = new Date().getFullYear();
+  const activeCount = businesses.filter((b) => b.status === "active").length;
 
   return (
     <>
@@ -34,11 +65,11 @@ export default function Home() {
         <div className="wrap">
           <a className="logo" href="#top"><span className="seal">ARA</span><b>ARA COMPANY</b></a>
           <nav className="main" aria-label="メインメニュー">
-            <a href="#mission">私たちについて</a>
-            <a href="#business">事業</a>
-            <a href="#process">進め方</a>
-            <a href="#company">会社概要</a>
-            <a className="cta-link" href="#contact">お問い合わせ</a>
+            <a href="#about">ABOUT</a>
+            <a href="#philosophy">PHILOSOPHY</a>
+            <a href="#business">BUSINESS</a>
+            <a href="#story">OUR STORY</a>
+            <a className="cta-link" href="#contact">CONTACT</a>
           </nav>
         </div>
       </header>
@@ -46,63 +77,121 @@ export default function Home() {
       <main id="top">
         <section className="hero band">
           <div className="wrap">
-            <h1 className="catch">事業は、<br />ひとつで終わらない。</h1>
+            <h1 className="catch">挑戦するすべての人に、<br />次の可能性を。</h1>
             <div className="enso-wrap">
               <Enso className="enso" />
               <div className="enso-name">
                 <span className="ara">ARA</span>
                 <span className="co">COMPANY</span>
               </div>
-              <span className="seal" aria-hidden="true">新</span>
+              <span className="seal" aria-hidden="true">挑</span>
             </div>
             <div className="hero-side">
-              <span className="label">AI · Brand · Support</span>
-              <p>ARA COMPANYは、AI・ブランド・事業支援の3つの事業から始まる会社です。それぞれの現場で得た知見をつなぎ合わせ、これからも新しい事業を立ち上げていきます。</p>
-              <a className="btn" href="#business">事業を見る <span aria-hidden="true">→</span></a>
+              <span className="label">Our Purpose</span>
+              <p className="en-purpose">{PURPOSE_EN}</p>
+              <p>ARA COMPANYは、ファッションを起点に事業を生み出し、その成長を挑戦する人の支えにつなげていく会社です。</p>
+              <a className="btn" href="#story">OUR STORY <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
 
         <div className="portfolio band">
           <div className="wrap">
-            <ul className="marks" aria-label="事業ポートフォリオ">
+            <ul className="marks" aria-label="事業構想">
               {businesses.map((b) => (
                 <li key={b.id}>
-                  <a className="mark" href={`#${b.id}`}>
-                    <span className="seal">{b.kanji}</span>
+                  <a className={`mark${b.status === "active" ? "" : " open"}`} href={`#${b.id}`}>
+                    {b.status === "active" ? <span className="seal">{b.kanji}</span> : <span className="slot">{b.kanji}</span>}
                     <small>{b.name}</small>
+                    <small className="state">{statusLabel[b.status]}</small>
                   </a>
                 </li>
               ))}
-              {Array.from({ length: openSlots }, (_, i) => (
-                <li key={i} className="mark open">
-                  <span className="slot">{i === 0 ? "新" : ""}</span>
-                  <small>{i === 0 ? "NEXT" : "—"}</small>
-                </li>
-              ))}
             </ul>
-            <span className="label">{year} · {businesses.length}事業 稼働中 / {openSlots}枠 準備中</span>
+            <span className="label">{activeCount}ブランド始動 / {businesses.length - activeCount}事業 構想中</span>
           </div>
         </div>
 
-        <section className="block band" id="mission">
+        <section className="block band" id="about">
           <div className="wrap">
             <div className="sec-head">
-              <span className="label">Mission</span>
+              <span className="label">About</span>
               <div>
-                <h2>速くして、伝わるようにして、続けられるようにする。</h2>
-                <p className="lead">事業がうまくいかない理由は、たいてい3つのどれかです。時間が足りない。魅力が伝わっていない。続ける体制がない。ARA COMPANYの3つの事業は、この3つの課題にそれぞれ向き合うためにあります。</p>
+                <h2>ファッションを起点に、<br />挑戦を支える会社へ。</h2>
+                <p className="lead">ARA COMPANYは、ファッションブランド「ORMOSCIA」から歩みを始めました。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社を目指しています。</p>
               </div>
             </div>
-            <div className="mission-grid">
-              {mission.map((m) => (
-                <div key={m.k} className="mcol">
-                  <span className="big" aria-hidden="true">{m.big}</span>
-                  <span className="k">{m.k}</span>
-                  <span className="v">{m.v}</span>
-                  <p className="d">{m.d}</p>
-                </div>
-              ))}
+            <table className="profile">
+              <tbody>
+                {profile.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td>{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="block band" id="philosophy">
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="label">Philosophy</span>
+              <div><h2>企業理念</h2></div>
+            </div>
+
+            <div className="purpose">
+              <span className="label">Our Purpose｜経営理念</span>
+              <p className="purpose-ja">{PURPOSE_JA}</p>
+              <p className="purpose-en">{PURPOSE_EN}</p>
+            </div>
+
+            <div className="philo">
+              <div className="philo-head">
+                <span className="label">Mission｜使命</span>
+                <h3>人の可能性を広げ、<br />挑戦を続けられる環境をつくる。</h3>
+                <p>商品やサービスを販売するだけでなく、人の生活や価値観に良い変化を生み出す。</p>
+              </div>
+              <div className="mission-grid">
+                {mission.map((m) => (
+                  <div key={m.k} className="mcol">
+                    <span className="big" aria-hidden="true">{m.big}</span>
+                    <span className="k">{m.k}</span>
+                    <span className="v">{m.v}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mission-tail">ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
+            </div>
+
+            <div className="philo">
+              <div className="philo-head">
+                <span className="label">Vision｜目指す未来</span>
+                <h3>挑戦する人が、<br />何度でも前を向ける社会へ。</h3>
+              </div>
+              <div className="prose">
+                <p>ARA COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
+                <p>その先にあるのは、競技を続けたいアスリートや、夢に向かって努力する人が、経済面・仕事・情報・人とのつながりなど、さまざまな面で支えを得られる環境です。</p>
+              </div>
+            </div>
+
+            <div className="philo">
+              <div className="philo-head">
+                <span className="label">Values｜5つの価値観</span>
+              </div>
+              <ol className="values">
+                {values.map((v) => (
+                  <li key={v.no}>
+                    <span className="no">{v.no}</span>
+                    <div>
+                      <span className="en">{v.en}</span>
+                      <h4>{v.ja}</h4>
+                    </div>
+                    <p>{v.body}</p>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </section>
@@ -112,77 +201,59 @@ export default function Home() {
             <div className="sec-head">
               <span className="label">Business</span>
               <div>
-                <h2>事業内容</h2>
-                <p className="lead">単独でも、組み合わせても。課題に合わせて必要な事業を組み合わせてご提案します。</p>
+                <h2>事業構想</h2>
+                <p className="lead">現在はファッションブランド「ORMOSCIA」が始動しています。そのほかの事業は構想段階・将来構想であり、一つずつ形にしていきます。</p>
               </div>
             </div>
 
             <div className="units">
               {businesses.map((b) => (
-                <article key={b.id} className="unit" id={b.id}>
+                <article key={b.id} className={`unit${b.status === "active" ? "" : " next"}`} id={b.id}>
                   <span className="glyph" aria-hidden="true">{b.kanji}</span>
                   <div className="head">
-                    <div className="name"><h3>{b.title}</h3><span className="label">{b.code} {b.name}</span></div>
+                    <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
                     <p>{b.description}</p>
                   </div>
-                  <ul>
-                    {b.services.map((s) => (
-                      <li key={s.label}><span>{s.label}</span><span>{s.tag}</span></li>
-                    ))}
-                  </ul>
+                  <div className="unit-side">
+                    <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
+                    {b.id === "ormoscia" &&
+                      (ORMOSCIA_URL ? (
+                        <a className="btn" href={ORMOSCIA_URL} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
+                      ) : (
+                        <>
+                          <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>
+                          <small className="note-sm">ブランドサイトは準備中です。</small>
+                        </>
+                      ))}
+                  </div>
                 </article>
               ))}
-              <article className="unit next">
-                <span className="glyph" aria-hidden="true">新</span>
-                <div className="head">
-                  <div className="name"><h3>次の事業へ</h3><span className="label">NEXT</span></div>
-                  <p>3つの事業で生まれた知見とつながりから、新しい事業を育てていきます。一緒に事業をつくりたい企業・個人の方からのご相談をお待ちしています。</p>
-                </div>
-                <a className="btn cta" href="#contact">協業について相談する <span aria-hidden="true">→</span></a>
-              </article>
             </div>
           </div>
         </section>
 
-        <section className="block band" id="process">
+        <section className="block band" id="story">
           <div className="wrap">
             <div className="sec-head">
-              <span className="label">Process</span>
-              <div>
-                <h2>ご相談から伴走まで</h2>
-                <p className="lead">どの事業でも、進め方は同じです。まず話を聞き、最後まで一緒に動きます。</p>
+              <span className="label">Our Story</span>
+              <div><h2>創業の原点</h2></div>
+            </div>
+            <div className="story">
+              {story.map((s, i) =>
+                s.quote ? <blockquote key={i}>{s.text}</blockquote> : <p key={i}>{s.text}</p>
+              )}
+            </div>
+
+            <div className="message">
+              <div className="philo-head">
+                <span className="label">Founder&apos;s Message｜代表メッセージ</span>
+                <h3>{PURPOSE_JA}</h3>
+              </div>
+              <div className="prose">
+                {message.map((m, i) => <p key={i}>{m}</p>)}
+                <p className="sign">ARA COMPANY 代表</p>
               </div>
             </div>
-            <div className="steps">
-              {steps.map((s) => (
-                <div key={s.title} className="step">
-                  <span className="n" aria-hidden="true">{s.n}</span><h3>{s.title}</h3><p>{s.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="block band" id="company">
-          <div className="wrap">
-            <div className="sec-head">
-              <span className="label">Company</span>
-              <div><h2>会社概要</h2></div>
-            </div>
-            <table className="profile">
-              <tbody>
-                {profile.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">{row.label}</th>
-                    <td>{row.value ?? <span className="tbd">記入予定</span>}</td>
-                  </tr>
-                ))}
-                <tr>
-                  <th scope="row">事業内容</th>
-                  <td>{businesses.map((b) => <div key={b.id}>{b.title}</div>)}</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </section>
       </main>
@@ -190,9 +261,9 @@ export default function Home() {
       <section className="contact band" id="contact">
         <div className="wrap">
           <div>
-            <h2>ご相談</h2>
-            <p className="jp">まずは、お気軽にお声がけください。</p>
-            <p className="note">AI・ブランド・事業支援のどれに当てはまるか分からなくても大丈夫です。内容を伺ったうえで、合う進め方をご提案します。</p>
+            <span className="label">Contact</span>
+            <h2>お問い合わせ</h2>
+            <p className="note">ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、こちらからご連絡ください。</p>
           </div>
           <ContactForm />
         </div>
@@ -201,7 +272,7 @@ export default function Home() {
       <footer className="site band">
         <div className="wrap">
           <span>© {year} ARA COMPANY</span>
-          <span className="label">{businesses.map((b) => b.name).join(" · ")} · NEXT</span>
+          <span className="label">{PURPOSE_EN}</span>
         </div>
       </footer>
     </>

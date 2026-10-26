@@ -1,62 +1,63 @@
-// 事業を追加するときは、この配列に1件足すだけでトップの枠と事業内容に反映されます。
+// 事業を追加・更新するときは、この配列を編集するとトップの印と事業セクションに反映されます。
+// status は実態に合わせること（構想段階の事業を「始動中」にしない）。
+export type BusinessStatus = "active" | "concept" | "future";
+
 export type Business = {
   id: string;
-  code: string;
   name: string;
-  short: string;
+  category: string;
   kanji: string;
   title: string;
+  status: BusinessStatus;
   description: string;
-  services: { label: string; tag: string }[];
+};
+
+export const statusLabel: Record<BusinessStatus, string> = {
+  active: "始動中",
+  concept: "構想段階",
+  future: "将来構想",
 };
 
 export const businesses: Business[] = [
   {
-    id: "ai",
-    code: "BU-01",
-    name: "AI",
-    short: "AI導入・活用",
+    id: "ormoscia",
+    name: "ORMOSCIA",
+    category: "Fashion & Culture",
+    kanji: "装",
+    title: "ORMOSCIA",
+    status: "active",
+    description:
+      "現在始動しているファッションブランド。シンプルながら独自性のあるデザインを通じて、ファッションとスポーツカルチャーを融合させます。",
+  },
+  {
+    id: "technology",
+    name: "AI & TECHNOLOGY",
+    category: "Technology",
     kanji: "智",
-    title: "AI導入・活用支援",
-    description:
-      "生成AIを「試してみた」で終わらせず、毎日の業務で使われる仕組みにします。現場の業務を棚卸しし、効果の出るところから導入します。",
-    services: [
-      { label: "生成AIの業務活用設計", tag: "CONSULT" },
-      { label: "業務自動化・社内ツール開発", tag: "BUILD" },
-      { label: "AI研修・社内定着サポート", tag: "TRAIN" },
-    ],
+    title: "AI・テクノロジー",
+    status: "concept",
+    description: "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。",
   },
   {
-    id: "brand",
-    code: "BU-02",
-    name: "BRAND",
-    short: "ブランドづくり",
-    kanji: "印",
-    title: "ブランド開発",
-    description:
-      "新しいブランドの立ち上げから、既存ブランドの見直しまで。コンセプトを言葉にし、ロゴやWebサイト、SNSまで一貫した表現に落とし込みます。",
-    services: [
-      { label: "コンセプト・ネーミング設計", tag: "STRATEGY" },
-      { label: "ロゴ・VI・パッケージデザイン", tag: "DESIGN" },
-      { label: "Webサイト・SNS運用", tag: "MEDIA" },
-    ],
-  },
-  {
-    id: "support",
-    code: "BU-03",
-    name: "SUPPORT",
-    short: "事業支援",
+    id: "sports",
+    name: "SPORTS SUPPORT",
+    category: "Sports",
     kanji: "支",
-    title: "事業支援",
+    title: "スポーツ支援",
+    status: "future",
     description:
-      "新規事業の立ち上げや、伸び悩む事業のテコ入れを伴走型で支援します。計画づくりだけでなく、集客や運営の実務まで一緒に動きます。",
-    services: [
-      { label: "新規事業の立ち上げ支援", tag: "LAUNCH" },
-      { label: "集客・販路開拓", tag: "GROWTH" },
-      { label: "運営体制づくり・伴走", tag: "OPERATE" },
-    ],
+      "怪我や挫折を経験したアスリートが、競技や新しい人生の目標に挑戦し続けられるよう支援します。",
+  },
+  {
+    id: "community",
+    name: "COMMUNITY",
+    category: "Community",
+    kanji: "縁",
+    title: "コミュニティ",
+    status: "future",
+    description: "人と人がつながり、安心して過ごせる場所や交流の機会を生み出します。",
   },
 ];
 
-// トップの「事業ポートフォリオ」に並べる枠の数
-export const SLOT_COUNT = 6;
+// ORMOSCIA の公式サイトが公開されたら URL を入れる。null の間は問い合わせへの導線のみ表示する。
+export const ORMOSCIA_URL: string | null = null;

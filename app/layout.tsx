@@ -8,7 +8,7 @@ const gothic = Zen_Kaku_Gothic_New({ weight: ["400", "500", "700"], subsets: ["l
 
 export const metadata: Metadata = {
   title: "ARA COMPANY",
-  description: "ARA COMPANYは、AI・ブランド・事業支援の3つの事業から始まり、新しい事業を立ち上げ続ける会社です。",
+  description: "挑戦するすべての人に、次の可能性を。ARA COMPANYは、ファッションブランド「ORMOSCIA」を起点に、挑戦する人を支える事業を生み出していく会社です。",
 };
 
 export const viewport: Viewport = { viewportFit: "cover" };
