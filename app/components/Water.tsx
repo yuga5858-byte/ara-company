@@ -18,6 +18,7 @@ const FRAG = `
 precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
+uniform float u_scroll;
 uniform vec3 u_ripples[${MAX_RIPPLES}];
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -52,6 +53,8 @@ void main() {
   float aspect = u_res.x / u_res.y;
   vec2 uv = gl_FragCoord.xy / u_res;
   vec2 p = vec2(uv.x * aspect, uv.y) * ${WAVE_SCALE.toFixed(2)};
+  // スクロールに合わせて水面がゆっくり流れる
+  p.y -= u_scroll;
 
   float e = 0.004;
   float h = height(p);
@@ -110,6 +113,8 @@ export default function Water() {
 
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uTime = gl.getUniformLocation(prog, "u_time");
+    const uScroll = gl.getUniformLocation(prog, "u_scroll");
+    let scroll = 0;
     const uRipples = gl.getUniformLocation(prog, "u_ripples");
 
     const ripples = new Float32Array(MAX_RIPPLES * 3);
@@ -126,6 +131,9 @@ export default function Water() {
     }
 
     function render() {
+      const target = (window.scrollY / window.innerHeight) * 0.35;
+      scroll += (target - scroll) * 0.06;
+      gl!.uniform1f(uScroll, scroll);
       gl!.uniform1f(uTime, now());
       gl!.uniform3fv(uRipples, ripples);
       gl!.drawArrays(gl!.TRIANGLES, 0, 3);
@@ -135,7 +143,7 @@ export default function Water() {
       const aspect = window.innerWidth / window.innerHeight;
       const x = (clientX / window.innerWidth) * aspect * WAVE_SCALE;
       const y = (1 - clientY / window.innerHeight) * WAVE_SCALE;
-      ripples.set([x, y, now()], next * 3);
+      ripples.set([x, y - scroll, now()], next * 3);
       next = (next + 1) % MAX_RIPPLES;
     }
 

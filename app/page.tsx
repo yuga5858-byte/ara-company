@@ -1,6 +1,7 @@
 import ContactForm from "./components/ContactForm";
 import Enso from "./components/Enso";
 import Water from "./components/Water";
+import ScrollFx from "./components/ScrollFx";
 import { businesses, statusLabel, ORMOSCIA_URL } from "./businesses";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
@@ -48,6 +49,8 @@ const message = [
 ];
 
 // 確認済みの情報だけを載せる。代表者・所在地・設立日などは確認後に追加する。
+const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
+
 const profile = [
   { label: "会社名", value: "ARA COMPANY" },
   { label: "展開ブランド", value: "ORMOSCIA" },
@@ -61,6 +64,7 @@ export default function Home() {
   return (
     <>
       <Water />
+      <ScrollFx />
       <header className="site band">
         <div className="wrap">
           <a className="logo" href="#top"><span className="seal">ARA</span><b>ARA COMPANY</b></a>
@@ -114,14 +118,14 @@ export default function Home() {
 
         <section className="block band" id="about">
           <div className="wrap">
-            <div className="sec-head">
+            <div className="sec-head" data-reveal>
               <span className="label">About</span>
               <div>
                 <h2>ファッションを起点に、<br />挑戦を支える会社へ。</h2>
                 <p className="lead">ARA COMPANYは、ファッションブランド「ORMOSCIA」から歩みを始めました。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社を目指しています。</p>
               </div>
             </div>
-            <table className="profile">
+            <table className="profile" data-reveal>
               <tbody>
                 {profile.map((row) => (
                   <tr key={row.label}>
@@ -136,53 +140,53 @@ export default function Home() {
 
         <section className="block band" id="philosophy">
           <div className="wrap">
-            <div className="sec-head">
+            <div className="sec-head" data-reveal>
               <span className="label">Philosophy</span>
               <div><h2>企業理念</h2></div>
             </div>
 
-            <div className="purpose">
+            <div className="purpose" data-reveal="ink">
               <span className="label">Our Purpose｜経営理念</span>
               <p className="purpose-ja">{PURPOSE_JA}</p>
               <p className="purpose-en">{PURPOSE_EN}</p>
             </div>
 
             <div className="philo">
-              <div className="philo-head">
+              <div className="philo-head" data-reveal>
                 <span className="label">Mission｜使命</span>
                 <h3>人の可能性を広げ、<br />挑戦を続けられる環境をつくる。</h3>
                 <p>商品やサービスを販売するだけでなく、人の生活や価値観に良い変化を生み出す。</p>
               </div>
               <div className="mission-grid">
-                {mission.map((m) => (
-                  <div key={m.k} className="mcol">
+                {mission.map((m, i) => (
+                  <div key={m.k} className="mcol" data-reveal style={delay(i)}>
                     <span className="big" aria-hidden="true">{m.big}</span>
                     <span className="k">{m.k}</span>
                     <span className="v">{m.v}</span>
                   </div>
                 ))}
               </div>
-              <p className="mission-tail">ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
+              <p className="mission-tail" data-reveal>ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
             </div>
 
             <div className="philo">
-              <div className="philo-head">
+              <div className="philo-head" data-reveal>
                 <span className="label">Vision｜目指す未来</span>
                 <h3>挑戦する人が、<br />何度でも前を向ける社会へ。</h3>
               </div>
-              <div className="prose">
+              <div className="prose" data-reveal>
                 <p>ARA COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
                 <p>その先にあるのは、競技を続けたいアスリートや、夢に向かって努力する人が、経済面・仕事・情報・人とのつながりなど、さまざまな面で支えを得られる環境です。</p>
               </div>
             </div>
 
             <div className="philo">
-              <div className="philo-head">
+              <div className="philo-head" data-reveal>
                 <span className="label">Values｜5つの価値観</span>
               </div>
               <ol className="values">
-                {values.map((v) => (
-                  <li key={v.no}>
+                {values.map((v, i) => (
+                  <li key={v.no} data-reveal style={delay(i)}>
                     <span className="no">{v.no}</span>
                     <div>
                       <span className="en">{v.en}</span>
@@ -198,7 +202,7 @@ export default function Home() {
 
         <section className="block band" id="business">
           <div className="wrap">
-            <div className="sec-head">
+            <div className="sec-head" data-reveal>
               <span className="label">Business</span>
               <div>
                 <h2>事業構想</h2>
@@ -208,8 +212,8 @@ export default function Home() {
 
             <div className="units">
               {businesses.map((b) => (
-                <article key={b.id} className={`unit${b.status === "active" ? "" : " next"}`} id={b.id}>
-                  <span className="glyph" aria-hidden="true">{b.kanji}</span>
+                <article key={b.id} className={`unit${b.status === "active" ? "" : " next"}`} id={b.id} data-reveal>
+                  <span className="glyph" aria-hidden="true" data-reveal="ink">{b.kanji}</span>
                   <div className="head">
                     <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
                     <p>{b.description}</p>
@@ -234,18 +238,18 @@ export default function Home() {
 
         <section className="block band" id="story">
           <div className="wrap">
-            <div className="sec-head">
+            <div className="sec-head" data-reveal>
               <span className="label">Our Story</span>
               <div><h2>創業の原点</h2></div>
             </div>
             <div className="story">
               {story.map((s, i) =>
-                s.quote ? <blockquote key={i}>{s.text}</blockquote> : <p key={i}>{s.text}</p>
+                s.quote ? <blockquote key={i} data-reveal="ink">{s.text}</blockquote> : <p key={i} data-reveal>{s.text}</p>
               )}
             </div>
 
-            <div className="message">
-              <div className="philo-head">
+            <div className="message" data-reveal>
+              <div className="philo-head" data-reveal>
                 <span className="label">Founder&apos;s Message｜代表メッセージ</span>
                 <h3>{PURPOSE_JA}</h3>
               </div>
@@ -260,7 +264,7 @@ export default function Home() {
 
       <section className="contact band" id="contact">
         <div className="wrap">
-          <div>
+          <div data-reveal>
             <span className="label">Contact</span>
             <h2>お問い合わせ</h2>
             <p className="note">ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、こちらからご連絡ください。</p>
