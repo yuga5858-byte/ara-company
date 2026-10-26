@@ -4,6 +4,7 @@ export type Business = {
   code: string;
   name: string;
   short: string;
+  kanji: string;
   title: string;
   description: string;
   services: { label: string; tag: string }[];
@@ -15,6 +16,7 @@ export const businesses: Business[] = [
     code: "BU-01",
     name: "AI",
     short: "AI導入・活用",
+    kanji: "智",
     title: "AI導入・活用支援",
     description:
       "生成AIを「試してみた」で終わらせず、毎日の業務で使われる仕組みにします。現場の業務を棚卸しし、効果の出るところから導入します。",
@@ -29,6 +31,7 @@ export const businesses: Business[] = [
     code: "BU-02",
     name: "BRAND",
     short: "ブランドづくり",
+    kanji: "印",
     title: "ブランド開発",
     description:
       "新しいブランドの立ち上げから、既存ブランドの見直しまで。コンセプトを言葉にし、ロゴやWebサイト、SNSまで一貫した表現に落とし込みます。",
@@ -43,6 +46,7 @@ export const businesses: Business[] = [
     code: "BU-03",
     name: "SUPPORT",
     short: "事業支援",
+    kanji: "支",
     title: "事業支援",
     description:
       "新規事業の立ち上げや、伸び悩む事業のテコ入れを伴走型で支援します。計画づくりだけでなく、集客や運営の実務まで一緒に動きます。",
