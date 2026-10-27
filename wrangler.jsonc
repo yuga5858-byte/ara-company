@@ -1,0 +1,10 @@
+// Cloudflare Workers（静的アセット）での公開設定。
+// ビルド時に STATIC_EXPORT=1 を設定して out/ に書き出し、そのフォルダをそのまま配信する。
+{
+  "name": "ara-company",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
