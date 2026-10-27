@@ -70,31 +70,31 @@ export default function Enso({ className }: { className?: string }) {
     if (!ctx) return;
 
     let frame = 0;
-    let animated = false;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // 描き進めた位置。途中で大きさや色が変わっても、描き直してから続きを描く（最初から完成形にしない）
+    let done = reduce ? STEPS : -1;
+    let size = 0;
+    let prev: ([number, number] | null)[] = [];
 
     function setup() {
-      const size = canvas!.clientWidth;
+      size = canvas!.clientWidth;
       const dpr = window.devicePixelRatio || 1;
       canvas!.width = size * dpr;
       canvas!.height = size * dpr;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx!.clearRect(0, 0, size, size);
       ctx!.strokeStyle = getComputedStyle(canvas!).getPropertyValue("--ink").trim() || "#151412";
-      return size;
+      prev = Array(BRISTLES).fill(null);
     }
 
-    function drawAll() {
-      cancelAnimationFrame(frame);
-      const size = setup();
-      drawRange(ctx!, size, 0, STEPS, Array(BRISTLES).fill(null));
+    function redraw() {
+      setup();
+      if (done >= 0) drawRange(ctx!, size, 0, done, prev);
     }
 
-    function animate() {
-      const size = setup();
-      const prev: ([number, number] | null)[] = Array(BRISTLES).fill(null);
+    redraw();
+    if (!reduce) {
       const t0 = performance.now();
-      let done = -1;
       const tick = (now: number) => {
         const k = Math.min(1, (now - t0) / DURATION);
         const eased = 1 - Math.pow(1 - k, 1.3);
@@ -108,29 +108,19 @@ export default function Enso({ className }: { className?: string }) {
       frame = requestAnimationFrame(tick);
     }
 
-    if (reduce) drawAll();
-    else {
-      animate();
-      animated = true;
-    }
-
     const ro = new ResizeObserver(() => {
-      if (animated) {
-        animated = false;
-        return;
-      }
-      drawAll();
+      if (canvas.clientWidth !== size) redraw();
     });
     ro.observe(canvas);
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    mq.addEventListener("change", drawAll);
-    const mo = new MutationObserver(drawAll);
+    mq.addEventListener("change", redraw);
+    const mo = new MutationObserver(redraw);
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     return () => {
       cancelAnimationFrame(frame);
       ro.disconnect();
-      mq.removeEventListener("change", drawAll);
+      mq.removeEventListener("change", redraw);
       mo.disconnect();
     };
   }, []);
