@@ -41,6 +41,12 @@ export function mailtoHref(subject = "お問い合わせ") {
   return `mailto:${site.email}?subject=${encodeURIComponent(`【${site.name}】${subject}`)}`;
 }
 
+// Gmail の作成画面を開くURL（メールアプリが無い端末向け）
+export function gmailHref(subject = "お問い合わせ") {
+  const su = encodeURIComponent(`【${site.name}】${subject}`);
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${site.email}&su=${su}`;
+}
+
 export function profileRows(brands: string, services: string): ProfileRow[] {
   const { legal } = site;
   const rows: (ProfileRow | null)[] = [

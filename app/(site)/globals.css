@@ -374,3 +374,8 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 }
 .services-cta p { color: var(--ink-soft); max-width: 36em; }
 @media (max-width: 520px) { .services-cta .btn { width: 100%; justify-content: center; min-height: 52px; } }
+.mail-fallback { flex-basis: 100%; font-size: 0.86rem; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--band-fg) 30%, transparent); }
+.mail-fallback a, .contact-card .note-sm a { color: var(--band-fg); text-underline-offset: 3px; }
+.mail-fallback { order: 3; }
+/* 案内を出したら、下の同じ内容の注記は隠す */
+.contact-actions:has(.mail-fallback) + .note-sm { display: none; }

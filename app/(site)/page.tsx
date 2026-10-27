@@ -1,10 +1,11 @@
 import ContactForm from "../components/ContactForm";
 import CopyEmail from "../components/CopyEmail";
+import MailButton from "../components/MailButton";
 import Enso from "../components/Enso";
 import Water from "../components/Water";
 import ScrollFx from "../components/ScrollFx";
 import { businesses, statusLabel, isLead } from "../businesses";
-import { site, contactEnabled, formEnabled, mailtoHref, profileRows } from "../site";
+import { site, contactEnabled, formEnabled, mailtoHref, gmailHref, profileRows } from "../site";
 import { services, PRICE_NOTE, flow, demos } from "../services";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
@@ -360,10 +361,10 @@ export default function Home() {
             <span className="label">Email</span>
             <p className="mail-addr" id="contact-email">{site.email}</p>
             <div className="contact-actions">
-              <a className="btn btn-mail" href={mailtoHref()}>メールでお問い合わせ <span aria-hidden="true">→</span></a>
+              <MailButton className="btn btn-mail" href={mailtoHref()} gmailHref={gmailHref()} />
               <CopyEmail email={site.email!} targetId="contact-email" />
             </div>
-            <p className="note-sm">メールソフトが開かない場合は、アドレスをコピーしてお使いのメールからお送りください。</p>
+            <p className="note-sm">メールアプリが開かない場合は、<a href={gmailHref()} target="_blank" rel="noopener noreferrer">Gmailで作成する</a>か、アドレスをコピーしてお使いのメールからお送りください。</p>
             {formEnabled && <ContactForm />}
           </div>
         </div>
