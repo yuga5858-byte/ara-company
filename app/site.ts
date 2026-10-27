@@ -34,6 +34,14 @@ export const site = {
 // 設定すると canonical・sitemap・OGP の URL が有効になる。
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || null;
 
+// Web・AI事業ブランド ARA SOLUTIONS（別サイト）。
+// 公開URLは確定するまで設定しない（ビルド時の環境変数 NEXT_PUBLIC_SOLUTIONS_URL）。未設定の間はリンクを出さず「公開準備中」と表示する。
+export const solutions = {
+  name: "ARA SOLUTIONS",
+  url: process.env.NEXT_PUBLIC_SOLUTIONS_URL?.replace(/\/$/, "") || null,
+  relation: "ARA SOLUTIONSは、ARA COMPANYが展開するWeb・AI事業ブランドです。",
+};
+
 export const contactEnabled = site.email !== null;
 export const formEnabled = site.contactEndpoint !== null;
 

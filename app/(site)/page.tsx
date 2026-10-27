@@ -6,7 +6,8 @@ import Enso from "../components/Enso";
 import Water from "../components/Water";
 import ScrollFx from "../components/ScrollFx";
 import { businesses, statusLabel, isLead } from "../businesses";
-import { site, contactEnabled, formEnabled, mailtoHref, gmailHref, profileRows } from "../site";
+import { site, solutions, contactEnabled, formEnabled, mailtoHref, gmailHref, profileRows } from "../site";
+import type { Business } from "../businesses";
 import { services, PRICE_NOTE, flow, demos } from "../services";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
@@ -57,9 +58,59 @@ const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
 
 // 確認済みの情報だけを載せる（項目は app/site.ts で管理）。
 const profile = profileRows(
-  businesses.filter((b) => b.brand).map((b) => `${b.name}（${statusLabel[b.status]}）`).join("、"),
+  businesses.filter((b) => b.brand).map((b) => `${b.brandName ?? b.name}（${statusLabel[b.status]}）`).join("、"),
   services.map((s) => s.title).join("、")
 );
+
+// 現在取り組んでいる事業と、将来構想を分けて表示する
+const currentBusinesses = businesses.filter(isLead);
+const futureBusinesses = businesses.filter((b) => !isLead(b));
+
+// ARA SOLUTIONS への導線。公開URLが未設定の間はページ内のサービス紹介へ案内する。
+function SolutionsLink({ note = true }: { note?: boolean }) {
+  if (solutions.url) {
+    return (
+      <a className="btn" href={solutions.url} target="_blank" rel="noopener noreferrer">
+        ARA SOLUTIONS公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span>
+      </a>
+    );
+  }
+  return note ? <small className="note-sm">ARA SOLUTIONSの公式サイトは公開準備中です。</small> : null;
+}
+
+function BusinessUnit({ b }: { b: Business }) {
+  return (
+    <article className={`unit${isLead(b) ? "" : " next"}`} id={b.id} data-reveal>
+      <span className="glyph" aria-hidden="true" data-reveal="ink">{b.kanji}</span>
+      <div className="head">
+        <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
+        {b.brandName && <p className="unit-brand">展開ブランド：<strong>{b.brandName}</strong></p>}
+        <p>{b.description}</p>
+      </div>
+      <div className="unit-side">
+        <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
+        {b.id === "ormoscia" &&
+          (site.ormosciaUrl ? (
+            <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
+          ) : (
+            <>
+              {contactEnabled && <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
+              <small className="note-sm">ブランドサイトは準備中です。</small>
+            </>
+          ))}
+        {b.brandName === solutions.name && (
+          <>
+            <SolutionsLink />
+            <a className="text-link" href="#services">サービス内容を見る <span aria-hidden="true">→</span></a>
+          </>
+        )}
+        {b.link && (
+          <a className="btn" href={b.link.href}>{b.link.label} <span aria-hidden="true">→</span></a>
+        )}
+      </div>
+    </article>
+  );
+}
 
 export default function Home() {
   const year = new Date().getFullYear();
@@ -212,35 +263,17 @@ export default function Home() {
               <span className="label">Business</span>
               <div>
                 <h2>事業構想</h2>
-                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、AI・テクノロジー事業としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
+                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARA SOLUTIONS」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
               </div>
             </div>
 
+            <h3 className="units-group" data-reveal><span>NOW</span>現在の取り組み</h3>
             <div className="units">
-              {businesses.map((b) => (
-                <article key={b.id} className={`unit${isLead(b) ? "" : " next"}`} id={b.id} data-reveal>
-                  <span className="glyph" aria-hidden="true" data-reveal="ink">{b.kanji}</span>
-                  <div className="head">
-                    <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
-                    <p>{b.description}</p>
-                  </div>
-                  <div className="unit-side">
-                    <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
-                    {b.id === "ormoscia" &&
-                      (site.ormosciaUrl ? (
-                        <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
-                      ) : (
-                        <>
-                          {contactEnabled && <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
-                          <small className="note-sm">ブランドサイトは準備中です。</small>
-                        </>
-                      ))}
-                    {b.link && (
-                      <a className="btn" href={b.link.href}>{b.link.label} <span aria-hidden="true">→</span></a>
-                    )}
-                  </div>
-                </article>
-              ))}
+              {currentBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
+            </div>
+            <h3 className="units-group" data-reveal><span>FUTURE</span>将来構想</h3>
+            <div className="units">
+              {futureBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
             </div>
           </div>
         </section>
@@ -253,6 +286,13 @@ export default function Home() {
                 <h2>Web制作・AI導入</h2>
                 <p className="lead">AI・テクノロジー事業として、Webサイトの制作から公開後の運用改善、AIの業務導入までご相談いただけます。</p>
               </div>
+            </div>
+
+            <div className="solutions-banner" data-reveal>
+              <span className="label">{solutions.name}</span>
+              <p className="solutions-relation">{solutions.relation}</p>
+              <p>Web制作・Web運用改善・AIシステム導入支援は、{solutions.name}としてご相談を承っています。</p>
+              <SolutionsLink />
             </div>
 
             <div className="services">
@@ -377,6 +417,11 @@ export default function Home() {
       <footer className="site band">
         <div className="wrap">
           <span>© {year} ARA COMPANY</span>
+          {solutions.url && (
+            <a className="footer-link" href={solutions.url} target="_blank" rel="noopener noreferrer">
+              {solutions.name}（Web・AI事業）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
+            </a>
+          )}
           <span className="label">{PURPOSE_EN}</span>
         </div>
       </footer>

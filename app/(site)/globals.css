@@ -412,3 +412,51 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
   .profile th { font-size: 0.85rem; }
   .fine, .note-sm, .demo-tone { font-size: 0.82rem; }
 }
+
+/* 事業：現在の取り組み／将来構想の見出し */
+.units-group {
+  display: flex; align-items: baseline; gap: 14px; margin: clamp(28px, 4vw, 44px) 0 4px;
+  font-family: var(--f-mincho); font-weight: 700; font-size: 1.05rem; letter-spacing: 0.08em;
+}
+.units-group span { font-size: 0.75rem; letter-spacing: 0.28em; color: var(--ink-soft); }
+.units-group:first-of-type { margin-top: 0; }
+.unit-brand { font-size: 0.9rem; color: var(--ink-soft); }
+.unit-brand strong { color: var(--ink); letter-spacing: 0.06em; }
+
+/* ARA SOLUTIONS への案内 */
+.solutions-banner {
+  display: grid; gap: 10px; justify-items: start; margin-bottom: clamp(28px, 4vw, 44px); padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line); border-left: 3px solid var(--shu); background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+}
+.solutions-relation { font-family: var(--f-mincho); font-weight: 700; font-size: clamp(1.02rem, 2vw, 1.2rem); line-height: 1.6; }
+.solutions-banner p:not(.solutions-relation) { color: var(--ink-soft); font-size: 0.95rem; }
+.footer-link { color: var(--ink-soft); text-underline-offset: 3px; }
+.footer-link:hover { color: var(--ink); }
+
+/* スマホの余白と読みやすさ */
+@media (max-width: 520px) {
+  section.block .wrap { padding-block: 56px; }
+  .sec-head { margin-bottom: 28px; }
+  .sec-head h2 { font-size: 1.75rem; }
+  .unit { padding-block: 24px; gap: 12px; }
+  .unit .glyph { font-size: 4rem; }
+  .story, .prose { font-size: 1rem; line-height: 2; }
+  .mcol .big { font-size: 4rem; }
+  .contact .wrap { padding-block: 56px; gap: 32px; }
+}
+@media (max-width: 360px) {
+  .catch { font-size: 1.5rem; }
+  .sec-head h2 { font-size: 1.55rem; }
+  .purpose-ja { font-size: 1.6rem; }
+}
+/* 320px前後では事業の印を2列にして、英字ラベルがはみ出さないようにする */
+@media (max-width: 360px) {
+  .marks { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
+  .mark small { overflow-wrap: anywhere; }
+}
+
+/* 画面には出さず、読み上げにだけ使う文字 */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

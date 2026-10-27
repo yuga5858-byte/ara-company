@@ -12,6 +12,8 @@ export type Business = {
   description: string;
   // ブランドとして展開するもの（会社情報の「展開ブランド」に載る）
   brand?: boolean;
+  // 事業を展開するブランド名（事業名と異なる場合）
+  brandName?: string;
   // 設定すると事業紹介にボタンを出す（ページ内リンク）
   link?: { label: string; href: string };
 };
@@ -43,9 +45,10 @@ export const businesses: Business[] = [
     kanji: "智",
     title: "AI・テクノロジー",
     status: "open",
+    brand: true,
+    brandName: "ARA SOLUTIONS",
     description:
-      "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。現在は、Webサイト制作・Web運用改善・AIシステム導入のご相談を受け付けています。",
-    link: { label: "サービスと参考価格を見る", href: "#services" },
+      "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。Web・AI事業ブランド「ARA SOLUTIONS」として、Webサイト制作・Web運用改善・AIシステム導入のご相談を受け付けています。",
   },
   {
     id: "sports",
