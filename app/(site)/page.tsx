@@ -1,6 +1,7 @@
 import ContactForm from "../components/ContactForm";
 import CopyEmail from "../components/CopyEmail";
 import MailButton from "../components/MailButton";
+import SiteNav from "../components/SiteNav";
 import Enso from "../components/Enso";
 import Water from "../components/Water";
 import ScrollFx from "../components/ScrollFx";
@@ -70,14 +71,16 @@ export default function Home() {
       <header className="site band">
         <div className="wrap">
           <a className="logo" href="#top"><span className="seal" aria-hidden="true">ARA</span><b>ARA COMPANY</b></a>
-          <nav className="main" aria-label="メインメニュー">
-            <a href="#about">ABOUT</a>
-            <a href="#philosophy">PHILOSOPHY</a>
-            <a href="#business">BUSINESS</a>
-            <a href="#services">SERVICES</a>
-            <a href="#story">OUR STORY</a>
-            {contactEnabled && <a className="cta-link" href="#contact">CONTACT</a>}
-          </nav>
+          <SiteNav
+            links={[
+              { href: "#about", label: "ABOUT", ja: "私たちについて" },
+              { href: "#philosophy", label: "PHILOSOPHY", ja: "企業理念" },
+              { href: "#business", label: "BUSINESS", ja: "事業構想" },
+              { href: "#services", label: "SERVICES", ja: "Web制作・AI導入" },
+              { href: "#story", label: "OUR STORY", ja: "創業の原点" },
+              ...(contactEnabled ? [{ href: "#contact", label: "CONTACT", ja: "お問い合わせ" }] : []),
+            ]}
+          />
         </div>
       </header>
 

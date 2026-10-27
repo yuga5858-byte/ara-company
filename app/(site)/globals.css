@@ -72,11 +72,37 @@ nav.main a { text-decoration: none; font-family: var(--f-mincho); font-size: 0.8
 nav.main a:hover { color: var(--ink); }
 nav.main .cta-link { color: var(--ink); font-weight: 700; }
 nav.main a { letter-spacing: 0.14em; font-size: 0.78rem; }
-@media (max-width: 760px) {
-  header.site .wrap { flex-wrap: wrap; row-gap: 8px; }
-  nav.main { width: 100%; flex-wrap: wrap; gap: 6px 18px; }
-  nav.main a { white-space: nowrap; font-size: 0.8rem; letter-spacing: 0.1em; padding-block: 4px; }
+nav.main { margin-left: auto; }
+
+/* ハンバーガーメニュー（スマホ・タブレット） */
+.menu-btn { display: none; }
+.mobile-menu[hidden] { display: none !important; }
+@media (max-width: 860px) {
+  nav.main { display: none; }
+  header.site .wrap { position: relative; z-index: 2; gap: 12px; }
+  /* 開いたメニューより上に、ロゴと閉じるボタンを出す */
+  .logo, .menu-btn { position: relative; z-index: 2; }
+  .menu-btn {
+    display: grid; place-content: center; gap: 7px; flex: none; margin-left: auto;
+    width: 44px; height: 44px; padding: 0; background: transparent; border: 1px solid var(--line); border-radius: 2px; cursor: pointer;
+  }
+  .menu-btn span { display: block; width: 20px; height: 1.5px; background: var(--ink); transition: transform .25s ease; }
+  .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(4.25px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-4.25px) rotate(-45deg); }
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 1; overflow-y: auto; background: var(--paper);
+    padding: calc(env(safe-area-inset-top, 0px) + 84px) var(--gutter-r) calc(env(safe-area-inset-bottom, 0px) + 32px) var(--gutter-l);
+  }
+  .mobile-menu ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .mobile-menu li { border-bottom: 1px solid var(--line); animation: menu-in .4s ease both; animation-delay: calc(var(--d, 0) * 45ms); }
+  .mobile-menu li a { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 18px 2px; min-height: 56px; text-decoration: none; }
+  .mobile-menu .en { font-family: var(--f-mincho); font-weight: 700; font-size: 1.15rem; letter-spacing: 0.16em; }
+  .mobile-menu .ja { font-size: 0.85rem; color: var(--ink-soft); }
+  /* メニューを開いている間は背景のスクロールを止め、ヘッダーのぼかしを外す（固定配置を画面基準にするため） */
+  html.menu-open { overflow: hidden; }
+  html.menu-open header.site { backdrop-filter: none; background: var(--paper); }
 }
+@keyframes menu-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 /* Hero */
 .hero .wrap {
