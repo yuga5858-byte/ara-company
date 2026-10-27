@@ -69,7 +69,7 @@ export default function Home() {
       <ScrollFx />
       <header className="site band">
         <div className="wrap">
-          <a className="logo" href="#top"><span className="seal">ARA</span><b>ARA COMPANY</b></a>
+          <a className="logo" href="#top"><span className="seal" aria-hidden="true">ARA</span><b>ARA COMPANY</b></a>
           <nav className="main" aria-label="メインメニュー">
             <a href="#about">ABOUT</a>
             <a href="#philosophy">PHILOSOPHY</a>
