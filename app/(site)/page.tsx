@@ -1,10 +1,11 @@
-import ContactForm from "./components/ContactForm";
-import CopyEmail from "./components/CopyEmail";
-import Enso from "./components/Enso";
-import Water from "./components/Water";
-import ScrollFx from "./components/ScrollFx";
-import { businesses, statusLabel, isLead } from "./businesses";
-import { site, contactEnabled, formEnabled, mailtoHref, profileRows } from "./site";
+import ContactForm from "../components/ContactForm";
+import CopyEmail from "../components/CopyEmail";
+import Enso from "../components/Enso";
+import Water from "../components/Water";
+import ScrollFx from "../components/ScrollFx";
+import { businesses, statusLabel, isLead } from "../businesses";
+import { site, contactEnabled, formEnabled, mailtoHref, profileRows } from "../site";
+import { services, PRICE_NOTE, flow, demos } from "../services";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
 const PURPOSE_EN = "Creating possibilities beyond limits.";
@@ -54,7 +55,8 @@ const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
 
 // 確認済みの情報だけを載せる（項目は app/site.ts で管理）。
 const profile = profileRows(
-  businesses.filter(isLead).map((b) => `${b.name}（${statusLabel[b.status]}）`).join("、")
+  businesses.filter((b) => b.brand).map((b) => `${b.name}（${statusLabel[b.status]}）`).join("、"),
+  services.map((s) => s.title).join("、")
 );
 
 export default function Home() {
@@ -71,6 +73,7 @@ export default function Home() {
             <a href="#about">ABOUT</a>
             <a href="#philosophy">PHILOSOPHY</a>
             <a href="#business">BUSINESS</a>
+            <a href="#services">SERVICES</a>
             <a href="#story">OUR STORY</a>
             {contactEnabled && <a className="cta-link" href="#contact">CONTACT</a>}
           </nav>
@@ -121,7 +124,7 @@ export default function Home() {
               <span className="label">About</span>
               <div>
                 <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
-                <p className="lead">ARA COMPANYは、{site.base}を拠点に事業の立ち上げを準備しています。最初の取り組みは、ファッションブランド「ORMOSCIA」の立ち上げです。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
+                <p className="lead">ARA COMPANYは、{site.base}を拠点に事業の立ち上げを準備しています。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
               </div>
             </div>
             <table className="profile" data-reveal>
@@ -205,7 +208,7 @@ export default function Home() {
               <span className="label">Business</span>
               <div>
                 <h2>事業構想</h2>
-                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しています。そのほかの事業は構想段階・将来構想であり、一つずつ形にしていきます。</p>
+                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、AI・テクノロジー事業としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
               </div>
             </div>
 
@@ -228,13 +231,87 @@ export default function Home() {
                           <small className="note-sm">ブランドサイトは準備中です。</small>
                         </>
                       ))}
-                    {b.inquiry && contactEnabled && (
-                      <a className="btn" href="#contact">{b.inquiry.label} <span aria-hidden="true">→</span></a>
+                    {b.link && (
+                      <a className="btn" href={b.link.href}>{b.link.label} <span aria-hidden="true">→</span></a>
                     )}
                   </div>
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="block band" id="services">
+          <div className="wrap">
+            <div className="sec-head" data-reveal>
+              <span className="label">Services</span>
+              <div>
+                <h2>Web制作・AI導入</h2>
+                <p className="lead">AI・テクノロジー事業として、Webサイトの制作から公開後の運用改善、AIの業務導入までご相談いただけます。</p>
+              </div>
+            </div>
+
+            <div className="services">
+              {services.map((sv, i) => (
+                <article key={sv.id} className="service" data-reveal style={delay(i)}>
+                  <span className="label">{sv.en}</span>
+                  <h3>{sv.title}</h3>
+                  <p className="price">
+                    <span className="amount">{sv.price}</span>
+                    {sv.priceNote && <span className="price-note">（{sv.priceNote}）</span>}
+                  </p>
+                  <p className="desc">{sv.description}</p>
+                  <ul>
+                    {sv.items.map((it) => <li key={it}>{it}</li>)}
+                  </ul>
+                  {contactEnabled && (
+                    <a className="text-link" href={mailtoHref(sv.subject)}>メールで相談する <span aria-hidden="true">→</span></a>
+                  )}
+                </article>
+              ))}
+            </div>
+            <p className="fine" data-reveal>※ {PRICE_NOTE}</p>
+
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Flow｜ご相談の流れ</span>
+              </div>
+              <ol className="flow">
+                {flow.map((f, i) => (
+                  <li key={f.title} data-reveal style={delay(i)}>
+                    <span className="no">{String(i + 1).padStart(2, "0")}</span>
+                    <h4>{f.title}</h4>
+                    <p>{f.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Demo｜制作デモ</span>
+                <h3>業種に合わせた、ランディングページの制作デモ。</h3>
+                <p>架空の店舗を想定して制作したデモです。実在の店舗や制作実績ではありません。</p>
+              </div>
+              <div className="demos">
+                {demos.map((d, i) => (
+                  <a key={d.href} className={`demo-card demo-${d.variant}`} href={d.href} data-reveal style={delay(i)}>
+                    <span className="demo-tag">DEMO</span>
+                    <span className="demo-industry">{d.industry}</span>
+                    <span className="demo-name">{d.name}</span>
+                    <span className="demo-tone">{d.tone}</span>
+                    <span className="demo-go">デモを見る <span aria-hidden="true">→</span></span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {contactEnabled && (
+              <div className="services-cta" data-reveal>
+                <p>制作内容が決まっていなくても大丈夫です。まずは現在の状況やご希望をお聞かせください。</p>
+                <a className="btn" href={mailtoHref("Web制作のご相談")}>Web制作について相談する <span aria-hidden="true">→</span></a>
+              </div>
+            )}
           </div>
         </section>
 
@@ -270,10 +347,11 @@ export default function Home() {
           <div data-reveal>
             <span className="label">Contact</span>
             <h2>お問い合わせ</h2>
-            <p className="note">ORMOSCIA、AI・テクノロジーに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
+            <p className="note">Web制作・AI導入のご相談、ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
             <ul className="topics" aria-label="お問い合わせの例">
+              <li>Web制作のご相談</li>
+              <li>AIシステム導入のご相談</li>
               <li>ORMOSCIAについて</li>
-              <li>AI・テクノロジーについて</li>
               <li>協業のご相談</li>
               <li>取材のご依頼</li>
             </ul>

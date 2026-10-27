@@ -320,3 +320,57 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
   .contact-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
   .contact-actions .btn { width: 100%; }
 }
+
+/* Services（AI・テクノロジー事業） */
+.services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); }
+.service {
+  display: grid; gap: 14px; align-content: start;
+  padding: clamp(22px, 3vw, 32px); border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+}
+.service h3 { font-family: var(--f-mincho); font-weight: 700; font-size: clamp(1.15rem, 1.8vw, 1.35rem); line-height: 1.5; }
+.service .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; padding-block: 10px; border-block: 1px solid var(--line); }
+.service .amount { font-family: var(--f-mincho); font-weight: 700; font-size: clamp(1.5rem, 2.6vw, 1.9rem); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+.service .price-note { font-size: 0.8rem; color: var(--ink-soft); }
+.service .desc { color: var(--ink-soft); font-size: 0.93rem; }
+.service ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 0.9rem; }
+.service li { padding-left: 1.1em; position: relative; }
+.service li::before { content: ""; position: absolute; left: 0; top: 0.85em; width: 0.5em; height: 1px; background: var(--ink-soft); }
+.text-link { font-family: var(--f-mincho); font-weight: 700; font-size: 0.92rem; text-decoration: none; justify-self: start; border-bottom: 1px solid var(--ink-soft); padding-block: 6px 2px; min-height: 44px; display: inline-flex; align-items: flex-end; gap: 8px; }
+.text-link:hover { border-bottom-color: var(--ink); }
+.fine { margin-top: 18px; font-size: 0.8rem; color: var(--ink-soft); max-width: 60em; }
+@media (max-width: 900px) { .services { grid-template-columns: minmax(0, 1fr); } }
+
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); }
+.flow li { display: grid; gap: 8px; align-content: start; border-top: 1px solid var(--ink); padding-top: 16px; }
+.flow .no { font-family: var(--f-mincho); font-size: 0.8rem; letter-spacing: 0.14em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.flow h4 { margin: 0; font-family: var(--f-mincho); font-weight: 700; font-size: 1.08rem; }
+.flow p { color: var(--ink-soft); font-size: 0.9rem; }
+@media (max-width: 860px) { .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .flow { grid-template-columns: minmax(0, 1fr); } }
+
+.demos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); }
+@media (max-width: 760px) { .demos { grid-template-columns: minmax(0, 1fr); } }
+.demo-card {
+  position: relative; display: grid; gap: 6px; align-content: end; min-height: 220px;
+  padding: clamp(22px, 3vw, 32px); text-decoration: none; overflow: hidden;
+  border: 1px solid var(--line); transition: transform .3s ease, border-color .3s ease;
+}
+.demo-card:hover { transform: translateY(-3px); border-color: var(--ink-soft); }
+/* 各デモの配色を見本として小さく見せる（デモ側の配色と同じ値） */
+.demo-gym { background: linear-gradient(150deg, #1C1D20 0%, #0B0B0C 60%), #0B0B0C; color: #EDE9E2; }
+.demo-gym .demo-name { font-family: var(--font-archivo), sans-serif; font-weight: 800; font-variation-settings: "wdth" 75; letter-spacing: 0.04em; }
+.demo-salon { background: linear-gradient(160deg, #FBF8F2 0%, #EFE6D8 100%), #F6F1E8; color: #3B342D; }
+.demo-salon .demo-name { font-family: var(--font-cormorant), serif; font-style: italic; font-weight: 500; }
+.demo-name { font-size: clamp(1.7rem, 3.6vw, 2.4rem); line-height: 1.1; }
+.demo-tag { position: absolute; top: 16px; right: 16px; font-size: 0.68rem; letter-spacing: 0.22em; padding: 3px 10px; border: 1px solid currentColor; opacity: 0.75; }
+.demo-industry { font-size: 0.8rem; letter-spacing: 0.12em; opacity: 0.75; }
+.demo-tone { font-size: 0.86rem; opacity: 0.8; }
+.demo-go { margin-top: 10px; font-weight: 700; font-size: 0.9rem; }
+
+.services-cta {
+  margin-top: clamp(32px, 5vw, 56px); padding: clamp(22px, 3vw, 32px); border: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px;
+}
+.services-cta p { color: var(--ink-soft); max-width: 36em; }
+@media (max-width: 520px) { .services-cta .btn { width: 100%; justify-content: center; min-height: 52px; } }
