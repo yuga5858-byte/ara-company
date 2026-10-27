@@ -20,14 +20,22 @@ export const site = {
     address: null as string | null, // 設定すると「活動拠点」の代わりに「所在地」を表示
   },
 
-  // お問い合わせの送信先。設定するまでフォームとCONTACTの導線は表示しない。
+  // 公式メールアドレス。設定するとCONTACTセクションとメールボタンを表示する。
+  email: "aracompany.office@gmail.com" as string | null,
+
+  // フォームの送信先。設定するまでフォームは表示しない（メールでの受付のみ）。
   contactEndpoint: null as string | null,
 
   // ORMOSCIA の公式サイトが公開されたら URL を入れる。
   ormosciaUrl: null as string | null,
 };
 
-export const contactEnabled = site.contactEndpoint !== null;
+export const contactEnabled = site.email !== null;
+export const formEnabled = site.contactEndpoint !== null;
+
+export function mailtoHref(subject = "お問い合わせ") {
+  return `mailto:${site.email}?subject=${encodeURIComponent(`【${site.name}】${subject}`)}`;
+}
 
 export function profileRows(brands: string): ProfileRow[] {
   const { legal } = site;

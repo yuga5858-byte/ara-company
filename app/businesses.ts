@@ -10,6 +10,8 @@ export type Business = {
   title: string;
   status: BusinessStatus;
   description: string;
+  // 設定すると事業紹介に「お問い合わせ」への導線を出す
+  inquiry?: { label: string; subject: string };
 };
 
 export const statusLabel: Record<BusinessStatus, string> = {
@@ -38,6 +40,7 @@ export const businesses: Business[] = [
     title: "AI・テクノロジー",
     status: "concept",
     description: "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。",
+    inquiry: { label: "AI・テクノロジーについて相談する", subject: "AI・テクノロジーについて" },
   },
   {
     id: "sports",

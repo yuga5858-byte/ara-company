@@ -1,9 +1,10 @@
 import ContactForm from "./components/ContactForm";
+import CopyEmail from "./components/CopyEmail";
 import Enso from "./components/Enso";
 import Water from "./components/Water";
 import ScrollFx from "./components/ScrollFx";
 import { businesses, statusLabel, isLead } from "./businesses";
-import { site, contactEnabled, profileRows } from "./site";
+import { site, contactEnabled, formEnabled, mailtoHref, profileRows } from "./site";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
 const PURPOSE_EN = "Creating possibilities beyond limits.";
@@ -227,6 +228,9 @@ export default function Home() {
                           <small className="note-sm">ブランドサイトは準備中です。</small>
                         </>
                       ))}
+                    {b.inquiry && contactEnabled && (
+                      <a className="btn" href="#contact">{b.inquiry.label} <span aria-hidden="true">→</span></a>
+                    )}
                   </div>
                 </article>
               ))}
@@ -266,9 +270,24 @@ export default function Home() {
           <div data-reveal>
             <span className="label">Contact</span>
             <h2>お問い合わせ</h2>
-            <p className="note">ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、こちらからご連絡ください。</p>
+            <p className="note">ORMOSCIA、AI・テクノロジーに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
+            <ul className="topics" aria-label="お問い合わせの例">
+              <li>ORMOSCIAについて</li>
+              <li>AI・テクノロジーについて</li>
+              <li>協業のご相談</li>
+              <li>取材のご依頼</li>
+            </ul>
           </div>
-          <ContactForm />
+          <div className="contact-card" data-reveal>
+            <span className="label">Email</span>
+            <p className="mail-addr" id="contact-email">{site.email}</p>
+            <div className="contact-actions">
+              <a className="btn btn-mail" href={mailtoHref()}>メールでお問い合わせ <span aria-hidden="true">→</span></a>
+              <CopyEmail email={site.email!} targetId="contact-email" />
+            </div>
+            <p className="note-sm">メールソフトが開かない場合は、アドレスをコピーしてお使いのメールからお送りください。</p>
+            {formEnabled && <ContactForm />}
+          </div>
         </div>
       </section>
       )}
