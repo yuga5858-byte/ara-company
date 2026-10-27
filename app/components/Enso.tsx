@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 // 筆で描いた円相を canvas に描く。毛の1本ずつを線として引き、終わりに向けてかすれさせる。
 const STEPS = 900;
 const BRISTLES = 72;
-const DURATION = 1400;
+const DURATION = 3600;
 
 function hash(a: number, b: number) {
   let h = Math.imul(a ^ 0x9e3779b9, 0x85ebca6b) ^ Math.imul(b + 0x632be5ab, 0xc2b2ae35);
@@ -97,7 +97,7 @@ export default function Enso({ className }: { className?: string }) {
       let done = -1;
       const tick = (now: number) => {
         const k = Math.min(1, (now - t0) / DURATION);
-        const eased = 1 - Math.pow(1 - k, 2.2);
+        const eased = 1 - Math.pow(1 - k, 1.3);
         const target = Math.floor(eased * STEPS);
         if (target > done) {
           drawRange(ctx!, size, done + 1, target, prev);

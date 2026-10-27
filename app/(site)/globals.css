@@ -120,11 +120,11 @@ nav.main { margin-left: auto; }
 .enso { display: block; width: 100%; aspect-ratio: 1; max-width: 100%; }
 .enso-name {
   position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px;
-  animation: fade 1s 0.7s ease both;
+  animation: fade 1.4s 2.2s ease both;
 }
 .enso-name .ara { font-family: var(--f-brush); font-size: clamp(3.4rem, 10vw, 7rem); line-height: 1; letter-spacing: 0.06em; }
 .enso-name .co { font-family: var(--f-mincho); font-size: clamp(0.75rem, 1.4vw, 0.9rem); letter-spacing: 0.6em; padding-left: 0.6em; color: var(--ink-soft); }
-.enso-wrap .seal { position: absolute; right: 8%; bottom: 12%; width: clamp(40px, 7vw, 58px); font-size: clamp(0.9rem, 1.7vw, 1.2rem); transform: rotate(-4deg); animation: stamp 0.5s 1.5s cubic-bezier(.3,1.6,.5,1) both; }
+.enso-wrap .seal { position: absolute; right: 8%; bottom: 12%; width: clamp(40px, 7vw, 58px); font-size: clamp(0.9rem, 1.7vw, 1.2rem); transform: rotate(-4deg); animation: stamp 0.5s 3.6s cubic-bezier(.3,1.6,.5,1) both; }
 .hero-side { display: grid; gap: 18px; align-self: end; }
 .hero-side p { font-size: 0.95rem; color: var(--ink-soft); }
 .hero-side .en-purpose { font-family: var(--f-mincho); font-size: 1.15rem; color: var(--ink); letter-spacing: 0.04em; line-height: 1.6; }
