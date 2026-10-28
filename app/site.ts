@@ -26,8 +26,8 @@ export const site = {
   // フォームの送信先。設定するまでフォームは表示しない（メールでの受付のみ）。
   contactEndpoint: null as string | null,
 
-  // ORMOSCIA の公式サイトが公開されたら URL を入れる。
-  ormosciaUrl: null as string | null,
+  // ORMOSCIA 公式サイト（公開済み）。ドメインを変えたら NEXT_PUBLIC_ORMOSCIA_URL で上書きする。
+  ormosciaUrl: (process.env.NEXT_PUBLIC_ORMOSCIA_URL || "https://ormoscia.ara-official.workers.dev").replace(/\/$/, "") as string | null,
 };
 
 // 公開URL（例：https://ara-company.jp）。決まったら環境変数 NEXT_PUBLIC_SITE_URL に設定する。

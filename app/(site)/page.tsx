@@ -91,7 +91,7 @@ function BusinessUnit({ b }: { b: Business }) {
         <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
         {b.id === "ormoscia" &&
           (site.ormosciaUrl ? (
-            <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイト <span aria-hidden="true">→</span></a>
+            <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span></a>
           ) : (
             <>
               {contactEnabled && <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
@@ -417,6 +417,11 @@ export default function Home() {
       <footer className="site band">
         <div className="wrap">
           <span>© {year} ARA COMPANY</span>
+          {site.ormosciaUrl && (
+            <a className="footer-link" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">
+              ORMOSCIA（ファッション）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
+            </a>
+          )}
           {solutions.url && (
             <a className="footer-link" href={solutions.url} target="_blank" rel="noopener noreferrer">
               {solutions.name}（Web・AI事業）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
