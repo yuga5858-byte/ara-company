@@ -121,7 +121,7 @@ export default function Home() {
       <ScrollFx />
       <header className="site band">
         <div className="wrap">
-          <a className="logo" href="#top"><span className="seal" aria-hidden="true">ARA</span><b>ARA COMPANY</b></a>
+          <a className="logo" href="#top"><span className="logo-mark" aria-hidden="true" /><b>ARA COMPANY</b></a>
           <SiteNav
             links={[
               { href: "#about", label: "ABOUT", ja: "私たちについて" },

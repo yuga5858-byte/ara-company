@@ -65,7 +65,8 @@ header.site {
 }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo .seal { width: 34px; font-size: 0.56rem; letter-spacing: -0.02em; }
+/* ARA のマーク（public/brand/ara-mark.webp。提供されたロゴ画像から切り出し、形は無加工） */
+.logo-mark { display: block; flex-shrink: 0; width: 36px; height: 28px; background: url("/brand/ara-mark.webp") center / contain no-repeat; }
 .logo b { font-family: var(--f-mincho); font-weight: 700; letter-spacing: 0.24em; font-size: 0.9rem; }
 nav.main { display: flex; gap: 24px; flex-wrap: wrap; }
 nav.main a { text-decoration: none; font-family: var(--f-mincho); font-size: 0.88rem; color: var(--ink-soft); }
