@@ -12,6 +12,8 @@ import { services, PRICE_NOTE, flow, demos } from "../services";
 
 const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
 const PURPOSE_EN = "Creating possibilities beyond limits.";
+// ブランドメッセージ（トップのキャッチコピー）
+const MESSAGE_EN = "Create the next scenery.";
 
 const mission = [
   { big: "信", k: "FASHION", v: "ファッションを通じて自信を", },
@@ -138,7 +140,7 @@ export default function Home() {
       <main id="top">
         <section className="hero band">
           <div className="wrap">
-            <h1 className="catch">挑戦するすべての人に、<br />次の可能性を。</h1>
+            <h1 className="catch">挑戦が、<br />次の景色をつくる。</h1>
             <div className="enso-wrap">
               <Enso className="enso" />
               <div className="enso-name">
@@ -148,8 +150,8 @@ export default function Home() {
               <span className="seal" aria-hidden="true">挑</span>
             </div>
             <div className="hero-side">
-              <span className="label">Our Purpose</span>
-              <p className="en-purpose">{PURPOSE_EN}</p>
+              <span className="label">Brand Message</span>
+              <p className="en-purpose">{MESSAGE_EN}</p>
               <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、事業立ち上げの準備を進めています。</p>
               <a className="btn" href="#story">OUR STORY <span aria-hidden="true">→</span></a>
             </div>
@@ -427,7 +429,7 @@ export default function Home() {
               {solutions.name}（Web・AI事業）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
             </a>
           )}
-          <span className="label">{PURPOSE_EN}</span>
+          <span className="label">{MESSAGE_EN}</span>
         </div>
       </footer>
     </>

@@ -12,11 +12,11 @@ const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], preload: false, va
 const cormorant = Cormorant_Garamond({ weight: ["400", "500", "600"], style: ["normal", "italic"], subsets: ["latin"], preload: false, variable: "--font-cormorant" });
 
 const DESCRIPTION =
-  "挑戦するすべての人に、次の可能性を。ARA COMPANYは大阪府を拠点に、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・運用改善・AIシステム導入支援に取り組んでいます。";
+  "挑戦が、次の景色をつくる。ARA COMPANYは大阪府を拠点に、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・運用改善・AIシステム導入支援に取り組んでいます。";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
-  title: { default: `${site.name}｜挑戦するすべての人に、次の可能性を。`, template: `%s｜${site.name}` },
+  title: { default: `${site.name}｜挑戦が、次の景色をつくる。`, template: `%s｜${site.name}` },
   description: DESCRIPTION,
   openGraph: {
     type: "website",
