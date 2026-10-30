@@ -46,9 +46,9 @@ export const businesses: Business[] = [
     title: "AI・テクノロジー",
     status: "open",
     brand: true,
-    brandName: "ARA SOLUTIONS",
+    brandName: "ARVR TECH",
     description:
-      "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。Web・AI事業ブランド「ARA SOLUTIONS」として、Webサイト制作・Web運用改善・AIシステム導入のご相談を受け付けています。",
+      "AIやデジタル技術を活用し、新しい価値や業務効率化の仕組みを生み出します。Web・AI事業ブランド「ARVR TECH」として、Webサイト制作・Web運用改善・AIシステム導入のご相談を受け付けています。",
   },
   {
     id: "sports",

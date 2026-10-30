@@ -424,7 +424,7 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 .unit-brand { font-size: 0.9rem; color: var(--ink-soft); }
 .unit-brand strong { color: var(--ink); letter-spacing: 0.06em; }
 
-/* ARA SOLUTIONS への案内 */
+/* ARVR TECH への案内 */
 .solutions-banner {
   display: grid; gap: 10px; justify-items: start; margin-bottom: clamp(28px, 4vw, 44px); padding: clamp(20px, 3vw, 30px);
   border: 1px solid var(--line); border-left: 3px solid var(--shu); background: color-mix(in srgb, var(--paper-2) 70%, transparent);

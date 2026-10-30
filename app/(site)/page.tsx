@@ -68,16 +68,16 @@ const profile = profileRows(
 const currentBusinesses = businesses.filter(isLead);
 const futureBusinesses = businesses.filter((b) => !isLead(b));
 
-// ARA SOLUTIONS への導線。公開URLが未設定の間はページ内のサービス紹介へ案内する。
+// ARVR TECH への導線。公開URLが未設定の間はページ内のサービス紹介へ案内する。
 function SolutionsLink({ note = true }: { note?: boolean }) {
   if (solutions.url) {
     return (
       <a className="btn" href={solutions.url} target="_blank" rel="noopener noreferrer">
-        ARA SOLUTIONS公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span>
+        ARVR TECH公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span>
       </a>
     );
   }
-  return note ? <small className="note-sm">ARA SOLUTIONSの公式サイトは公開準備中です。</small> : null;
+  return note ? <small className="note-sm">ARVR TECHの公式サイトは公開準備中です。</small> : null;
 }
 
 function BusinessUnit({ b }: { b: Business }) {
@@ -265,7 +265,7 @@ export default function Home() {
               <span className="label">Business</span>
               <div>
                 <h2>事業構想</h2>
-                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARA SOLUTIONS」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
+                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
               </div>
             </div>
 
