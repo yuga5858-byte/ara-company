@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import DemoBanner from "../_components/DemoBanner";
 import DemoPhoto, { type Photo } from "../_components/DemoPhoto";
 import ReserveForm from "../_components/ReserveForm";
+import { solutions } from "../../site";
 import s from "./salon.module.css";
 
 // ここに載せている店舗・人物・料金・口コミはすべて架空（営業用の制作デモ）。
 export const metadata: Metadata = {
   title: "プライベート美容サロン LP 制作デモ",
-  description: "ARA COMPANYが制作した、架空のプライベート美容サロンのランディングページ（制作デモ）です。",
+  description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空のプライベート美容サロンのランディングページ（制作デモ）です。",
   robots: { index: false, follow: false },
+  // SEOの基本設定の見本（デモ自体は検索結果に出さないため noindex のまま）
+  openGraph: { type: "website", locale: "ja_JP", siteName: "Salon Soyeux（制作デモ）", title: "プライベート美容サロン LP 制作デモ", description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空のプライベート美容サロンのランディングページ（制作デモ）です。" },
+  twitter: { card: "summary", title: "プライベート美容サロン LP 制作デモ", description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空のプライベート美容サロンのランディングページ（制作デモ）です。" },
 };
 
 const photos: Record<string, Photo> = {
@@ -220,8 +224,8 @@ export default function SalonDemo() {
 
       <footer className={s.footer}>
         <p className={s.logo}>Salon <em>Soyeux</em></p>
-        <p>この店舗は実在しません。ARA COMPANY による Web 制作デモです。</p>
-        <a href="/#services">ARA COMPANY の Web 制作について</a>
+        <p>この店舗は実在しません。ARVR TECH（運営：ARA COMPANY）による Web 制作デモです。</p>
+        <a href={solutions.url ?? "/#services"}>ARVR TECH の Web 制作について</a>
       </footer>
 
       <a className={s.stickyCta} href="#reserve">ご予約はこちら</a>
