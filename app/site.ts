@@ -1,6 +1,7 @@
 // サイト全体の基本情報。手続きや体制が変わったら、ここだけ更新すれば各所に反映される。
 //
-// 現在：法人登記・開業届は未提出。ARA COMPANY は事業名として表記する。
+// 現在：2026-11-02 に個人事業として開業（開業届・青色申告承認申請書は提出済み）。法人登記はしていない。
+// ARA COMPANY は屋号（事業名）として表記する。
 // 「株式会社」「法人」「設立済み」などの表現は、実際に手続きが済むまで使わないこと。
 
 export type ProfileRow = { label: string; value: string };
@@ -8,10 +9,10 @@ export type ProfileRow = { label: string; value: string };
 export const site = {
   name: "ARA COMPANY",
   base: "大阪府",
-  stage: "事業立ち上げの準備段階",
+  stage: "個人事業として運営（2026年11月開業）",
   policy: "ファッションを起点に、将来的にはAI・テクノロジー、スポーツ支援、コミュニティ事業などへ展開する。",
 
-  // 法人化・開業届の提出後に設定する。null の項目はサイトに表示しない。
+  // 法人化した後に設定する（個人事業の間は使わない）。null の項目はサイトに表示しない。
   legal: {
     entityName: null as string | null, // 例：「株式会社〇〇」
     representative: null as string | null,

@@ -152,7 +152,7 @@ export default function Home() {
             <div className="hero-side">
               <span className="label">Brand Message</span>
               <p className="en-purpose">{MESSAGE_EN}</p>
-              <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、事業立ち上げの準備を進めています。</p>
+              <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、個人事業として活動しています。</p>
               <a className="btn" href="#story">OUR STORY <span aria-hidden="true">→</span></a>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <span className="label">{site.base}を拠点に準備中</span>
+            <span className="label">{site.base}を拠点に活動中</span>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function Home() {
               <span className="label">About</span>
               <div>
                 <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
-                <p className="lead">ARA COMPANYは、{site.base}を拠点に事業の立ち上げを準備しています。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
+                <p className="lead">ARA COMPANYは、{site.base}を拠点とする個人事業です。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
               </div>
             </div>
             <table className="profile" data-reveal>
