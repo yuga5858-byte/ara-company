@@ -31,15 +31,15 @@ export const site = {
   ormosciaUrl: (process.env.NEXT_PUBLIC_ORMOSCIA_URL || "https://ormoscia.ara-official.workers.dev").replace(/\/$/, "") as string | null,
 };
 
-// 公開URL（例：https://ara-company.jp）。決まったら環境変数 NEXT_PUBLIC_SITE_URL に設定する。
-// 設定すると canonical・sitemap・OGP の URL が有効になる。
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || null;
+// 公開URL（独自ドメイン）。canonical・sitemap・OGP の URL に使う。
+// 環境変数 NEXT_PUBLIC_SITE_URL があればそちらを優先する。
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://ara-company.jp").replace(/\/$/, "");
 
 // Web・AI事業ブランド ARVR TECH（別サイト）。
-// 公開URLは確定するまで設定しない（ビルド時の環境変数 NEXT_PUBLIC_SOLUTIONS_URL）。未設定の間はリンクを出さず「公開準備中」と表示する。
+// 公開URL（独自ドメイン）。環境変数 NEXT_PUBLIC_SOLUTIONS_URL があればそちらを優先する。
 export const solutions = {
   name: "ARVR TECH",
-  url: process.env.NEXT_PUBLIC_SOLUTIONS_URL?.replace(/\/$/, "") || null,
+  url: (process.env.NEXT_PUBLIC_SOLUTIONS_URL || "https://tech.ara-company.jp").replace(/\/$/, "") as string | null,
   relation: "ARVR TECHは、ARA COMPANYが展開するWeb・AI事業ブランドです。",
 };
 
