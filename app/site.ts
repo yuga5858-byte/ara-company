@@ -32,14 +32,14 @@ export const site = {
 };
 
 // 公開URL（独自ドメイン）。canonical・sitemap・OGP の URL に使う。
-// 環境変数 NEXT_PUBLIC_SITE_URL があればそちらを優先する。
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://ara-company.jp").replace(/\/$/, "");
+// ビルド環境の設定に左右されないよう、コードで固定する。
+export const siteUrl = "https://ara-company.jp";
 
 // Web・AI事業ブランド ARVR TECH（別サイト）。
-// 公開URL（独自ドメイン）。環境変数 NEXT_PUBLIC_SOLUTIONS_URL があればそちらを優先する。
+// 公開URL（独自ドメイン）。ビルド環境の設定に左右されないよう、コードで固定する。
 export const solutions = {
   name: "ARVR TECH",
-  url: (process.env.NEXT_PUBLIC_SOLUTIONS_URL || "https://tech.ara-company.jp").replace(/\/$/, "") as string | null,
+  url: "https://tech.ara-company.jp" as string | null,
   relation: "ARVR TECHは、ARA COMPANYが展開するWeb・AI事業ブランドです。",
 };
 
