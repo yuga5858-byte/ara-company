@@ -147,7 +147,7 @@ export default function KisuLp() {
                 <p>受付：9:00〜18:00（日曜・祝日休み）※ 架空の会社です</p>
               </div>
             </div>
-            <ReserveForm className={s.form} submitLabel="現地調査を申し込む" fields={contactFields} />
+            <ReserveForm className={s.form} submitLabel="現地調査を申し込む" fields={contactFields} doneMessage="デモのため、ご相談は送信されません。実際のサイトでは、ここで受け付けて現地調査の日程をご連絡します。" />
           </div>
         </section>
       </main>

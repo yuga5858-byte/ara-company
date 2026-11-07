@@ -34,7 +34,8 @@
 
 .field { display: grid; gap: 6px; font-size: 0.88rem; }
 .field em { font-style: normal; font-size: 0.7rem; margin-left: 6px; opacity: 0.75; }
-.field input, .field select { font: inherit; font-size: 1rem; min-height: 48px; padding: 10px 12px; border-radius: 0; }
+.field input, .field select, .field textarea { font: inherit; font-size: 1rem; min-height: 48px; padding: 10px 12px; border-radius: 0; }
+.field textarea { resize: vertical; line-height: 1.7; }
 .formMsg { min-height: 1.6em; margin: 0; font-size: 0.86rem; }
 
 /* LINE 相談ボタンの見本（LineCta） */
