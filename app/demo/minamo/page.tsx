@@ -1,0 +1,19 @@
+import DemoBanner from "../_components/DemoBanner";
+import ReserveForm from "../_components/ReserveForm";
+import { demoMeta, menus } from "./data";
+import { Faq, Line, Photo, Prices, Steps } from "./parts";
+import s from "./minamo.module.css";
+export const metadata = demoMeta("ハウスクリーニング LP", "/demo/minamo/");
+export default function MinamoLP() { return <div className={s.theme}>
+  <DemoBanner tone="light" />
+  <header className={`${s.wrap} ${s.header}`}><a href="#top" className={s.logo}>ミナモ清掃<small>MINAMO CLEANING</small></a><nav className={s.nav} aria-label="ページ内メニュー"><a href="#price">料金</a><a href="#flow">作業の流れ</a><a href="#faq">よくある質問</a></nav><a className={s.ghost} href="#reserve">予約のデモ</a></header>
+  <main id="top"><div className={s.wrap}><section className={s.hero}><div className={s.heroText}><p className={s.kicker}>A LITTLE RESET FOR YOUR HOME</p><h1>おうちに、<br />すっきりとした<br />余白を。</h1><p className={s.lead}>気になっていた水回りも、後回しにしていたエアコンも。<br />おうちの「気になる」を、一緒に整える清掃店です。</p><div className={s.actions}><Line /><a className={s.ghost} href="#price">料金を見る</a></div><p className={s.note}>架空の清掃店の制作デモです。実際の見積もり・予約はできません。</p></div><Photo className={s.heroPhoto} brief="日差しの入る清潔なキッチンの写真が入ります" /></section></div>
+  <section className={`${s.section} ${s.tint}`}><div className={s.wrap}><p className={s.kicker}>FOR YOUR EVERYDAY</p><h2>こんなとき、頼れる選択肢を。</h2><ul className={s.needs}>{["共働きで掃除の時間が取れない", "年末の大掃除を任せたい", "引っ越し前後に整えたい", "水回りをまとめて掃除したい"].map(v=><li key={v}>{v}</li>)}</ul></div></section>
+  <section id="price" className={s.section}><div className={s.wrap}><p className={s.kicker}>MENU & PRICE</p><h2>気になる場所から選べます。</h2><Prices /></div></section>
+  <section id="flow" className={`${s.section} ${s.tint}`}><div className={s.wrap}><p className={s.kicker}>HOW IT WORKS</p><h2>写真で相談、内容を確認。<br />納得してから、作業へ。</h2><Steps /></div></section>
+  <section className={s.section}><div className={s.wrap}><p className={s.kicker}>BEFORE / AFTER</p><h2>仕上がりを伝える掲載スペース。</h2><div className={s.pairs}>{[1,2].map(i=><article key={i} className={s.pair}><h3>作業事例の掲載イメージ {i}</h3><div className={s.pairPhotos}><figure><figcaption>BEFORE</figcaption><Photo brief="ここに作業前の写真が入ります" /></figure><figure><figcaption>AFTER</figcaption><Photo brief="ここに作業後の写真が入ります" /></figure></div><p className={s.note}>ここに、掲載許可を得た作業内容の説明が入ります。</p></article>)}</div><p className={s.note}>※ 掲載イメージです。実際の作業事例・清掃効果を示すものではありません。</p></div></section>
+  <section className={`${s.section} ${s.tint}`}><div className={s.wrap}><p className={s.kicker}>VOICE</p><h2>お客様の声</h2><div className={s.voices}>{[1,2].map(i=><figure key={i}><blockquote>ここに、掲載許可を得た実際のお客様の声が入ります。</blockquote><figcaption>掲載イメージ {i}</figcaption></figure>)}</div><p className={s.note}>※ 掲載イメージです。架空の口コミ・評価は掲載していません。</p></div></section>
+  <section id="faq" className={s.section}><div className={s.wrap}><p className={s.kicker}>FAQ</p><h2>ご相談の前に。</h2><Faq /></div></section>
+  <section id="reserve" className={`${s.section} ${s.tint}`}><div className={`${s.wrap} ${s.split}`}><div><p className={s.kicker}>RESERVATION</p><h2>気になる場所を、<br />聞かせてください。</h2><p>お見積もりと日程相談の入力画面です。</p><p className={s.note}>制作デモです。実際の個人情報は入力しないでください。入力内容は送信・保存されません。</p><div className={s.actions}><Line /></div></div><ReserveForm className={s.form} submitLabel="予約内容を確認する（デモ）" fields={[{id:"name",label:"お名前",type:"text",required:true},{id:"phone",label:"電話番号",type:"tel",required:true},{id:"date",label:"ご希望日",type:"date",required:true},{id:"menu",label:"ご希望メニュー",type:"select",options:menus.map(m=>m.title),required:true}]} /></div></section>
+  </main><footer className={s.footer}><div className={s.wrap}><a className={s.logo} href="#top">ミナモ清掃<small>MINAMO CLEANING</small></a><p>架空の清掃店の制作デモです。ARVR TECH（運営：ARA COMPANY）が制作しています。</p><a href="/demo/minamo-hp/">5ページ構成のホームページ版を見る</a></div></footer><div className={s.sticky}><Line /></div>
+</div>; }

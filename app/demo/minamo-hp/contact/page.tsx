@@ -1,0 +1,6 @@
+import ReserveForm from "../../_components/ReserveForm";
+import { demoMeta, HP } from "../../minamo/data";
+import { Heading, Line, Shell } from "../../minamo/parts";
+import s from "../../minamo/minamo.module.css";
+export const metadata = demoMeta("お問い合わせ", `${HP}contact/`);
+export default function Contact() { return <Shell current={`${HP}contact/`}><div className={s.wrap}><Heading en="CONTACT" title="お問い合わせ">気になる場所や、ご希望を聞かせてください。</Heading><section className={`${s.section} ${s.split}`}><div><h2>ご相談・お見積もりの<br />入力イメージ</h2><p>制作デモのため、送信・予約受付・入力内容の保存は行いません。実際の個人情報は入力しないでください。</p><div className={s.actions}><Line /></div><dl className={s.info}><div><dt>営業時間</dt><dd>9:00〜18:00（日曜定休）<br />※ 架空の営業時間です。</dd></div><div><dt>受付について</dt><dd>実際のサイトでは、回答の目安や予約確定までの手順をご案内します。</dd></div></dl></div><ReserveForm className={s.form} submitLabel="入力内容を確認する（デモ）" fields={[{id:"name",label:"お名前",type:"text",required:true},{id:"phone",label:"電話番号",type:"tel",required:true},{id:"email",label:"メールアドレス",type:"email",required:true},{id:"kind",label:"お問い合わせの種類",type:"select",options:["ハウスクリーニング","定期清掃","オフィス・店舗清掃","その他"],required:true},{id:"message",label:"お問い合わせ内容",type:"text",required:true}]} /></section></div></Shell>; }
