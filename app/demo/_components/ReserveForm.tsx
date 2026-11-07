@@ -3,10 +3,11 @@
 import { useState } from "react";
 import styles from "./demo.module.css";
 
-type Field = { id: string; label: string; type: "text" | "email" | "tel" | "date" | "select"; options?: string[]; required?: boolean };
+type Field = { id: string; label: string; type: "text" | "email" | "tel" | "date" | "select" | "textarea"; options?: string[]; required?: boolean };
 
-// デモ用の予約フォーム。入力チェックまで動き、送信はしない。
-export default function ReserveForm({ fields, submitLabel, className }: { fields: Field[]; submitLabel: string; className?: string }) {
+// デモ用の予約・問い合わせフォーム。入力チェックまで動き、送信はしない。
+// doneMessage を渡すと、入力チェックを通ったときの表示を変えられる（問い合わせフォーム用など）。
+export default function ReserveForm({ fields, submitLabel, className, doneMessage }: { fields: Field[]; submitLabel: string; className?: string; doneMessage?: string }) {
   const [message, setMessage] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -17,7 +18,7 @@ export default function ReserveForm({ fields, submitLabel, className }: { fields
       setMessage(`${missing.map((f) => f.label).join("・")}を入力してください。`);
       return;
     }
-    setMessage("デモのため、予約は送信されません。実際のサイトでは、ここで予約を受け付けます。");
+    setMessage(doneMessage ?? "デモのため、予約は送信されません。実際のサイトでは、ここで予約を受け付けます。");
   }
 
   return (
@@ -28,7 +29,9 @@ export default function ReserveForm({ fields, submitLabel, className }: { fields
             {f.label}
             {f.required && <em> 必須</em>}
           </span>
-          {f.type === "select" ? (
+          {f.type === "textarea" ? (
+            <textarea id={f.id} name={f.id} rows={5} />
+          ) : f.type === "select" ? (
             <select id={f.id} name={f.id} defaultValue="">
               <option value="" disabled>選択してください</option>
               {f.options?.map((o) => <option key={o}>{o}</option>)}

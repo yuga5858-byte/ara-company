@@ -1,0 +1,27 @@
+/* 制作デモ一覧 */
+.page {
+  min-height: 100vh; background: #F7F5F1; color: #1E1D1B;
+  font-family: var(--font-gothic), "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.8;
+}
+.page :where(h1, p, ul) { margin: 0; }
+.main {
+  max-width: 1040px; margin-inline: auto; display: grid; gap: 20px;
+  padding: clamp(40px, 7vw, 88px) max(20px, env(safe-area-inset-right, 0px)) 80px max(20px, env(safe-area-inset-left, 0px));
+}
+.kicker { font-size: 0.74rem; letter-spacing: 0.3em; color: #6B655C; font-weight: 700; }
+.h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.4; }
+.lead { color: #5B564E; max-width: 40em; }
+.lead a { color: inherit; font-weight: 700; }
+.list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 12px 0 !important; }
+@media (max-width: 640px) { .list { grid-template-columns: minmax(0, 1fr); } }
+.card {
+  display: grid; gap: 6px; height: 100%; padding: 22px; text-decoration: none; color: inherit;
+  background: #fff; border: 1px solid rgba(30, 29, 27, 0.12); border-radius: 8px;
+  transition: border-color .2s, transform .2s;
+}
+.card:hover { border-color: #1E1D1B; transform: translateY(-2px); }
+.card:focus-visible { outline: 2px solid #1E1D1B; outline-offset: 3px; }
+.meta { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #6B655C; }
+.kind { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; padding: 1px 8px; border: 1px solid currentColor; border-radius: 99px; }
+.name { font-size: 1.2rem; font-weight: 700; }
+.note { font-size: 0.9rem; color: #5B564E; }
