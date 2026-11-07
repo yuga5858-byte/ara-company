@@ -11,7 +11,7 @@
 | No | タスク | 触ってよいファイル | 担当 | 状態 | ブランチ | メモ |
 |---|---|---|---|---|---|---|
 | 1 | 共通部品（SiteShell・LineCta）と仕様書 | app/demo/_components/、docs/ | Claude Code | 完了 | demo/construction-cleaning | |
-| 2 | 工務店 LP＋HP（木栖工務店） | app/demo/kisu/、app/demo/kisu-hp/ | Claude Code | 作業中 | claude/2-kisu | |
+| 2 | 工務店 LP＋HP（木栖工務店） | app/demo/kisu/、app/demo/kisu-hp/ | Claude Code | レビュー待ち | claude/2-kisu | Codex にレビューを依頼 |
 | 3 | 清掃 LP＋HP（ミナモ清掃） | app/demo/minamo/、app/demo/minamo-hp/ | Codex | 未着手 | codex/3-minamo | 共通部品は変更しない。直したい点は PR にコメント |
 | 4 | お互いの作ったもののレビュー | — | 両方 | 未着手 | | 2・3 の完了後 |
 | 5 | デモ一覧ページ・最終確認・公開 | app/demo/page.tsx ほか | Claude Code | 未着手 | | 公開は社長の承認後 |
