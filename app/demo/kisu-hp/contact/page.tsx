@@ -29,7 +29,7 @@ export default function KisuHpContact() {
               <div><dt>所在地</dt><dd>大阪府〇〇市（架空）</dd></div>
             </dl>
           </div>
-          <ReserveForm className={s.form} submitLabel="この内容で相談する" fields={contactFields} />
+          <ReserveForm className={s.form} submitLabel="この内容で相談する" fields={contactFields} doneMessage="デモのため、ご相談は送信されません。実際のサイトでは、ここで受け付けて現地調査の日程をご連絡します。" />
         </div>
       </section>
     </SiteShell>
