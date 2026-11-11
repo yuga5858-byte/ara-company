@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Yuji_Syuku, Shippori_Mincho, Zen_Kaku_Gothic_New, Archivo, Cormorant_Garamond, Noto_Serif_JP, Noto_Sans_JP } from "next/font/google";
+import { Yuji_Syuku, Shippori_Mincho, Zen_Kaku_Gothic_New, Archivo, Cormorant_Garamond } from "next/font/google";
 import "./base.css";
 import { site, siteUrl } from "./site";
 
-// 公式サイト用（2026-11 リニューアル：Noto Serif JP・Noto Sans JP・Cormorant Garamond）
-const serif = Noto_Serif_JP({ weight: ["400", "500", "700"], subsets: ["latin"], preload: false, variable: "--font-serif" });
-const sans = Noto_Sans_JP({ weight: ["400", "500"], subsets: ["latin"], preload: false, variable: "--font-sans" });
-// 旧デザイン・制作デモで使う書体
+// 公式サイト用
 const brush = Yuji_Syuku({ weight: "400", subsets: ["latin"], preload: false, variable: "--font-brush" });
 const mincho = Shippori_Mincho({ weight: ["500", "700"], subsets: ["latin"], preload: false, variable: "--font-mincho" });
 const gothic = Zen_Kaku_Gothic_New({ weight: ["400", "500", "700"], subsets: ["latin"], preload: false, variable: "--font-gothic" });
@@ -32,10 +29,10 @@ export const metadata: Metadata = {
   alternates: siteUrl ? { canonical: "/" } : undefined,
 };
 
-export const viewport: Viewport = { viewportFit: "cover", themeColor: "#0B0B0B" };
+export const viewport: Viewport = { viewportFit: "cover", themeColor: "#08090A" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const fonts = [serif, sans, brush, mincho, gothic, archivo, cormorant].map((f) => f.variable).join(" ");
+  const fonts = [brush, mincho, gothic, archivo, cormorant].map((f) => f.variable).join(" ");
   return (
     <html lang="ja" className={fonts}>
       <body>{children}</body>
