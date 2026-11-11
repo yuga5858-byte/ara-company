@@ -69,4 +69,18 @@ export const demos = [
     tone: "アイボリー・ベージュを基調にした、清潔感のあるLP",
     variant: "salon",
   },
+  {
+    href: "/demo/kisu-hp/",
+    industry: "工務店・リフォーム",
+    name: "木栖工務店",
+    tone: "生成りと木の色を基調にした、5ページのホームページとLP",
+    variant: "kisu",
+  },
+  {
+    href: "/demo/minamo-hp/",
+    industry: "ハウスクリーニング",
+    name: "ミナモ清掃",
+    tone: "白と淡い水色を基調にした、5ページのホームページとLP",
+    variant: "minamo",
+  },
 ] as const;
