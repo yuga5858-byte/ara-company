@@ -42,7 +42,7 @@ function makeSprite(rgb: string, seed: number) {
       const dx = x / s - 0.5, dy = y / s - 0.5, d = Math.sqrt(dx * dx + dy * dy) * 2;
       const fall = Math.max(0, 1 - d);
       const n = noise(x / s, y / s);
-      const a = Math.pow(fall, 1.6) * Math.max(0, Math.min(1, (n - 0.32) * 2.2));
+      const a = Math.pow(fall, 1.4) * Math.max(0, Math.min(1, (n - 0.27) * 2.5));
       const i = (y * s + x) * 4;
       img.data[i] = r; img.data[i + 1] = gg; img.data[i + 2] = b; img.data[i + 3] = Math.round(a * 255);
     }
@@ -63,7 +63,7 @@ export default function InkField({ className }: { className?: string }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 760px)").matches;
     const scale = small ? 0.38 : 0.5; // 表示サイズに対する描画解像度（ぼけは墨らしさとして生かす）
-    const count = small ? 30 : 48;
+    const count = small ? 42 : 66;
     const kinari = [1, 2, 3].map((k) => makeSprite("234, 229, 219", k));
     const shu = makeSprite("164, 61, 48", 7);
 
@@ -95,14 +95,14 @@ export default function InkField({ className }: { className?: string }) {
       puff.vx = (Math.random() - 0.5) * 0.15;
       puff.vy = -0.05 - Math.random() * 0.12;
       puff.r = (small ? 14 : 22) + Math.random() * 14;
-      puff.rMax = (small ? 90 : 150) + Math.random() * (small ? 70 : 150);
+      puff.rMax = (small ? 110 : 170) + Math.random() * (small ? 80 : 170);
       puff.rot = Math.random() * Math.PI * 2;
       puff.spin = (Math.random() - 0.5) * 0.0016;
       puff.tex = Math.floor(Math.random() * 3);
       puff.age = 0;
       puff.life = 520 + Math.random() * 520;
       puff.shu = Math.random() < 0.05; // ごくまれに朱が混じる
-      puff.a = puff.shu ? 0.07 : 0.05 + Math.random() * 0.05;
+      puff.a = puff.shu ? 0.13 : 0.09 + Math.random() * 0.08;
       return puff;
     };
     const puffs: Puff[] = Array.from({ length: count }, () => {
