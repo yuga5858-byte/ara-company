@@ -3,6 +3,7 @@ import MailButton from "../components/MailButton";
 import ContactForm from "../components/ContactForm";
 import SiteNav from "../components/SiteNav";
 import ScrollFx from "../components/ScrollFx";
+import InkField from "../components/InkField";
 import { businesses, statusLabel, isLead } from "../businesses";
 import type { Business } from "../businesses";
 import { site, solutions, contactEnabled, formEnabled, mailtoHref, gmailHref, profileRows } from "../site";
@@ -103,9 +104,23 @@ export default function Home() {
       <main id="top">
         {/* ---------- ファーストビュー ---------- */}
         <section className="hero" aria-labelledby="hero-title">
+          <InkField className="hero-ink" />
           <div className="hero-light" aria-hidden="true" />
+          {/* 筆で円を描く：太い筆の入り→細く抜ける筆圧を、重ねた線で表す。かすれは線の揺らぎ（SVGフィルター）で */}
           <svg className="hero-enso" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-            <path d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+            <defs>
+              <filter id="enso-brush" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="grain" />
+                <feDisplacementMap in="SourceGraphic" in2="grain" scale="6" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+            </defs>
+            <g className="enso-ink" filter="url(#enso-brush)">
+              <path className="enso-l enso-heavy" d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+              <path className="enso-l enso-mid" d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+              <path className="enso-l enso-main" d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+              <path className="enso-l enso-dry enso-dry-out" d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+              <path className="enso-l enso-dry enso-dry-in" d="M300 62 C 432 60 540 160 538 298 C 536 432 430 540 296 538 C 162 536 60 430 62 296 C 64 186 136 102 232 74" pathLength={1} />
+            </g>
           </svg>
           <div className="hero-grid">
             <p className="hero-catch" lang="ja">
