@@ -24,6 +24,6 @@
 
 | No | タスク | 触ってよいファイル | 担当 | 状態 | ブランチ | メモ |
 |---|---|---|---|---|---|---|
-| 1 | アートディレクション・実装（トップページ） | app/(site)/、app/layout.tsx、app/components/ScrollFx.tsx、app/services.ts | Claude Code | レビュー待ち | claude/renewal-2026-11 | 文章は content.ts に旧サイトから一字一句移動 |
+| 1 | アートディレクション・実装（トップページ） | app/(site)/、app/layout.tsx、app/components/ScrollFx.tsx、app/services.ts | Claude Code | 保留（社長の判断で旧デザインに戻した 2026-11-11） | claude/renewal-2026-11 | 文章は content.ts に旧サイトから一字一句移動 |
 | 2 | レビュー（アクセシビリティ・スマホ表示・内容のルール） | — | Codex | 未着手 | | PR を開くと自動でレビュー |
 | 3 | 本番公開 | — | Claude Code | 未着手 | | 社長の最終承認後 |
