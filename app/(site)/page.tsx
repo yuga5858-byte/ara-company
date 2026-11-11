@@ -107,7 +107,6 @@ export default function Home() {
         <section className="hero" aria-labelledby="hero-title">
           <InkField className="hero-ink" />
           <div className="hero-light" aria-hidden="true" />
-          <BrushEnso className="hero-enso" />
           <div className="hero-grid">
             <p className="hero-catch" lang="ja">
               {Array.from(CATCH).map((ch, i) => (
@@ -117,6 +116,7 @@ export default function Home() {
             </p>
 
             <div className="hero-center">
+              <BrushEnso className="hero-enso" />
               <h1 id="hero-title" className="hero-logo">
                 <img src="/brand/company-mark.webp" alt="ARA COMPANY" width={420} height={284} fetchPriority="high" />
               </h1>

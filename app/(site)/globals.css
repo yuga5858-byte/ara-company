@@ -124,9 +124,10 @@ nav.main a:hover::after, nav.main a:focus-visible::after { transform: scaleX(1);
   mask-image: radial-gradient(92% 82% at 50% 56%, #000 38%, transparent 100%);
 }
 /* 筆の円相：太い入り→細い抜け、外側と内側にかすれ */
+/* ロゴと社名のまとまりの、ちょうど真ん中に置く */
 .hero-enso {
-  position: absolute; left: 50%; top: 50%; width: min(68vmin, 600px); height: auto; z-index: -1; overflow: visible;
-  transform: translate(-50%, -52%) translateY(calc(var(--hero-p, 0) * -40px)); rotate: -8deg;
+  position: absolute; left: 50%; top: 50%; width: min(64vmin, 560px); height: auto; z-index: -1; overflow: visible;
+  transform: translate(-50%, -50%); pointer-events: none;
 }
 .enso-ink { fill: var(--kinari); }
 .enso-bristle { stroke: var(--kinari); }
@@ -171,7 +172,7 @@ nav.main a:hover::after, nav.main a:focus-visible::after { transform: scaleX(1);
   .hero-catch { position: absolute; left: var(--gl); top: calc(var(--head-h) + 28px); font-size: 1.08rem; letter-spacing: 0.32em; }
   .hero-center { gap: 20px; }
   .hero-logo img { width: 150px; }
-  .hero-enso { width: min(78vw, 330px); top: 47%; }
+  .hero-enso { width: min(84vw, 340px); }
   .hero-word { letter-spacing: 0.44em; padding-left: 0.44em; font-size: 0.9rem; }
   .hero-en { justify-self: center; writing-mode: horizontal-tb; font-size: 0.82rem; letter-spacing: 0.3em; padding-left: 0.3em; text-align: center; }
   .hero-seal { right: var(--gr); bottom: auto; top: calc(var(--head-h) + 28px); width: 30px; height: 30px; font-size: 0.85rem; }
@@ -193,7 +194,7 @@ nav.main a:hover::after, nav.main a:focus-visible::after { transform: scaleX(1);
   .hero-scroll-line { animation: scroll-line 2.4s var(--ease) 3.4s infinite; }
 }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes enso-breathe { from { rotate: -8deg; scale: 1; } to { rotate: -5.5deg; scale: 1.012; } }
+@keyframes enso-breathe { from { rotate: 0deg; scale: 1; } to { rotate: 1.5deg; scale: 1.012; } }
 @keyframes ink-in { to { opacity: 1; filter: blur(0); transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { to { opacity: 1; } }
@@ -392,7 +393,6 @@ html.fx .sec-index.is-in .sec-rule { transform: none; }
 @keyframes drift-c { from { transform: translate(-50%, -46%) scale(0.96); } to { transform: translate(-50%, -54%) scale(1.04); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .hero-light, .hero-grid, .hero-enso { transform: none !important; }
-  .hero-enso { transform: translate(-50%, -52%) !important; rotate: -8deg; }
+  .hero-light, .hero-grid { transform: none !important; }
   .hero-grid { opacity: 1 !important; }
 }

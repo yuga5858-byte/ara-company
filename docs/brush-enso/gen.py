@@ -2,12 +2,11 @@
 import math, random, json
 random.seed(11)
 C=(300,300); R=232; N=420
-a0=math.radians(-78); sweep=math.radians(332)
+a0=math.radians(-62); sweep=math.radians(338)
 def center(t):
     a=a0+sweep*t
-    r=R*(1+0.025*math.sin(t*5.3+0.7)+0.012*math.sin(t*13.1))
-    # わずかに楕円・右下へ重みをかける
-    return (C[0]+r*math.cos(a)*1.02, C[1]+r*math.sin(a)*0.985)
+    r=R  # まん丸（中心 300,300）
+    return (C[0]+r*math.cos(a), C[1]+r*math.sin(a))
 def width(t):
     if t<0.04: return 18+ (t/0.04)*30           # 入り：押しつけて太く
     if t<0.12: return 48-(t-0.04)/0.08*10          # 押しつけた墨だまり
