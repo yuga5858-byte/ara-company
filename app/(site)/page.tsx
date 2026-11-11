@@ -1,77 +1,113 @@
+import ContactForm from "../components/ContactForm";
 import CopyEmail from "../components/CopyEmail";
 import MailButton from "../components/MailButton";
-import ContactForm from "../components/ContactForm";
 import SiteNav from "../components/SiteNav";
+import Enso from "../components/Enso";
+import Water from "../components/Water";
 import ScrollFx from "../components/ScrollFx";
-import InkField from "../components/InkField";
-import BrushEnso from "../components/BrushEnso";
 import { businesses, statusLabel, isLead } from "../businesses";
-import type { Business } from "../businesses";
 import { site, solutions, contactEnabled, formEnabled, mailtoHref, gmailHref, profileRows } from "../site";
+import type { Business } from "../businesses";
 import { services, PRICE_NOTE, flow, demos } from "../services";
-import { PURPOSE_JA, PURPOSE_EN, mission, values, story, message } from "./content";
 
-// 2026-11 リニューアル「静けさの中に、強さを宿す。」
-// 墨黒を基調に、生成りの面を「間」として差し込む。朱は印・ボタン・小さなアクセントだけに使う。
-// 文章は app/(site)/content.ts（旧サイトから一字一句そのまま）と app/site.ts・businesses.ts・services.ts から読む。
+const PURPOSE_JA = "挑戦するすべての人に、次の可能性を。";
+const PURPOSE_EN = "Creating possibilities beyond limits.";
+// ブランドメッセージ（トップのキャッチコピー）
+const MESSAGE_EN = "Create the next scenery.";
 
-const CATCH = "挑戦が、次の景色をつくる。";
-const CATCH_EN = "CREATE THE NEXT SCENERY.";
+const mission = [
+  { big: "信", k: "FASHION", v: "ファッションを通じて自信を", },
+  { big: "選", k: "TECHNOLOGY", v: "テクノロジーを通じて新しい選択肢を" },
+  { big: "場", k: "BUSINESS", v: "事業を通じて仕事や居場所を" },
+];
 
-const d = (i: number) => ({ "--d": i }) as React.CSSProperties;
+const values = [
+  { no: "01", en: "CHALLENGE", ja: "挑戦", body: "失敗を恐れず、新しい可能性を追求する。" },
+  { no: "02", en: "RESILIENCE", ja: "再起", body: "立ち止まることを恐れず、何度でも前に進む。" },
+  { no: "03", en: "CONNECTION", ja: "つながり", body: "人と人とのつながりを大切にし、ともに成長する。" },
+  { no: "04", en: "CREATION", ja: "創造", body: "既存の常識にとらわれず、新しい価値を生み出す。" },
+  { no: "05", en: "IMPACT", ja: "社会への還元", body: "事業の成長を、自分たちだけでなく誰かの可能性につなげる。" },
+];
 
+// OUR STORY は本文のまま掲載する。quote: true の段落は引用として強調する。
+const story: { text: string; quote?: boolean }[] = [
+  { text: "私は幼い頃からサッカーに打ち込み、プロサッカー選手になることを目標に挑戦を続けてきました。" },
+  { text: "しかし、大学進学後、度重なる大きな怪我や手術を経験し、思うように競技ができない時間を過ごしました。" },
+  { text: "周囲の仲間が試合で活躍する一方、自分はリハビリを繰り返す日々。これまで積み重ねてきた努力や、自分の将来に対して不安を感じることもありました。" },
+  { text: "それでも、家族や仲間の支えがあり、もう一度前を向くことができました。" },
+  { text: "この経験から強く感じたことがあります。" },
+  { text: "「人は、能力や努力だけで挑戦を続けられるわけではない。支えてくれる人や環境があるからこそ、何度でも立ち上がれる。」", quote: true },
+  { text: "そして、自分と同じように、怪我や挫折によって夢を諦めかけている人たちの力になりたいと考えるようになりました。" },
+  { text: "ただ、誰かを支えるためには、想いだけでは足りません。経済的な力、仕事を生み出す力、そして人が集まる場所が必要です。" },
+  { text: "だからこそ、自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社をつくりたい。" },
+  { text: "その想いから生まれたのが、ARA COMPANYです。" },
+  { text: "私たちは、ファッションをはじめとするさまざまな事業を通じて、人と人をつなぎ、新しい価値を生み出していきます。" },
+  { text: "そしていつか、挑戦したいという気持ちを持つ人が、環境や困難によって可能性を閉ざされない社会を実現したいと考えています。" },
+];
+
+const message = [
+  "私はこれまで、サッカーを通じて挑戦することの喜びと、思うように進めないことの苦しさを経験してきました。",
+  "大きな怪我によって何度も立ち止まり、将来への不安を感じたこともあります。",
+  "それでも、周囲の人たちに支えられ、挑戦を続けることができました。",
+  "この経験が、ARA COMPANYを立ち上げようと考えた原点です。",
+  "私たちは、ファッションやテクノロジーをはじめ、さまざまな事業に挑戦していきます。",
+  "まずは自分たちの手で価値を生み出し、事業を成長させる。そして、その成長を誰かの新しい可能性につなげていきたいと考えています。",
+  "立ち止まることがあっても、そこで終わりではない。",
+  "ARA COMPANYは、挑戦する人とともに成長し続ける会社を目指します。",
+];
+
+const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
+
+// 確認済みの情報だけを載せる（項目は app/site.ts で管理）。
 const profile = profileRows(
   businesses.filter((b) => b.brand).map((b) => `${b.brandName ?? b.name}（${statusLabel[b.status]}）`).join("、"),
   services.map((s) => s.title).join("、")
 );
+
+// 現在取り組んでいる事業と、将来構想を分けて表示する
 const currentBusinesses = businesses.filter(isLead);
 const futureBusinesses = businesses.filter((b) => !isLead(b));
 
-const ExternalMark = () => (
-  <>
-    <span aria-hidden="true"> ↗</span>
-    <span className="sr-only">（新しいタブで開きます）</span>
-  </>
-);
-
-function SectionHead({ no, en, title, lead, tone = "dark" }: { no: string; en: string; title: React.ReactNode; lead?: React.ReactNode; tone?: "dark" | "light" }) {
-  return (
-    <header className={`sec-head sec-head-${tone}`}>
-      <p className="sec-index" data-reveal>
-        <span className="sec-no">{no}</span>
-        <span className="sec-rule" aria-hidden="true" />
-        <span className="sec-en">{en}</span>
-      </p>
-      <h2 className="sec-title" data-reveal style={d(1)}>{title}</h2>
-      {lead && <p className="sec-lead" data-reveal style={d(2)}>{lead}</p>}
-    </header>
-  );
+// ARVR TECH への導線。公開URLが未設定の間はページ内のサービス紹介へ案内する。
+function SolutionsLink({ note = true }: { note?: boolean }) {
+  if (solutions.url) {
+    return (
+      <a className="btn" href={solutions.url} target="_blank" rel="noopener noreferrer">
+        ARVR TECH公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span>
+      </a>
+    );
+  }
+  return note ? <small className="note-sm">ARVR TECHの公式サイトは公開準備中です。</small> : null;
 }
 
-function BusinessCard({ b, i }: { b: Business; i: number }) {
-  const lead = isLead(b);
+function BusinessUnit({ b }: { b: Business }) {
   return (
-    <article className={`biz${lead ? " biz-now" : " biz-future"}`} id={b.id} data-reveal style={d(i)}>
-      <span className="biz-glyph" aria-hidden="true">{b.kanji}</span>
-      <div className="biz-top">
-        <p className="biz-cat">{b.category}</p>
-        <span className={`biz-status${lead ? " is-now" : ""}`}>
-          {lead && <span className="biz-seal" aria-hidden="true" />}
-          {statusLabel[b.status]}
-        </span>
+    <article className={`unit${isLead(b) ? "" : " next"}`} id={b.id} data-reveal>
+      <span className="glyph" aria-hidden="true" data-reveal="ink">{b.kanji}</span>
+      <div className="head">
+        <div className="name"><h3>{b.title}</h3><span className="label">{b.category}</span></div>
+        {b.brandName && <p className="unit-brand">展開ブランド：<strong>{b.brandName}</strong></p>}
+        <p>{b.description}</p>
       </div>
-      <h3 className="biz-name">{b.id === "ormoscia" ? "ORMOSCIA" : b.brandName ?? b.title}</h3>
-      {b.id !== "ormoscia" && (b.brandName ? <p className="biz-sub">{b.title}</p> : <p className="biz-sub">{b.name}</p>)}
-      <p className="biz-desc">{b.description}</p>
-      <div className="biz-actions">
-        {b.id === "ormoscia" && site.ormosciaUrl && (
-          <a className="btn btn-line" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA 公式サイト<ExternalMark /></a>
-        )}
+      <div className="unit-side">
+        <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
+        {b.id === "ormoscia" &&
+          (site.ormosciaUrl ? (
+            <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span></a>
+          ) : (
+            <>
+              {contactEnabled && <a className="btn" href="#contact">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
+              <small className="note-sm">ブランドサイトは準備中です。</small>
+            </>
+          ))}
         {b.brandName === solutions.name && (
           <>
-            {solutions.url && <a className="btn btn-line" href={solutions.url} target="_blank" rel="noopener noreferrer">ARVR TECH 公式サイト<ExternalMark /></a>}
+            <SolutionsLink />
             <a className="text-link" href="#services">サービス内容を見る <span aria-hidden="true">→</span></a>
           </>
+        )}
+        {b.link && (
+          <a className="btn" href={b.link.href}>{b.link.label} <span aria-hidden="true">→</span></a>
         )}
       </div>
     </article>
@@ -80,129 +116,141 @@ function BusinessCard({ b, i }: { b: Business; i: number }) {
 
 export default function Home() {
   const year = new Date().getFullYear();
-  const navLinks = [
-    { href: "#about", label: "ABOUT", ja: "私たちについて" },
-    { href: "#philosophy", label: "PHILOSOPHY", ja: "企業理念" },
-    { href: "#business", label: "BUSINESS", ja: "事業" },
-    { href: "#services", label: "SERVICES", ja: "Web制作・AI導入" },
-    { href: "#story", label: "OUR STORY", ja: "創業の原点" },
-    ...(contactEnabled ? [{ href: "#contact", label: "CONTACT", ja: "お問い合わせ" }] : []),
-  ];
 
   return (
     <>
+      <Water />
       <ScrollFx />
-      <a className="skip" href="#about">本文へ移動</a>
-
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="ARA COMPANY トップへ">
-          <img className="brand-mark" src="/brand/company-mark.webp" alt="" width={420} height={284} />
-          <span className="brand-name">ARA COMPANY</span>
-        </a>
-        <SiteNav links={navLinks} />
+      <header className="site band">
+        <div className="wrap">
+          <a className="logo" href="#top"><span className="logo-mark" aria-hidden="true" /><b>ARA COMPANY</b></a>
+          <SiteNav
+            links={[
+              { href: "#about", label: "ABOUT", ja: "私たちについて" },
+              { href: "#philosophy", label: "PHILOSOPHY", ja: "企業理念" },
+              { href: "#business", label: "BUSINESS", ja: "事業構想" },
+              { href: "#services", label: "SERVICES", ja: "Web制作・AI導入" },
+              { href: "#story", label: "OUR STORY", ja: "創業の原点" },
+              ...(contactEnabled ? [{ href: "#contact", label: "CONTACT", ja: "お問い合わせ" }] : []),
+            ]}
+          />
+        </div>
       </header>
 
       <main id="top">
-        {/* ---------- ファーストビュー ---------- */}
-        <section className="hero" aria-labelledby="hero-title">
-          <InkField className="hero-ink" />
-          <div className="hero-light" aria-hidden="true" />
-          <div className="hero-grid">
-            <p className="hero-catch" lang="ja">
-              {Array.from(CATCH).map((ch, i) => (
-                <span key={i} style={d(i)} aria-hidden="true">{ch}</span>
-              ))}
-              <span className="sr-only">{CATCH}</span>
-            </p>
+        <section className="hero band">
+          <div className="wrap">
+            <h1 className="catch">挑戦が、<br />次の景色をつくる。</h1>
+            <div className="enso-wrap">
+              <Enso className="enso" />
+              <div className="enso-name">
+                <span className="ara">ARA</span>
+                <span className="co">COMPANY</span>
+              </div>
+              <span className="seal" aria-hidden="true">挑</span>
+            </div>
+            <div className="hero-side">
+              <span className="label">Brand Message</span>
+              <p className="en-purpose">{MESSAGE_EN}</p>
+              <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、個人事業として活動しています。</p>
+              <a className="btn" href="#story">OUR STORY <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
 
-            <div className="hero-center">
-              <BrushEnso className="hero-enso" />
-              <h1 id="hero-title" className="hero-logo">
-                <img src="/brand/company-mark.webp" alt="ARA COMPANY" width={420} height={284} fetchPriority="high" />
-              </h1>
-              <p className="hero-word" aria-hidden="true">ARA COMPANY</p>
+        <div className="portfolio band">
+          <div className="wrap">
+            <ul className="marks" aria-label="事業構想">
+              {businesses.map((b) => (
+                <li key={b.id}>
+                  <a className={`mark${isLead(b) ? "" : " open"}`} href={`#${b.id}`}>
+                    {isLead(b) ? <span className="seal">{b.kanji}</span> : <span className="slot">{b.kanji}</span>}
+                    <small>{b.name}</small>
+                    <small className="state">{statusLabel[b.status]}</small>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <span className="label">{site.base}を拠点に活動中</span>
+          </div>
+        </div>
+
+        <section className="block band" id="about">
+          <div className="wrap">
+            <div className="sec-head" data-reveal>
+              <span className="label">About</span>
+              <div>
+                <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
+                <p className="lead">ARA COMPANYは、{site.base}を拠点とする個人事業です。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
+              </div>
+            </div>
+            <table className="profile" data-reveal>
+              <tbody>
+                {profile.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td>{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="block band" id="philosophy">
+          <div className="wrap">
+            <div className="sec-head" data-reveal>
+              <span className="label">Philosophy</span>
+              <div><h2>企業理念</h2></div>
             </div>
 
-            <p className="hero-en" lang="en">{CATCH_EN}</p>
-          </div>
-          <span className="hero-seal" aria-hidden="true">挑</span>
-          <a className="hero-scroll" href="#about">
-            <span>SCROLL TO EXPLORE</span>
-            <span className="hero-scroll-line" aria-hidden="true" />
-          </a>
-        </section>
-
-        {/* ---------- ABOUT（生成り） ---------- */}
-        <section className="sec sec-light" id="about">
-          <div className="wrap">
-            <SectionHead
-              no="01"
-              en="ABOUT"
-              tone="light"
-              title={<>ファッションを起点に、<br />挑戦を支える事業を。</>}
-              lead={<>ARA COMPANYは、{site.base}を拠点とする個人事業です。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</>}
-            />
-            <dl className="profile" data-reveal>
-              {profile.map((row) => (
-                <div key={row.label}>
-                  <dt>{row.label}</dt>
-                  <dd>{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
-
-        {/* ---------- PHILOSOPHY ---------- */}
-        <section className="sec" id="philosophy">
-          <div className="wrap">
-            <SectionHead no="02" en="PHILOSOPHY" title="企業理念" />
-
-            <div className="purpose" data-reveal>
-              <p className="purpose-label">Our Purpose｜経営理念</p>
+            <div className="purpose" data-reveal="ink">
+              <span className="label">Our Purpose｜経営理念</span>
               <p className="purpose-ja">{PURPOSE_JA}</p>
-              <p className="purpose-en" lang="en">{PURPOSE_EN}</p>
+              <p className="purpose-en">{PURPOSE_EN}</p>
             </div>
 
-            <div className="block">
-              <div className="block-head" data-reveal>
-                <p className="label">Mission｜使命</p>
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Mission｜使命</span>
                 <h3>人の可能性を広げ、<br />挑戦を続けられる環境をつくる。</h3>
                 <p>商品やサービスを販売するだけでなく、人の生活や価値観に良い変化を生み出す。</p>
               </div>
-              <ul className="mission">
+              <div className="mission-grid">
                 {mission.map((m, i) => (
-                  <li key={m.k} data-reveal style={d(i)}>
-                    <span className="mission-big" aria-hidden="true">{m.big}</span>
-                    <span className="mission-k">{m.k}</span>
-                    <span className="mission-v">{m.v}</span>
-                  </li>
+                  <div key={m.k} className="mcol" data-reveal style={delay(i)}>
+                    <span className="big" aria-hidden="true">{m.big}</span>
+                    <span className="k">{m.k}</span>
+                    <span className="v">{m.v}</span>
+                  </div>
                 ))}
-              </ul>
-              <p className="block-tail" data-reveal>ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
+              </div>
+              <p className="mission-tail" data-reveal>ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
             </div>
 
-            <div className="block block-split">
-              <div className="block-head" data-reveal>
-                <p className="label">Vision｜目指す未来</p>
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Vision｜目指す未来</span>
                 <h3>挑戦する人が、<br />何度でも前を向ける社会へ。</h3>
               </div>
-              <div className="prose" data-reveal style={d(1)}>
+              <div className="prose" data-reveal>
                 <p>ARA COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
                 <p>その先にあるのは、競技を続けたいアスリートや、夢に向かって努力する人が、経済面・仕事・情報・人とのつながりなど、さまざまな面で支えを得られる環境です。</p>
               </div>
             </div>
 
-            <div className="block">
-              <div className="block-head" data-reveal>
-                <h3 className="label">Values｜5つの価値観</h3>
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Values｜5つの価値観</span>
               </div>
               <ol className="values">
                 {values.map((v, i) => (
-                  <li key={v.no} data-reveal style={d(i)}>
-                    <span className="values-no">{v.no}</span>
-                    <h4 className="values-ja">{v.ja}</h4>
-                    <span className="values-en" lang="en">{v.en}</span>
+                  <li key={v.no} data-reveal style={delay(i)}>
+                    <span className="no">{v.no}</span>
+                    <div>
+                      <span className="en">{v.en}</span>
+                      <h4>{v.ja}</h4>
+                    </div>
                     <p>{v.body}</p>
                   </li>
                 ))}
@@ -211,65 +259,73 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- BUSINESS ---------- */}
-        <section className="sec sec-arch" id="business">
+        <section className="block band" id="business">
           <div className="wrap">
-            <SectionHead
-              no="03"
-              en="BUSINESS"
-              title="事業"
-              lead="現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。"
-            />
-            <h3 className="group-title" data-reveal><span lang="en">NOW</span>現在の取り組み</h3>
-            <div className="biz-grid biz-grid-now">
-              {currentBusinesses.map((b, i) => <BusinessCard key={b.id} b={b} i={i} />)}
+            <div className="sec-head" data-reveal>
+              <span className="label">Business</span>
+              <div>
+                <h2>事業構想</h2>
+                <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
+              </div>
             </div>
-            <h3 className="group-title" data-reveal><span lang="en">FUTURE</span>将来構想</h3>
-            <div className="biz-grid biz-grid-future">
-              {futureBusinesses.map((b, i) => <BusinessCard key={b.id} b={b} i={i} />)}
+
+            <h3 className="units-group" data-reveal><span>NOW</span>現在の取り組み</h3>
+            <div className="units">
+              {currentBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
+            </div>
+            <h3 className="units-group" data-reveal><span>FUTURE</span>将来構想</h3>
+            <div className="units">
+              {futureBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
             </div>
           </div>
         </section>
 
-        {/* ---------- SERVICES（ARVR TECH） ---------- */}
-        <section className="sec" id="services">
+        <section className="block band" id="services">
           <div className="wrap">
-            <SectionHead
-              no="04"
-              en="SERVICES"
-              title="Web制作・AI導入"
-              lead="AI・テクノロジー事業として、Webサイトの制作から公開後の運用改善、AIの業務導入までご相談いただけます。"
-            />
-            <div className="arvr" data-reveal>
-              <p className="label">{solutions.name}</p>
-              <p className="arvr-rel">{solutions.relation}</p>
+            <div className="sec-head" data-reveal>
+              <span className="label">Services</span>
+              <div>
+                <h2>Web制作・AI導入</h2>
+                <p className="lead">AI・テクノロジー事業として、Webサイトの制作から公開後の運用改善、AIの業務導入までご相談いただけます。</p>
+              </div>
+            </div>
+
+            <div className="solutions-banner" data-reveal>
+              <span className="label">{solutions.name}</span>
+              <p className="solutions-relation">{solutions.relation}</p>
               <p>Web制作・Web運用改善・AIシステム導入支援は、{solutions.name}としてご相談を承っています。</p>
-              {solutions.url && <a className="btn btn-line" href={solutions.url} target="_blank" rel="noopener noreferrer">ARVR TECH 公式サイトを見る<ExternalMark /></a>}
+              <SolutionsLink />
             </div>
 
             <div className="services">
               {services.map((sv, i) => (
-                <article key={sv.id} className="service" data-reveal style={d(i)}>
-                  <p className="label" lang="en">{sv.en}</p>
+                <article key={sv.id} className="service" data-reveal style={delay(i)}>
+                  <span className="label">{sv.en}</span>
                   <h3>{sv.title}</h3>
-                  <p className="service-price">
-                    <span className="service-amount">{sv.price}</span>
-                    {sv.priceNote && <span className="service-note">（{sv.priceNote}）</span>}
+                  <p className="price">
+                    <span className="amount">{sv.price}</span>
+                    {sv.priceNote && <span className="price-note">（{sv.priceNote}）</span>}
                   </p>
-                  <p className="service-desc">{sv.description}</p>
-                  <ul>{sv.items.map((it) => <li key={it}>{it}</li>)}</ul>
-                  {contactEnabled && <a className="text-link" href={mailtoHref(sv.subject)}>メールで相談する <span aria-hidden="true">→</span></a>}
+                  <p className="desc">{sv.description}</p>
+                  <ul>
+                    {sv.items.map((it) => <li key={it}>{it}</li>)}
+                  </ul>
+                  {contactEnabled && (
+                    <a className="text-link" href={mailtoHref(sv.subject)}>メールで相談する <span aria-hidden="true">→</span></a>
+                  )}
                 </article>
               ))}
             </div>
             <p className="fine" data-reveal>※ {PRICE_NOTE}</p>
 
-            <div className="block">
-              <div className="block-head" data-reveal><h3 className="label">Flow｜ご相談の流れ</h3></div>
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Flow｜ご相談の流れ</span>
+              </div>
               <ol className="flow">
                 {flow.map((f, i) => (
-                  <li key={f.title} data-reveal style={d(i)}>
-                    <span className="flow-no">{String(i + 1).padStart(2, "0")}</span>
+                  <li key={f.title} data-reveal style={delay(i)}>
+                    <span className="no">{String(i + 1).padStart(2, "0")}</span>
                     <h4>{f.title}</h4>
                     <p>{f.body}</p>
                   </li>
@@ -277,26 +333,23 @@ export default function Home() {
               </ol>
             </div>
 
-            <div className="block">
-              <div className="block-head" data-reveal>
-                <p className="label">Demo｜制作デモ</p>
+            <div className="philo">
+              <div className="philo-head" data-reveal>
+                <span className="label">Demo｜制作デモ</span>
                 <h3>業種に合わせた、Webサイトの制作デモ。</h3>
                 <p>架空の店舗を想定して制作したデモです。実在の店舗や制作実績ではありません。</p>
               </div>
-              <ul className="demos">
-                {demos.map((dm, i) => (
-                  <li key={dm.href} data-reveal style={d(i)}>
-                    <a className={`demo demo-${dm.variant}`} href={dm.href}>
-                      <span className="demo-tag">DEMO</span>
-                      <span className="demo-ind">{dm.industry}</span>
-                      <span className="demo-name">{dm.name}</span>
-                      <span className="demo-tone">{dm.tone}</span>
-                      <span className="demo-go">デモを見る <span aria-hidden="true">→</span></span>
-                    </a>
-                  </li>
+              <div className="demos">
+                {demos.map((d, i) => (
+                  <a key={d.href} className={`demo-card demo-${d.variant}`} href={d.href} data-reveal style={delay(i)}>
+                    <span className="demo-tag">DEMO</span>
+                    <span className="demo-industry">{d.industry}</span>
+                    <span className="demo-name">{d.name}</span>
+                    <span className="demo-tone">{d.tone}</span>
+                    <span className="demo-go">デモを見る <span aria-hidden="true">→</span></span>
+                  </a>
                 ))}
-              </ul>
-              <p className="fine"><a className="text-link" href="/demo/">制作デモ一覧へ <span aria-hidden="true">→</span></a></p>
+              </div>
             </div>
 
             {contactEnabled && (
@@ -308,23 +361,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------- OUR STORY（生成り） ---------- */}
-        <section className="sec sec-light" id="story">
+        <section className="block band" id="story">
           <div className="wrap">
-            <SectionHead no="05" en="OUR STORY" tone="light" title="創業の原点" />
+            <div className="sec-head" data-reveal>
+              <span className="label">Our Story</span>
+              <div><h2>創業の原点</h2></div>
+            </div>
             <div className="story">
               {story.map((s, i) =>
-                s.quote ? (
-                  <blockquote key={i} className="story-quote" data-reveal>{s.text}</blockquote>
-                ) : (
-                  <p key={i} data-reveal>{s.text}</p>
-                )
+                s.quote ? <blockquote key={i} data-reveal="ink">{s.text}</blockquote> : <p key={i} data-reveal>{s.text}</p>
               )}
             </div>
 
             <div className="message" data-reveal>
-              <div className="message-head">
-                <p className="label">Founder&apos;s Message｜代表メッセージ</p>
+              <div className="philo-head" data-reveal>
+                <span className="label">Founder&apos;s Message｜代表メッセージ</span>
                 <h3>{PURPOSE_JA}</h3>
               </div>
               <div className="prose">
@@ -334,48 +385,51 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* ---------- CONTACT ---------- */}
-        {contactEnabled && (
-          <section className="sec sec-contact" id="contact">
-            <div className="wrap contact">
-              <div>
-                <SectionHead no="06" en="CONTACT" title="お問い合わせ" />
-                <p className="contact-note" data-reveal>Web制作・AI導入のご相談、ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
-                <ul className="topics" aria-label="お問い合わせの例" data-reveal>
-                  <li>Web制作のご相談</li>
-                  <li>AIシステム導入のご相談</li>
-                  <li>ORMOSCIAについて</li>
-                  <li>協業のご相談</li>
-                  <li>取材のご依頼</li>
-                </ul>
-              </div>
-              <div className="contact-card" data-reveal style={d(1)}>
-                <p className="label" lang="en">Email</p>
-                <p className="mail-addr" id="contact-email">{site.email}</p>
-                <div className="contact-actions">
-                  <MailButton className="btn" href={mailtoHref()} gmailHref={gmailHref()} />
-                  <CopyEmail email={site.email!} targetId="contact-email" />
-                </div>
-                <p className="note-sm">メールアプリが開かない場合は、<a href={gmailHref()} target="_blank" rel="noopener noreferrer">Gmailで作成する</a>か、アドレスをコピーしてお使いのメールからお送りください。</p>
-                {formEnabled && <ContactForm />}
-              </div>
-            </div>
-          </section>
-        )}
       </main>
 
-      <footer className="site-footer">
-        <div className="wrap footer-inner">
-          <div className="footer-brand">
-            <img src="/brand/company-mark.webp" alt="" width={420} height={284} loading="lazy" />
-            <p lang="en">{CATCH_EN}</p>
+      {contactEnabled && (
+      <section className="contact band" id="contact">
+        <div className="wrap">
+          <div data-reveal>
+            <span className="label">Contact</span>
+            <h2>お問い合わせ</h2>
+            <p className="note">Web制作・AI導入のご相談、ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
+            <ul className="topics" aria-label="お問い合わせの例">
+              <li>Web制作のご相談</li>
+              <li>AIシステム導入のご相談</li>
+              <li>ORMOSCIAについて</li>
+              <li>協業のご相談</li>
+              <li>取材のご依頼</li>
+            </ul>
           </div>
-          <nav className="footer-links" aria-label="関連サイト">
-            {site.ormosciaUrl && <a href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA（ファッション）<ExternalMark /></a>}
-            {solutions.url && <a href={solutions.url} target="_blank" rel="noopener noreferrer">{solutions.name}（Web・AI事業）<ExternalMark /></a>}
-          </nav>
-          <small>© {year} ARA COMPANY</small>
+          <div className="contact-card" data-reveal>
+            <span className="label">Email</span>
+            <p className="mail-addr" id="contact-email">{site.email}</p>
+            <div className="contact-actions">
+              <MailButton className="btn btn-mail" href={mailtoHref()} gmailHref={gmailHref()} />
+              <CopyEmail email={site.email!} targetId="contact-email" />
+            </div>
+            <p className="note-sm">メールアプリが開かない場合は、<a href={gmailHref()} target="_blank" rel="noopener noreferrer">Gmailで作成する</a>か、アドレスをコピーしてお使いのメールからお送りください。</p>
+            {formEnabled && <ContactForm />}
+          </div>
+        </div>
+      </section>
+      )}
+
+      <footer className="site band">
+        <div className="wrap">
+          <span>© {year} ARA COMPANY</span>
+          {site.ormosciaUrl && (
+            <a className="footer-link" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">
+              ORMOSCIA（ファッション）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
+            </a>
+          )}
+          {solutions.url && (
+            <a className="footer-link" href={solutions.url} target="_blank" rel="noopener noreferrer">
+              {solutions.name}（Web・AI事業）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
+            </a>
+          )}
+          <span className="label">{MESSAGE_EN}</span>
         </div>
       </footer>
     </>
