@@ -12,11 +12,11 @@ const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], preload: false, va
 const cormorant = Cormorant_Garamond({ weight: ["400", "500", "600"], style: ["normal", "italic"], subsets: ["latin"], preload: false, variable: "--font-cormorant" });
 
 const DESCRIPTION =
-  "ARA COMPANYは、大阪府を拠点にWeb制作・集客支援・LINE活用・業務効率化を行う個人事業です。ホームページ制作、LP制作、Web広告運用、LINE予約システム、NFC × LINE導入支援。";
+  "挑戦が、次の景色をつくる。ARA COMPANYは大阪府を拠点に、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・運用改善・AIシステム導入支援に取り組んでいます。";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
-  title: { default: `${site.name}｜ビジネスの可能性を、テクノロジーで広げる。`, template: `%s｜${site.name}` },
+  title: { default: `${site.name}｜挑戦が、次の景色をつくる。`, template: `%s｜${site.name}` },
   description: DESCRIPTION,
   openGraph: {
     type: "website",
@@ -26,9 +26,10 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
   },
   twitter: { card: "summary", title: site.name, description: DESCRIPTION },
+  alternates: siteUrl ? { canonical: "/" } : undefined,
 };
 
-export const viewport: Viewport = { viewportFit: "cover", themeColor: "#FFFFFF" };
+export const viewport: Viewport = { viewportFit: "cover", themeColor: "#08090A" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const fonts = [brush, mincho, gothic, archivo, cormorant].map((f) => f.variable).join(" ");
