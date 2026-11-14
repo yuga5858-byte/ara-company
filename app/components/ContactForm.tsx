@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { inquiryTopics } from "../services";
+
+// 送信先（site.contactEndpoint）が決まるまでは表示しない。お問い合わせはメールで受け付ける。
 
 export default function ContactForm() {
   const [message, setMessage] = useState("");
@@ -25,10 +28,7 @@ export default function ContactForm() {
       <div className="field">
         <label htmlFor="f-topic">お問い合わせの種類</label>
         <select id="f-topic" name="topic">
-          <option>ORMOSCIAについて</option>
-          <option>協業のご相談</option>
-          <option>取材のご依頼</option>
-          <option>その他</option>
+          {inquiryTopics.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
         </select>
       </div>
       <div className="field"><label htmlFor="f-body">お問い合わせ内容</label><textarea id="f-body" name="body" /></div>

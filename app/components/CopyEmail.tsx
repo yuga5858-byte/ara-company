@@ -27,7 +27,7 @@ export default function CopyEmail({ email, targetId }: { email: string; targetId
   }
 
   return (
-    <button type="button" className="btn btn-ghost" onClick={handleClick} aria-live="polite">
+    <button type="button" className="btn btn-line" onClick={handleClick} aria-live="polite">
       {copied ? "コピーしました" : "アドレスをコピー"}
     </button>
   );
