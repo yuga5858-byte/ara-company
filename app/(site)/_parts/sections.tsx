@@ -1,0 +1,317 @@
+// ARA COMPANY 公式サイトの各セクション（旧トップページの JSX をそのまま移したもの）。
+import ContactForm from "../../components/ContactForm";
+import Enso from "../../components/Enso";
+import CopyEmail from "../../components/CopyEmail";
+import MailButton from "../../components/MailButton";
+import { businesses, statusLabel, isLead } from "../../businesses";
+import { site, solutions, contactEnabled, formEnabled, mailtoHref, gmailHref } from "../../site";
+import { services, PRICE_NOTE, flow, demos } from "../../services";
+import { PURPOSE_JA, PURPOSE_EN, MESSAGE_EN, mission, values, story, message, delay, profile, currentBusinesses, futureBusinesses, SolutionsLink, BusinessUnit } from "./shared";
+
+export function Hero() {
+  return (
+      <section className="hero band">
+        <div className="wrap">
+          <h1 className="catch">挑戦が、<br />次の景色をつくる。</h1>
+          <div className="enso-wrap">
+            <Enso className="enso" />
+            <div className="enso-name">
+              <span className="ara">ARA</span>
+              <span className="co">COMPANY</span>
+            </div>
+            <span className="seal" aria-hidden="true">挑</span>
+          </div>
+          <div className="hero-side">
+            <span className="label">Brand Message</span>
+            <p className="en-purpose">{MESSAGE_EN}</p>
+            <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、個人事業として活動しています。</p>
+            <a className="btn" href="/story/">OUR STORY <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+  );
+}
+
+export function Portfolio() {
+  return (
+      <div className="portfolio band">
+        <div className="wrap">
+          <ul className="marks" aria-label="事業構想">
+            {businesses.map((b) => (
+              <li key={b.id}>
+                <a className={`mark${isLead(b) ? "" : " open"}`} href={`/business/#${b.id}`}>
+                  {isLead(b) ? <span className="seal">{b.kanji}</span> : <span className="slot">{b.kanji}</span>}
+                  <small>{b.name}</small>
+                  <small className="state">{statusLabel[b.status]}</small>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <span className="label">{site.base}を拠点に活動中</span>
+        </div>
+      </div>
+  );
+}
+
+export function AboutSection() {
+  return (
+      <section className="block band" id="about">
+        <div className="wrap">
+          <div className="sec-head" data-reveal>
+            <span className="label">About</span>
+            <div>
+              <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
+              <p className="lead">ARA COMPANYは、{site.base}を拠点とする個人事業です。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
+            </div>
+          </div>
+          <table className="profile" data-reveal>
+            <tbody>
+              {profile.map((row) => (
+                <tr key={row.label}>
+                  <th scope="row">{row.label}</th>
+                  <td>{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+  );
+}
+
+export function PhilosophySection() {
+  return (
+      <section className="block band" id="philosophy">
+        <div className="wrap">
+          <div className="sec-head" data-reveal>
+            <span className="label">Philosophy</span>
+            <div><h2>企業理念</h2></div>
+          </div>
+
+          <div className="purpose" data-reveal="ink">
+            <span className="label">Our Purpose｜経営理念</span>
+            <p className="purpose-ja">{PURPOSE_JA}</p>
+            <p className="purpose-en">{PURPOSE_EN}</p>
+          </div>
+
+          <div className="philo">
+            <div className="philo-head" data-reveal>
+              <span className="label">Mission｜使命</span>
+              <h3>人の可能性を広げ、<br />挑戦を続けられる環境をつくる。</h3>
+              <p>商品やサービスを販売するだけでなく、人の生活や価値観に良い変化を生み出す。</p>
+            </div>
+            <div className="mission-grid">
+              {mission.map((m, i) => (
+                <div key={m.k} className="mcol" data-reveal style={delay(i)}>
+                  <span className="big" aria-hidden="true">{m.big}</span>
+                  <span className="k">{m.k}</span>
+                  <span className="v">{m.v}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mission-tail" data-reveal>ファッションを通じて自信を、テクノロジーを通じて新しい選択肢を、事業を通じて仕事や居場所を生み出していく。</p>
+          </div>
+
+          <div className="philo">
+            <div className="philo-head" data-reveal>
+              <span className="label">Vision｜目指す未来</span>
+              <h3>挑戦する人が、<br />何度でも前を向ける社会へ。</h3>
+            </div>
+            <div className="prose" data-reveal>
+              <p>ARA COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
+              <p>その先にあるのは、競技を続けたいアスリートや、夢に向かって努力する人が、経済面・仕事・情報・人とのつながりなど、さまざまな面で支えを得られる環境です。</p>
+            </div>
+          </div>
+
+          <div className="philo">
+            <div className="philo-head" data-reveal>
+              <span className="label">Values｜5つの価値観</span>
+            </div>
+            <ol className="values">
+              {values.map((v, i) => (
+                <li key={v.no} data-reveal style={delay(i)}>
+                  <span className="no">{v.no}</span>
+                  <div>
+                    <span className="en">{v.en}</span>
+                    <h4>{v.ja}</h4>
+                  </div>
+                  <p>{v.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+  );
+}
+
+export function BusinessSection() {
+  return (
+      <section className="block band" id="business">
+        <div className="wrap">
+          <div className="sec-head" data-reveal>
+            <span className="label">Business</span>
+            <div>
+              <h2>事業構想</h2>
+              <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
+            </div>
+          </div>
+
+          <h3 className="units-group" data-reveal><span>NOW</span>現在の取り組み</h3>
+          <div className="units">
+            {currentBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
+          </div>
+          <h3 className="units-group" data-reveal><span>FUTURE</span>将来構想</h3>
+          <div className="units">
+            {futureBusinesses.map((b) => <BusinessUnit key={b.id} b={b} />)}
+          </div>
+        </div>
+      </section>
+  );
+}
+
+export function ServicesSection() {
+  return (
+      <section className="block band" id="services">
+        <div className="wrap">
+          <div className="sec-head" data-reveal>
+            <span className="label">Services</span>
+            <div>
+              <h2>Web制作・AI導入</h2>
+              <p className="lead">AI・テクノロジー事業として、Webサイトの制作から公開後の運用改善、AIの業務導入までご相談いただけます。</p>
+            </div>
+          </div>
+
+          <div className="solutions-banner" data-reveal>
+            <span className="label">{solutions.name}</span>
+            <p className="solutions-relation">{solutions.relation}</p>
+            <p>Web制作・Web運用改善・AIシステム導入支援は、{solutions.name}としてご相談を承っています。</p>
+            <SolutionsLink />
+          </div>
+
+          <div className="services">
+            {services.map((sv, i) => (
+              <article key={sv.id} className="service" data-reveal style={delay(i)}>
+                <span className="label">{sv.en}</span>
+                <h3>{sv.title}</h3>
+                <p className="price">
+                  <span className="amount">{sv.price}</span>
+                  {sv.priceNote && <span className="price-note">（{sv.priceNote}）</span>}
+                </p>
+                <p className="desc">{sv.description}</p>
+                <ul>
+                  {sv.items.map((it) => <li key={it}>{it}</li>)}
+                </ul>
+                {contactEnabled && (
+                  <a className="text-link" href={mailtoHref(sv.subject)}>メールで相談する <span aria-hidden="true">→</span></a>
+                )}
+              </article>
+            ))}
+          </div>
+          <p className="fine" data-reveal>※ {PRICE_NOTE}</p>
+
+          <div className="philo">
+            <div className="philo-head" data-reveal>
+              <span className="label">Flow｜ご相談の流れ</span>
+            </div>
+            <ol className="flow">
+              {flow.map((f, i) => (
+                <li key={f.title} data-reveal style={delay(i)}>
+                  <span className="no">{String(i + 1).padStart(2, "0")}</span>
+                  <h4>{f.title}</h4>
+                  <p>{f.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="philo">
+            <div className="philo-head" data-reveal>
+              <span className="label">Demo｜制作デモ</span>
+              <h3>業種に合わせた、Webサイトの制作デモ。</h3>
+              <p>架空の店舗を想定して制作したデモです。実在の店舗や制作実績ではありません。</p>
+            </div>
+            <div className="demos">
+              {demos.map((d, i) => (
+                <a key={d.href} className={`demo-card demo-${d.variant}`} href={d.href} data-reveal style={delay(i)}>
+                  <span className="demo-tag">DEMO</span>
+                  <span className="demo-industry">{d.industry}</span>
+                  <span className="demo-name">{d.name}</span>
+                  <span className="demo-tone">{d.tone}</span>
+                  <span className="demo-go">デモを見る <span aria-hidden="true">→</span></span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {contactEnabled && (
+            <div className="services-cta" data-reveal>
+              <p>制作内容が決まっていなくても大丈夫です。まずは現在の状況やご希望をお聞かせください。</p>
+              <a className="btn" href={mailtoHref("Web制作のご相談")}>Web制作について相談する <span aria-hidden="true">→</span></a>
+            </div>
+          )}
+        </div>
+      </section>
+  );
+}
+
+export function StorySection() {
+  return (
+      <section className="block band" id="story">
+        <div className="wrap">
+          <div className="sec-head" data-reveal>
+            <span className="label">Our Story</span>
+            <div><h2>創業の原点</h2></div>
+          </div>
+          <div className="story">
+            {story.map((s, i) =>
+              s.quote ? <blockquote key={i} data-reveal="ink">{s.text}</blockquote> : <p key={i} data-reveal>{s.text}</p>
+            )}
+          </div>
+
+          <div className="message" data-reveal>
+            <div className="philo-head" data-reveal>
+              <span className="label">Founder&apos;s Message｜代表メッセージ</span>
+              <h3>{PURPOSE_JA}</h3>
+            </div>
+            <div className="prose">
+              {message.map((m, i) => <p key={i}>{m}</p>)}
+              <p className="sign">ARA COMPANY 代表</p>
+            </div>
+          </div>
+        </div>
+      </section>
+  );
+}
+
+export function ContactSection() {
+  if (!contactEnabled) return null;
+  return (
+      <section className="contact band" id="contact">
+        <div className="wrap">
+          <div data-reveal>
+            <span className="label">Contact</span>
+            <h2>お問い合わせ</h2>
+            <p className="note">Web制作・AI導入のご相談、ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
+            <ul className="topics" aria-label="お問い合わせの例">
+              <li>Web制作のご相談</li>
+              <li>AIシステム導入のご相談</li>
+              <li>ORMOSCIAについて</li>
+              <li>協業のご相談</li>
+              <li>取材のご依頼</li>
+            </ul>
+          </div>
+          <div className="contact-card" data-reveal>
+            <span className="label">Email</span>
+            <p className="mail-addr" id="contact-email">{site.email}</p>
+            <div className="contact-actions">
+              <MailButton className="btn btn-mail" href={mailtoHref()} gmailHref={gmailHref()} />
+              <CopyEmail email={site.email!} targetId="contact-email" />
+            </div>
+            <p className="note-sm">メールアプリが開かない場合は、<a href={gmailHref()} target="_blank" rel="noopener noreferrer">Gmailで作成する</a>か、アドレスをコピーしてお使いのメールからお送りください。</p>
+            {formEnabled && <ContactForm />}
+          </div>
+        </div>
+      </section>
+  );
+}
