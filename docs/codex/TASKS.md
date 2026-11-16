@@ -27,3 +27,15 @@
 | 1 | アートディレクション・実装（トップページ） | app/(site)/、app/layout.tsx、app/components/ScrollFx.tsx、app/services.ts | Claude Code | 保留（墨の背景つきで公開後、社長の判断で前のデザインに戻した 2026-11-11。部品 InkField・BrushEnso はリポジトリに残す） | claude/renewal-2026-11 | 文章は content.ts に旧サイトから一字一句移動 |
 | 2 | レビュー（アクセシビリティ・スマホ表示・内容のルール） | — | Codex | 未着手 | | PR を開くと自動でレビュー |
 | 3 | 本番公開 | — | Claude Code | 未着手 | | 社長の最終承認後 |
+
+---
+
+## 作業：ARA COMPANY 公式サイトの複数ページ化と白い墨の水面（2026-11-15／依頼：社長）
+
+方針：今のデザインのまま、トップ／私たちについて／企業理念／事業構想／Web制作・AI導入／創業の原点／お問い合わせ に分ける。文章は一字一句そのまま。背景の水面に白い墨が溶けて流れる表現を足す。
+
+| No | タスク | 触ってよいファイル | 担当 | 状態 | ブランチ | メモ |
+|---|---|---|---|---|---|---|
+| 1 | ページ分け・白い墨 | app/(site)/、app/components/Water.tsx、app/sitemap.ts | Claude Code | レビュー待ち | claude/ara-multipage-white-ink | 旧URL（/#story など）は該当ページへ自動で移動 |
+| 2 | レビュー | — | Codex | 未着手 | | PR を開くと自動でレビュー |
+| 3 | 本番公開 | — | Claude Code | 未着手 | | 社長の承認後 |

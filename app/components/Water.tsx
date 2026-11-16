@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 // 画面全体の背景に、ゆっくり揺れる黒い水面を WebGL で描く。
-// マウスやタップの位置に波紋が広がる。
+// 水の中を白い墨がゆっくり溶けて流れ、マウスやタップの位置に波紋が広がる（波紋で墨も揺れる）。
 const MAX_RIPPLES = 8;
 const RENDER_SCALE = 0.6;
 // 水面の模様の細かさ（小さいほど大きくゆったりした波）
@@ -49,6 +49,13 @@ float height(vec2 p) {
   return h;
 }
 
+// 白い墨：水の流れで何度もねじれた雲（ドメインワープ）。濃い部分は乳白の雲、縁には細いすじ
+float inkField(vec2 p, float t) {
+  vec2 q = vec2(fbm(p * 0.55 + vec2(0.0, t * 0.018)), fbm(p * 0.55 + vec2(5.2, 1.3) - vec2(t * 0.012, 0.0)));
+  vec2 r = vec2(fbm(p * 0.55 + 2.6 * q + vec2(1.7, 9.2) + t * 0.025), fbm(p * 0.55 + 2.6 * q + vec2(8.3, 2.8) - t * 0.02));
+  return fbm(p * 0.55 + 2.8 * r);
+}
+
 void main() {
   float aspect = u_res.x / u_res.y;
   vec2 uv = gl_FragCoord.xy / u_res;
@@ -71,6 +78,15 @@ void main() {
   vec3 col = base + vec3(0.04, 0.05, 0.06) * h;
   col += vec3(0.50, 0.54, 0.58) * sheen * 0.7;
   col += vec3(0.80, 0.82, 0.85) * spec * 0.16;
+
+  // 白い墨が水に溶けて流れる。水面の傾きで少しゆがませ、波紋が通ると墨も揺れて見えるようにする
+  float f = inkField(p + n.xy * 0.35, u_time);
+  float cloud = smoothstep(0.48, 0.78, f);
+  float thread = smoothstep(0.035, 0.0, abs(f - 0.56)) * 0.55;
+  float ink = clamp(cloud * 0.75 + thread, 0.0, 1.0);
+  vec3 milk = vec3(0.86, 0.85, 0.82);
+  col = mix(col, milk * (0.62 + 0.38 * sheen), ink * 0.52);
+  col += milk * spec * ink * 0.25;
 
   // 上から差す月明かり
   float glow = smoothstep(1.1, 0.0, distance(uv, vec2(0.62, 1.05)));
@@ -120,7 +136,11 @@ export default function Water() {
     const ripples = new Float32Array(MAX_RIPPLES * 3);
     let next = 0;
     const t0 = performance.now();
-    const now = () => (performance.now() - t0) / 1000 + 10;
+    // パソコンで「アニメーションを減らす」設定（Windows の「アニメーション効果」オフなど）のときも、
+    // 水面は止めずに、ゆっくり静かに流す（波紋・速い動きは出さない）
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const speed = reduce ? 0.35 : 1;
+    const now = () => ((performance.now() - t0) / 1000) * speed + 10;
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2) * RENDER_SCALE;
@@ -163,28 +183,29 @@ export default function Water() {
     }
 
     resize();
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
-    const loop = () => {
-      render();
+    let last = 0;
+    const loop = (t: number) => {
       frame = requestAnimationFrame(loop);
+      if (reduce && t - last < 32) return; // 動きを減らす設定では約30fpsで十分
+      last = t;
+      render();
     };
 
-    if (reduce) {
-      render();
-    } else {
-      frame = requestAnimationFrame(loop);
+    render();
+    frame = requestAnimationFrame(loop);
+    if (!reduce) {
       window.addEventListener("pointermove", onMove, { passive: true });
       window.addEventListener("pointerdown", onDown, { passive: true });
     }
 
     const onResize = () => {
       resize();
-      if (reduce) render();
+      render();
     };
     const onVisibility = () => {
       cancelAnimationFrame(frame);
-      if (!document.hidden && !reduce) frame = requestAnimationFrame(loop);
+      if (!document.hidden) frame = requestAnimationFrame(loop);
     };
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVisibility);

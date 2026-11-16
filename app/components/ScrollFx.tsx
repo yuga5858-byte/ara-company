@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 // スクロール演出：[data-reveal] の要素を画面に入ったときに浮かび上がらせ、
 // トップの円相と縦書きの言葉をスクロール量に合わせて動かす。
 // JS が動かない環境や「視差効果を減らす」設定では、すべて最初から表示されたままにする。
+// 共通レイアウトに置くため、ページを移るたびに新しいページの要素を登録し直す。
 export default function ScrollFx() {
+  const pathname = usePathname();
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const root = document.documentElement;
@@ -52,7 +55,7 @@ export default function ScrollFx() {
       window.removeEventListener("scroll", onScroll);
       root.classList.remove("fx");
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
