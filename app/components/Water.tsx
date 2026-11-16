@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 // 画面全体の背景に、ゆっくり揺れる黒い水面を WebGL で描く。
-// 水の中を金色の墨がゆっくり溶けて流れ、マウスやタップの位置に波紋が広がる（波紋で墨も揺れる）。
+// 水の中を白い墨がゆっくり溶けて流れ、マウスやタップの位置に波紋が広がる（波紋で墨も揺れる）。
 const MAX_RIPPLES = 8;
 const RENDER_SCALE = 0.6;
 // 水面の模様の細かさ（小さいほど大きくゆったりした波）
@@ -23,8 +23,8 @@ const v3 = (hex: string) => {
   return `vec3(${[16, 8, 0].map((s) => (((n >> s) & 255) / 255).toFixed(3)).join(", ")})`;
 };
 
-// 色：墨と金（黒い水に、金色の細いすじ）。2026-11-16 社長が A 藍墨／B 墨と金／C 青磁 から選んだ
-const PALETTE: Palette = { base: "#09080A", tint: "#0E0C0A", sheen: "#6F6658", spec: "#E2CFA4", glow: "#15110B", ink: "#C9A96A", inkAmt: 0.26, cloud: 0.25, thread: 1.0 };
+// 色：黒い水に白い墨（2026-11-16 社長の判断で、墨と金から戻した）
+const PALETTE: Palette = { base: "#07080A", tint: "#0A0D0F", sheen: "#808A94", spec: "#CCD1D9", glow: "#0D0E0F", ink: "#DBD9D1", inkAmt: 0.52, cloud: 0.75, thread: 1.0 };
 
 const frag = (c: Palette) => `
 precision highp float;
