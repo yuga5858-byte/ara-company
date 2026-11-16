@@ -36,6 +36,6 @@
 
 | No | タスク | 触ってよいファイル | 担当 | 状態 | ブランチ | メモ |
 |---|---|---|---|---|---|---|
-| 1 | ページ分け・白い墨 | app/(site)/、app/components/Water.tsx、app/sitemap.ts | Claude Code | レビュー待ち | claude/ara-multipage-white-ink | 旧URL（/#story など）は該当ページへ自動で移動 |
-| 2 | レビュー | — | Codex | 未着手 | | PR を開くと自動でレビュー |
-| 3 | 本番公開 | — | Claude Code | 未着手 | | 社長の承認後 |
+| 1 | ページ分け・白い墨 | app/(site)/、app/components/Water.tsx、app/sitemap.ts | Claude Code | 完了 | claude/ara-multipage-white-ink | 旧URL（/#story など）は該当ページへ自動で移動 |
+| 2 | レビュー | — | Codex | 完了 | | 指摘1件（ページ移動後にスクロール演出が出ない）を 92d8b76 で修正 |
+| 3 | 本番公開 | — | Claude Code | 完了 | | 2026-11-16 社長の承認で公開（#13）。パソコンの「アニメーションを減らす」設定でも水面がゆっくり動くよう修正済み |
