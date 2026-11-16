@@ -1,5 +1,16 @@
 import { Hero, Portfolio, ContactSection } from "./_parts/sections";
 import LegacyHashRedirect from "./_parts/LegacyHashRedirect";
+import { site, siteUrl } from "../site";
+
+// 検索エンジン向け：サイト名と読み方（Google の検索結果のサイト名に使われる）
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  alternateName: [site.nameKana, "アラ カンパニー"],
+  url: `${siteUrl}/`,
+  inLanguage: "ja",
+};
 
 // トップページ：ファーストビューと、各ページへの入口
 const menu = [
@@ -13,6 +24,7 @@ const menu = [
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <LegacyHashRedirect />
       <main id="top">
         <Hero />
