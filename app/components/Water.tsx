@@ -136,7 +136,11 @@ export default function Water() {
     const ripples = new Float32Array(MAX_RIPPLES * 3);
     let next = 0;
     const t0 = performance.now();
-    const now = () => (performance.now() - t0) / 1000 + 10;
+    // パソコンで「アニメーションを減らす」設定（Windows の「アニメーション効果」オフなど）のときも、
+    // 水面は止めずに、ゆっくり静かに流す（波紋・速い動きは出さない）
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const speed = reduce ? 0.35 : 1;
+    const now = () => ((performance.now() - t0) / 1000) * speed + 10;
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2) * RENDER_SCALE;
@@ -179,28 +183,29 @@ export default function Water() {
     }
 
     resize();
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
-    const loop = () => {
-      render();
+    let last = 0;
+    const loop = (t: number) => {
       frame = requestAnimationFrame(loop);
+      if (reduce && t - last < 32) return; // 動きを減らす設定では約30fpsで十分
+      last = t;
+      render();
     };
 
-    if (reduce) {
-      render();
-    } else {
-      frame = requestAnimationFrame(loop);
+    render();
+    frame = requestAnimationFrame(loop);
+    if (!reduce) {
       window.addEventListener("pointermove", onMove, { passive: true });
       window.addEventListener("pointerdown", onDown, { passive: true });
     }
 
     const onResize = () => {
       resize();
-      if (reduce) render();
+      render();
     };
     const onVisibility = () => {
       cancelAnimationFrame(frame);
-      if (!document.hidden && !reduce) frame = requestAnimationFrame(loop);
+      if (!document.hidden) frame = requestAnimationFrame(loop);
     };
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVisibility);
