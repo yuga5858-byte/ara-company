@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 // 画面全体の背景に、ゆっくり揺れる黒い水面を WebGL で描く。
-// 水の中を白い墨がゆっくり溶けて流れ、マウスやタップの位置に波紋が広がる（波紋で墨も揺れる）。
+// 水の中を金色の墨がゆっくり溶けて流れ、マウスやタップの位置に波紋が広がる（波紋で墨も揺れる）。
 const MAX_RIPPLES = 8;
 const RENDER_SCALE = 0.6;
 // 水面の模様の細かさ（小さいほど大きくゆったりした波）
@@ -14,7 +14,19 @@ attribute vec2 a_pos;
 void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
 `;
 
-const FRAG = `
+type Palette = {
+  base: string; tint: string; sheen: string; spec: string; glow: string;
+  ink: string; inkAmt: number; cloud: number; thread: number;
+};
+const v3 = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `vec3(${[16, 8, 0].map((s) => (((n >> s) & 255) / 255).toFixed(3)).join(", ")})`;
+};
+
+// 色：墨と金（黒い水に、金色の細いすじ）。2026-11-16 社長が A 藍墨／B 墨と金／C 青磁 から選んだ
+const PALETTE: Palette = { base: "#09080A", tint: "#0E0C0A", sheen: "#6F6658", spec: "#E2CFA4", glow: "#15110B", ink: "#C9A96A", inkAmt: 0.26, cloud: 0.25, thread: 1.0 };
+
+const frag = (c: Palette) => `
 precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
@@ -49,7 +61,7 @@ float height(vec2 p) {
   return h;
 }
 
-// 白い墨：水の流れで何度もねじれた雲（ドメインワープ）。濃い部分は乳白の雲、縁には細いすじ
+// 墨：水の流れで何度もねじれた雲（ドメインワープ）。濃い部分は乳白の雲、縁には細いすじ
 float inkField(vec2 p, float t) {
   vec2 q = vec2(fbm(p * 0.55 + vec2(0.0, t * 0.018)), fbm(p * 0.55 + vec2(5.2, 1.3) - vec2(t * 0.012, 0.0)));
   vec2 r = vec2(fbm(p * 0.55 + 2.6 * q + vec2(1.7, 9.2) + t * 0.025), fbm(p * 0.55 + 2.6 * q + vec2(8.3, 2.8) - t * 0.02));
@@ -74,23 +86,23 @@ void main() {
   float spec = pow(max(dot(reflect(-L, n), V), 0.0), 90.0);
   float sheen = pow(1.0 - n.z, 1.6);
 
-  vec3 base = vec3(0.028, 0.030, 0.034);
-  vec3 col = base + vec3(0.04, 0.05, 0.06) * h;
-  col += vec3(0.50, 0.54, 0.58) * sheen * 0.7;
-  col += vec3(0.80, 0.82, 0.85) * spec * 0.16;
+  vec3 base = ${v3(c.base)};
+  vec3 col = base + ${v3(c.tint)} * h;
+  col += ${v3(c.sheen)} * sheen * 0.7;
+  col += ${v3(c.spec)} * spec * 0.16;
 
-  // 白い墨が水に溶けて流れる。水面の傾きで少しゆがませ、波紋が通ると墨も揺れて見えるようにする
+  // 墨が水に溶けて流れる。水面の傾きで少しゆがませ、波紋が通ると墨も揺れて見えるようにする
   float f = inkField(p + n.xy * 0.35, u_time);
   float cloud = smoothstep(0.48, 0.78, f);
-  float thread = smoothstep(0.035, 0.0, abs(f - 0.56)) * 0.55;
-  float ink = clamp(cloud * 0.75 + thread, 0.0, 1.0);
-  vec3 milk = vec3(0.86, 0.85, 0.82);
-  col = mix(col, milk * (0.62 + 0.38 * sheen), ink * 0.52);
+  float thread = smoothstep(0.035, 0.0, abs(f - 0.56)) * 0.55 * ${c.thread.toFixed(2)};
+  float ink = clamp(cloud * ${c.cloud.toFixed(2)} + thread, 0.0, 1.0);
+  vec3 milk = ${v3(c.ink)};
+  col = mix(col, milk * (0.62 + 0.38 * sheen), ink * ${c.inkAmt.toFixed(2)});
   col += milk * spec * ink * 0.25;
 
   // 上から差す月明かり
   float glow = smoothstep(1.1, 0.0, distance(uv, vec2(0.62, 1.05)));
-  col += vec3(0.05, 0.055, 0.06) * glow;
+  col += ${v3(c.glow)} * glow;
   // 周辺減光
   col *= mix(0.55, 1.0, smoothstep(1.2, 0.3, distance(uv, vec2(0.5))));
 
@@ -115,7 +127,7 @@ export default function Water() {
 
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, frag(PALETTE)));
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
