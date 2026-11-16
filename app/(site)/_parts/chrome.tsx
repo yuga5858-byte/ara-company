@@ -31,7 +31,7 @@ export function SiteFooter() {
   return (
     <footer className="site band">
       <div className="wrap">
-        <span>© {year} ARA COMPANY</span>
+        <span>© {year} {site.name}（{site.nameKana}）</span>
         {site.ormosciaUrl && (
           <a className="footer-link" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">
             ORMOSCIA（ファッション）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>

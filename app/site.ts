@@ -8,6 +8,8 @@ export type ProfileRow = { label: string; value: string };
 
 export const site = {
   name: "ARA COMPANY",
+  // 読み方。検索で「アラカンパニー」と調べた人にも見つかるよう、タイトル・説明・構造化データに入れる
+  nameKana: "アラカンパニー",
   base: "大阪府",
   stage: "個人事業として運営（2026年11月開業）",
   policy: "ファッションを起点に、将来的にはAI・テクノロジー、スポーツ支援、コミュニティ事業などへ展開する。",
