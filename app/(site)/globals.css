@@ -1,14 +1,14 @@
 /* Layout: 夜の黒い水面の上に、白い墨の円相を一つ。縦書きの言葉と朱の落款を添え、罫線で区切って流す。
    水面と合わせるため、ライト・ダークの切り替えはせず黒一色で固定する。 */
 :root {
-  --paper: #0A090B;
+  --paper: #08090A;
   --paper-2: #121315;
   --ink: #ECE8DE;
   --ink-soft: #9E9A91;
   --line: #2B2C2E;
   --shu: #C8432B;
   --seal-fg: #F4F0E8;
-  --band: rgba(10, 9, 11, 0.74);
+  --band: rgba(8, 9, 10, 0.72);
   --band-fg: #ECE8DE;
   --f-brush: var(--font-brush), "Yuji Syuku", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --f-mincho: var(--font-mincho), "Hiragino Mincho ProN", "Yu Mincho", serif;
