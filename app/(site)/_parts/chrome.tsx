@@ -1,7 +1,7 @@
 // 全ページ共通の枠：水面の背景・スクロール演出・ヘッダー・フッター
 import Link from "next/link";
 import SiteNav from "../../components/SiteNav";
-import Water from "../../components/Water";
+import Smoke from "../../components/Smoke";
 import ScrollFx from "../../components/ScrollFx";
 import { site, solutions, contactEnabled } from "../../site";
 import { MESSAGE_EN } from "./shared";
@@ -51,7 +51,7 @@ export function SiteFooter() {
 export function SiteBackground() {
   return (
     <>
-      <Water />
+      <Smoke />
       <ScrollFx />
     </>
   );
