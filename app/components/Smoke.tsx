@@ -121,14 +121,25 @@ void main() {
   col += (hash(vUv * 900.0 + time) - 0.5) * 0.025;
   o = vec4(col, 1.0);
 }`,
+  // 前面の煙：触った場所だけに出る、文字の上にかかる乳白の煙（透明な背景に、乗算済みアルファで描く）
+  displayFront: `${HEAD}
+uniform sampler2D uDye; uniform vec2 dyeTexel; uniform float time;
+void main() {
+  float d = texture(uDye, vUv).r;
+  float t = texture(uDye, vUv + vec2(0.0, dyeTexel.y * 2.0)).r;
+  float a = (1.0 - exp(-d * 2.4)) * 0.93;
+  float shade = clamp(0.85 + (t - d) * 0.8, 0.6, 1.05);
+  vec3 smoke = vec3(0.80, 0.79, 0.76) * shade;
+  o = vec4(smoke * a, a);
+}`,
 };
 
 type Prog = { prog: WebGLProgram; u: Record<string, WebGLUniformLocation | null> };
 type FBO = { tex: WebGLTexture; fb: WebGLFramebuffer; w: number; h: number };
 type Double = { read: FBO; write: FBO; swap: () => void };
 
-function setup(canvas: HTMLCanvasElement) {
-  const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false, preserveDrawingBuffer: false });
+function setup(canvas: HTMLCanvasElement, alpha: boolean) {
+  const gl = canvas.getContext("webgl2", { alpha, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, preserveDrawingBuffer: false });
   if (!gl) return null;
   if (!gl.getExtension("EXT_color_buffer_float")) return null;
   gl.getExtension("OES_texture_float_linear");
@@ -191,28 +202,36 @@ function setup(canvas: HTMLCanvasElement) {
   return { gl, progs, fbo, double };
 }
 
-export default function Smoke() {
+// layer="back"：ページのうしろの背景の煙（いつも漂っている）
+// layer="front"：ページの前面の煙。マウス・指で触った場所にだけ濃い煙が出て、文字ごと少しのあいだかすませる
+export default function Smoke({ layer = "back" }: { layer?: "back" | "front" }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [fallback, setFallback] = useState(false);
+  const front = layer === "front";
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = setup(canvas);
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // 動きを減らす設定では、前面の煙（文字をかすませる演出）は出さない
+    if (front && reduce) return;
+    const ctx = setup(canvas, front);
     if (!ctx) {
       setFallback(true);
       return;
     }
     const { gl, progs, fbo, double } = ctx;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 760px)").matches;
-    const DYE_RES = small ? 320 : 640;
+    const SIM = front ? 96 : SIM_RES;
+    const DYE_RES = front ? (small ? 256 : 384) : small ? 320 : 640;
+    const dyeDissipation = front ? 1.3 : DYE_DISSIPATION; // 前面の煙は1〜2秒で晴れる
+    const buoyancy = front ? 0.5 : BUOYANCY;
 
     const sizeFor = (res: number) => {
       const aspect = window.innerWidth / window.innerHeight;
       return aspect >= 1 ? [Math.round(res * aspect), res] : [res, Math.round(res / aspect)];
     };
-    let [sw, sh] = sizeFor(SIM_RES);
+    let [sw, sh] = sizeFor(SIM);
     let [dw, dh] = sizeFor(DYE_RES);
     let velocity = double(sw, sh, gl.RG16F, gl.RG);
     let dye = double(dw, dh, gl.RGBA16F, gl.RGBA);
@@ -278,7 +297,7 @@ export default function Smoke() {
       tex(p, "uVelocity", velocity.read.tex);
       tex(p, "uDye", dye.read.tex);
       gl.uniform1f(p.u.dt, dt);
-      gl.uniform1f(p.u.strength, BUOYANCY);
+      gl.uniform1f(p.u.strength, buoyancy);
       blit(velocity.write);
       velocity.swap();
 
@@ -335,14 +354,14 @@ export default function Smoke() {
       tex(p, "uSource", dye.read.tex);
       gl.uniform2f(p.u.simTexel, 1 / sw, 1 / sh);
       gl.uniform1f(p.u.dt, dt);
-      gl.uniform1f(p.u.dissipation, DYE_DISSIPATION);
+      gl.uniform1f(p.u.dissipation, dyeDissipation);
       blit(dye.write);
       dye.swap();
     };
 
     let time = 0;
     const render = () => {
-      const p = prog("display", [1 / dw, 1 / dh]);
+      const p = prog(front ? "displayFront" : "display", [1 / dw, 1 / dh]);
       tex(p, "uDye", dye.read.tex);
       gl.uniform2f(p.u.dyeTexel, 1 / dw, 1 / dh);
       gl.uniform1f(p.u.time, time % 100);
@@ -352,6 +371,7 @@ export default function Smoke() {
     // 煙の湧き口：画面の下のほうを、ゆっくり左右に漂う
     const emitters = [0, 1, 2, 3].map((i) => ({ phase: i * 1.7, base: 0.18 + i * 0.22 }));
     const emit = () => {
+      if (front) return;
       for (const e of emitters) {
         const x = e.base + Math.sin(time * 0.13 + e.phase) * 0.08;
         const y = 0.02 + Math.max(0, Math.sin(time * 0.21 + e.phase * 2.3)) * 0.12;
@@ -375,6 +395,14 @@ export default function Smoke() {
       pointer.ready = true;
     };
     const onLeave = () => { pointer.ready = false; };
+    // 前面の煙：最後に触ってから少したったら、計算と描画を止める（煙はもう晴れている）
+    let lastActive = -1e9;
+    let idle = false;
+    const burst: { x: number; y: number }[] = [];
+    const onDown = (e: PointerEvent) => {
+      burst.push({ x: e.clientX / window.innerWidth, y: 1 - e.clientY / window.innerHeight });
+      lastActive = performance.now();
+    };
 
     // ほかの演出（オープニング・円相が崩れる演出）から煙を足す。
     // detail: { x, y（画面左下が0、右上が1）, dx, dy（煙を押す速さ）, amount（濃さ）, radius }
@@ -384,10 +412,10 @@ export default function Smoke() {
       const d = (e as CustomEvent<SmokePuff>).detail;
       if (d && queue.length < 64) queue.push(d);
     };
-    window.addEventListener("ara:smoke", onPuff);
+    if (!front) window.addEventListener("ara:smoke", onPuff);
 
     // 最初から煙が漂っている状態にする
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < (front ? 0 : 50); i++) {
       time += 1 / 30;
       if (i % 2 === 0) emit();
       step(1 / 30);
@@ -411,10 +439,35 @@ export default function Smoke() {
         splat(q.x, q.y, q.dx, q.dy, q.amount, q.radius);
       }
       if (pointer.moved) {
-        splat(pointer.x, pointer.y, pointer.dx, pointer.dy, 0.06, 0.0018);
+        if (front) {
+          // 触った場所に濃い煙。動かした分だけ流れる
+          const speed = Math.min(1, Math.hypot(pointer.dx, pointer.dy) / 400);
+          splat(pointer.x, pointer.y, pointer.dx * 0.6, pointer.dy * 0.6 + 40, 0.12 + speed * 0.25, 0.0022);
+          lastActive = now;
+        } else {
+          splat(pointer.x, pointer.y, pointer.dx, pointer.dy, 0.06, 0.0018);
+        }
         pointer.dx = pointer.dy = 0;
         pointer.moved = false;
       }
+      while (burst.length) {
+        const b = burst.shift()!;
+        for (let i = 0; i < 6; i++) {
+          const a = (i / 6) * Math.PI * 2;
+          splat(b.x, b.y, Math.cos(a) * 300, Math.sin(a) * 300 + 60, 0.35, 0.0035);
+        }
+      }
+      if (front && now - lastActive > 4000) {
+        if (!idle) {
+          idle = true;
+          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.clearColor(0, 0, 0, 0);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+        }
+        return;
+      }
+      idle = false;
       step(dt);
       render();
     };
@@ -423,6 +476,7 @@ export default function Smoke() {
     if (!reduce) {
       window.addEventListener("pointermove", onMove, { passive: true });
       document.documentElement.addEventListener("pointerleave", onLeave);
+      if (front) window.addEventListener("pointerdown", onDown, { passive: true });
     }
     const onVisibility = () => {
       cancelAnimationFrame(raf);
@@ -440,7 +494,7 @@ export default function Smoke() {
         // スマホでスクロール時にアドレスバーが出入りするだけなら、煙は作り直さない
         if (window.innerWidth === lastW) return;
         lastW = window.innerWidth;
-        [sw, sh] = sizeFor(SIM_RES);
+        [sw, sh] = sizeFor(SIM);
         [dw, dh] = sizeFor(DYE_RES);
         velocity = double(sw, sh, gl.RG16F, gl.RG);
         dye = double(dw, dh, gl.RGBA16F, gl.RGBA);
@@ -455,13 +509,14 @@ export default function Smoke() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("ara:smoke", onPuff);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [front]);
 
-  if (fallback) return <Water />;
-  return <canvas ref={ref} className="water" aria-hidden="true" />;
+  if (fallback) return front ? null : <Water />;
+  return <canvas ref={ref} className={front ? "smoke-front" : "water"} aria-hidden="true" />;
 }

@@ -53,6 +53,7 @@ export function SiteBackground() {
   return (
     <>
       <Smoke />
+      <Smoke layer="front" />
       <CinemaHud />
       <ScrollFx />
     </>
