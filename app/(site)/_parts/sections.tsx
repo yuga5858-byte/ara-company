@@ -1,6 +1,6 @@
 // ARA COMPANY 公式サイトの各セクション（旧トップページの JSX をそのまま移したもの）。
 import ContactForm from "../../components/ContactForm";
-import EnsoDissolve from "../../components/EnsoDissolve";
+import LogoSmoke from "../../components/LogoSmoke";
 import Enso from "../../components/Enso";
 import CopyEmail from "../../components/CopyEmail";
 import MailButton from "../../components/MailButton";
@@ -15,13 +15,14 @@ export function Hero() {
         <div className="wrap">
           <h1 className="catch">挑戦が、<br />次の景色をつくる。</h1>
           <div className="enso-wrap">
-            <Enso className="enso" />
-            <div className="enso-name">
-              <span className="ara">ARA</span>
-              <span className="co">COMPANY</span>
+            {/* ロゴ：LogoSmoke が煙の粒で描き直す。JS が動かない・動きを減らす設定では、この画像がそのまま見える */}
+            <div className="hero-logo">
+              {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
+              <img className="hero-emblem" src="/brand/ara-emblem.webp" alt="ARA COMPANY" width={635} height={633} decoding="async" fetchPriority="high" />
+              {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
+              <img className="hero-word" src="/brand/ara-wordmark.webp" alt="" width={900} height={62} decoding="async" />
             </div>
-            <span className="seal" aria-hidden="true">挑</span>
-            <EnsoDissolve />
+            <LogoSmoke />
           </div>
           <div className="hero-side">
             <span className="label">Brand Message</span>
