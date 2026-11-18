@@ -105,6 +105,8 @@ export default function Enso({ className }: { className?: string }) {
           done = target;
         }
         if (k < 1) frame = requestAnimationFrame(tick);
+        // 描き終わりを知らせる（円相が崩れる演出は、完成した円相を材料に読み取り直す）
+        else window.dispatchEvent(new Event("ara:enso-drawn"));
       };
       frame = requestAnimationFrame(tick);
     };

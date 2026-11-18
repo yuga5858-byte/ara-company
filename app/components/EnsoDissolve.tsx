@@ -176,12 +176,15 @@ export default function EnsoDissolve() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
+    // 描き終わる前に崩し始めた場合も、描き終わったら完成形で読み取り直す
+    window.addEventListener("ara:enso-drawn", onResize);
     if (progress() > 0) kick();
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("ara:enso-drawn", onResize);
       wrap.classList.remove("dissolving");
     };
   }, []);
