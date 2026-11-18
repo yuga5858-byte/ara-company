@@ -8,6 +8,13 @@ const worker = {
     if (url.hostname.endsWith(".workers.dev")) {
       return Response.redirect(CANONICAL_ORIGIN + url.pathname + url.search, 301);
     }
+    // 名前に「!」や「$」を含む先読み用ファイルは、Cloudflare の静的配信で転送のループになるため、
+    // 書き出し後に作った「_」に置き換えたコピーを返す（scripts/alias-special-files.mjs）
+    if (/[!$]|%21|%24/i.test(url.pathname)) {
+      const alias = new URL(url);
+      alias.pathname = url.pathname.replace(/[!$]|%21|%24/gi, "_");
+      return env.ASSETS.fetch(new Request(alias, request));
+    }
     return env.ASSETS.fetch(request);
   },
 };
