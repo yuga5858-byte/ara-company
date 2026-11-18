@@ -1,5 +1,6 @@
 // ARA COMPANY 公式サイトの各セクション（旧トップページの JSX をそのまま移したもの）。
 import ContactForm from "../../components/ContactForm";
+import EnsoDissolve from "../../components/EnsoDissolve";
 import Enso from "../../components/Enso";
 import CopyEmail from "../../components/CopyEmail";
 import MailButton from "../../components/MailButton";
@@ -20,6 +21,7 @@ export function Hero() {
               <span className="co">COMPANY</span>
             </div>
             <span className="seal" aria-hidden="true">挑</span>
+            <EnsoDissolve />
           </div>
           <div className="hero-side">
             <span className="label">Brand Message</span>
