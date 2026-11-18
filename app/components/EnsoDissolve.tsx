@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 // - 動きを減らす設定では何もしない（円相はそのまま）
 // - 親要素（.enso-wrap）の中に置く。元の円相と文字は、崩れ始めたら CSS で隠す（.enso-wrap.dissolving）
 
-type Grain = { x: number; y: number; a: number; delay: number; r1: number; r2: number; r3: number };
+type Grain = { x: number; y: number; a: number; c: number; delay: number; r1: number; r2: number; r3: number };
 
 export default function EnsoDissolve() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -27,7 +27,6 @@ export default function EnsoDissolve() {
     let H = 0;
     let img: ImageData | null = null;
     let buf: Uint32Array | null = null;
-    let color = 0;
     const small = window.matchMedia("(max-width: 760px)").matches;
     const STEP = 2;
 
@@ -45,10 +44,11 @@ export default function EnsoDissolve() {
       off.height = Math.max(1, Math.round(wr.height));
       const o = off.getContext("2d", { willReadFrequently: true });
       if (!o) return;
-      const enso = wrap.querySelector<HTMLCanvasElement>("canvas.enso");
-      if (enso) {
-        const er = enso.getBoundingClientRect();
-        o.drawImage(enso, er.left - wr.left, er.top - wr.top, er.width, er.height);
+      // ロゴ画像（または筆の円相）を材料にする
+      for (const el of wrap.querySelectorAll<HTMLCanvasElement | HTMLImageElement>("canvas.enso, img.hero-logo")) {
+        if (el instanceof HTMLImageElement && !el.complete) continue;
+        const er = el.getBoundingClientRect();
+        o.drawImage(el, er.left - wr.left, er.top - wr.top, er.width, er.height);
       }
       const ink = getComputedStyle(wrap).getPropertyValue("--ink").trim() || "#ECE8DE";
       o.fillStyle = ink;
@@ -63,10 +63,6 @@ export default function EnsoDissolve() {
       }
       o.globalAlpha = 1;
 
-      const hex = ink.replace("#", "");
-      const n = parseInt(hex.length === 3 ? hex.split("").map((c) => c + c).join("") : hex, 16);
-      // ImageData はリトルエンディアンで ABGR の順に並ぶ
-      color = ((n & 0xff) << 16) | (n & 0xff00) | ((n >> 16) & 0xff);
 
       const data = o.getImageData(0, 0, off.width, off.height).data;
       const ox = wr.left - cr.left;
@@ -74,7 +70,8 @@ export default function EnsoDissolve() {
       const list: Grain[] = [];
       for (let y = 0; y < off.height; y += STEP) {
         for (let x = 0; x < off.width; x += STEP) {
-          const a = data[(y * off.width + x) * 4 + 3];
+          const k = (y * off.width + x) * 4;
+          const a = data[k + 3];
           if (a < 30) continue;
           const r1 = Math.random();
           const xn = x / off.width;
@@ -82,6 +79,8 @@ export default function EnsoDissolve() {
             x: x + ox,
             y: y + oy,
             a: a / 255,
+            // 粒の色は、その場所の色（ImageData はリトルエンディアンで ABGR の順）
+            c: (data[k + 2] << 16) | (data[k + 1] << 8) | data[k],
             // 右側から先に崩れる（風が右上へ抜けていくように）
             delay: 0.55 * (1 - xn) + 0.3 * r1,
             r1,
@@ -117,7 +116,7 @@ export default function EnsoDissolve() {
           for (let xx = px; xx < px + size; xx++) {
             if (xx < 0 || xx >= W) continue;
             const i = yy * W + xx;
-            if (data[i * 4 + 3] < A) buf[i] = (A << 24) | color;
+            if (data[i * 4 + 3] < A) buf[i] = (A << 24) | g.c;
           }
         }
       }
@@ -178,6 +177,9 @@ export default function EnsoDissolve() {
     window.addEventListener("resize", onResize);
     // 描き終わる前に崩し始めた場合も、描き終わったら完成形で読み取り直す
     window.addEventListener("ara:enso-drawn", onResize);
+    // ロゴ画像の読み込みが終わったら、読み取り直す
+    const logo = wrap.querySelector<HTMLImageElement>("img.hero-logo");
+    logo?.addEventListener("load", onResize);
     if (progress() > 0) kick();
 
     return () => {
@@ -185,6 +187,7 @@ export default function EnsoDissolve() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("ara:enso-drawn", onResize);
+      logo?.removeEventListener("load", onResize);
       wrap.classList.remove("dissolving");
     };
   }, []);

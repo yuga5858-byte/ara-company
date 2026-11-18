@@ -497,7 +497,7 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 
 /* ===== 円相が煙・砂のように崩れる（EnsoDissolve） ===== */
 .enso-dust { position: absolute; left: -30%; top: -75%; width: 210%; height: 195%; pointer-events: none; z-index: 1; }
-.enso-wrap.dissolving .enso, .enso-wrap.dissolving .enso-name { visibility: hidden; }
+.enso-wrap.dissolving .enso, .enso-wrap.dissolving .enso-name, .enso-wrap.dissolving .hero-logo { visibility: hidden; }
 
 /* ===== 映画風の枠（CinemaHud） ===== */
 .cinema { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
@@ -556,3 +556,6 @@ html.menu-open .cinema { display: none; }
 
 /* ===== 前面の煙：触った場所が煙でかすむ（Smoke layer="front"） ===== */
 .smoke-front { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; display: block; pointer-events: none; }
+
+/* トップのロゴ（亀と円相の金のロゴ） */
+.hero-logo { display: block; width: 100%; height: auto; }

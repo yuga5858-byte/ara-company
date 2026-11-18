@@ -15,12 +15,8 @@ export function Hero() {
         <div className="wrap">
           <h1 className="catch">挑戦が、<br />次の景色をつくる。</h1>
           <div className="enso-wrap">
-            <Enso className="enso" />
-            <div className="enso-name">
-              <span className="ara">ARA</span>
-              <span className="co">COMPANY</span>
-            </div>
-            <span className="seal" aria-hidden="true">挑</span>
+            {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
+            <img className="hero-logo" src="/brand/ara-logo.webp" alt="ARA COMPANY" width={908} height={737} decoding="async" fetchPriority="high" />
             <EnsoDissolve />
           </div>
           <div className="hero-side">
