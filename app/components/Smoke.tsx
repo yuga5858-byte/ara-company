@@ -460,9 +460,15 @@ export default function Smoke({ layer = "back" }: { layer?: "back" | "front" }) 
       if (front && now - lastActive > 4000) {
         if (!idle) {
           idle = true;
+          // 画面だけでなく、計算用の煙と流れも空にする（タブを裏にしていた間の煙が、次に触ったときに戻らないように）
+          gl.clearColor(0, 0, 0, 0);
+          for (const f of [velocity.read, velocity.write, dye.read, dye.write, pressure.read, pressure.write]) {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, f.fb);
+            gl.viewport(0, 0, f.w, f.h);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+          }
           gl.bindFramebuffer(gl.FRAMEBUFFER, null);
           gl.viewport(0, 0, canvas.width, canvas.height);
-          gl.clearColor(0, 0, 0, 0);
           gl.clear(gl.COLOR_BUFFER_BIT);
         }
         return;
