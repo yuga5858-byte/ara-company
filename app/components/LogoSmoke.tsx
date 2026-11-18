@@ -8,7 +8,8 @@ import { useEffect, useRef } from "react";
 // - 何もしないでいると、粒はゆっくり元の位置へ戻り、ロゴの形に戻る
 // - スクロールすると、右から順に粒になって右上へ流れて消える（戻すと元に戻る）
 // - 動きを減らす設定・JavaScript が動かない場合は、元のロゴ画像をそのまま見せる
-// - 親要素（.enso-wrap）の中に置く。粒で描けるようになったら .smoke-ready を付けて、元の画像を透明にする（読み上げ用の alt は残る）
+// - 何もしていないときは、元のロゴ画像（くっきりした線）をそのまま見せる。触ったとき・スクロールしたときだけ粒に切り替え、
+//   粒が元の位置に戻りきったら、また画像に戻す（.grains-on の付け外しで、画像と粒を入れ替える。読み上げ用の alt は残る）
 
 type Grain = {
   hx: number; hy: number; a: number; c: number; delay: number;
@@ -38,6 +39,13 @@ export default function LogoSmoke() {
     let img: ImageData | null = null;
     let buf: Uint32Array | null = null;
     let ready = false;
+    let logoBox = { x0: 0, y0: 0, x1: 0, y1: 0 };
+    let on = false; // 粒で描いているか（false のときは元の画像を見せている）
+    let settledSince = 0;
+    const setOn = (v: boolean) => {
+      on = v;
+      wrap.classList.toggle("grains-on", v);
+    };
 
     // ロゴ画像を、粒の材料として読み取る
     const sample = () => {
@@ -53,9 +61,13 @@ export default function LogoSmoke() {
       off.height = H;
       const o = off.getContext("2d", { willReadFrequently: true });
       if (!o) return;
+      let minLX = W, minLY = H, maxLX = 0, maxLY = 0;
       for (const im of imgs) {
         const r = im.getBoundingClientRect();
-        o.drawImage(im, r.left - cr.left, r.top - cr.top, r.width, r.height);
+        const lx = r.left - cr.left, ly = r.top - cr.top;
+        o.drawImage(im, lx, ly, r.width, r.height);
+        minLX = Math.min(minLX, lx); minLY = Math.min(minLY, ly);
+        maxLX = Math.max(maxLX, lx + r.width); maxLY = Math.max(maxLY, ly + r.height);
       }
       const data = o.getImageData(0, 0, W, H).data;
       let minX = W;
@@ -82,7 +94,7 @@ export default function LogoSmoke() {
       for (const g of list) g.delay = 0.55 * (1 - (g.hx - minX) / span) + 0.3 * g.r1;
       grains = list;
       ready = true;
-      wrap.classList.add("smoke-ready");
+      logoBox = { x0: minLX, y0: minLY, x1: maxLX, y1: maxLY };
     };
 
     // 触った場所（キャンバスの座標）
@@ -133,9 +145,23 @@ export default function LogoSmoke() {
       const R = small ? 64 : 86;
       const R2 = pointer.burst ? (R * 2.6) ** 2 : R * R;
       const force = pointer.burst ? 2600 : 900;
-      const k = idle ? 7 : 0.4; // 元に戻ろうとする力
-      const damp = Math.exp(-(idle ? 4.2 : 1.4) * dt);
+      // ロゴの近くを触った・スクロールした、のどちらかで粒に切り替える
+      const near =
+        (touching || pointer.burst) &&
+        pointer.x > logoBox.x0 - R && pointer.x < logoBox.x1 + R &&
+        pointer.y > logoBox.y0 - R && pointer.y < logoBox.y1 + R;
+      if (!on) {
+        if (!near && p <= 0) {
+          pointer.burst = false;
+          return; // 何もしていない：画像のまま。粒は描かない
+        }
+        for (const g of grains) { g.ox = g.oy = g.vx = g.vy = 0; }
+        settledSince = 0;
+      }
+      const k = idle ? 10 : 0.4; // 元に戻ろうとする力
+      const damp = Math.exp(-(idle ? 6 : 1.4) * dt);
       let disturbed = false;
+      let maxOff = 0;
 
       buf.fill(0);
       const data = img.data;
@@ -160,6 +186,8 @@ export default function LogoSmoke() {
         g.vy *= damp;
         g.ox += g.vx * dt;
         g.oy += g.vy * dt;
+        const m = Math.abs(g.ox) + Math.abs(g.oy);
+        if (m > maxOff) maxOff = m;
 
         // スクロールで崩れる量
         let q = (p * 1.55 - g.delay) / 0.7;
@@ -196,6 +224,13 @@ export default function LogoSmoke() {
         }
       }
       ctx.putImageData(img, 0, 0);
+      if (!on) setOn(true);
+      // 粒が元の位置に戻りきって少したったら、くっきりした画像に戻す
+      // （戻りきらない粒が少し残っても、触らずに4秒たったら画像に戻す）
+      if (p <= 0 && idle && (maxOff < 1.5 || now - pointer.last > 4000)) {
+        if (!settledSince) settledSince = now;
+        else if (now - settledSince > 250) setOn(false);
+      } else settledSince = 0;
 
       // 吹き散らした場所から、背景にも煙を足す
       if (disturbed && now - lastPuff > 90) {
@@ -247,7 +282,7 @@ export default function LogoSmoke() {
       document.documentElement.removeEventListener("pointerleave", onLeave);
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
-      wrap.classList.remove("smoke-ready");
+      wrap.classList.remove("grains-on");
     };
   }, []);
 

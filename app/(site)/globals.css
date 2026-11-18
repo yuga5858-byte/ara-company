@@ -497,8 +497,12 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 
 /* ===== ロゴを煙の粒で描く・触ると崩れる・スクロールで崩れる（LogoSmoke） ===== */
 .enso-dust { position: absolute; left: -30%; top: -75%; width: 210%; height: 195%; pointer-events: none; z-index: 1; }
-/* 粒で描けるようになったら元の画像を透明にする（visibility ではなく opacity にして、読み上げ用の alt を残す） */
-.enso-wrap.smoke-ready .hero-logo img { opacity: 0; }
+/* 何もしていないときは画像（くっきりした線）、触った・スクロールしたときだけ粒（.grains-on）。戻るときは画像と粒をそっと入れ替える。
+   画像は visibility ではなく opacity で隠し、読み上げ用の alt を残す */
+.enso-wrap .hero-logo img { transition: opacity 0.5s ease; }
+.enso-wrap .enso-dust { opacity: 0; transition: opacity 0.5s ease; }
+.enso-wrap.grains-on .hero-logo img { opacity: 0; transition: none; }
+.enso-wrap.grains-on .enso-dust { opacity: 1; transition: none; }
 
 /* ===== 映画風の枠（CinemaHud） ===== */
 .cinema { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
