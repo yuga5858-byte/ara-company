@@ -113,7 +113,7 @@ void main() {
   float l = texture(uDye, vUv - vec2(dyeTexel.x * 2.0, 0.0)).r;
   float t = texture(uDye, vUv + vec2(0.0, dyeTexel.y * 2.0)).r;
   float a = 1.0 - exp(-d * 1.6);
-  float shade = clamp(0.75 + (t - d) * 2.2 + (d - l) * 1.2, 0.45, 1.15);
+  float shade = clamp(0.8 + (t - d) * 1.1 + (d - l) * 0.6, 0.55, 1.1);
   vec3 bg = vec3(0.027, 0.030, 0.035);
   vec3 smoke = vec3(0.86, 0.85, 0.82) * shade;
   vec3 col = mix(bg, smoke, a * 0.78);
@@ -376,8 +376,18 @@ export default function Smoke() {
     };
     const onLeave = () => { pointer.ready = false; };
 
+    // ほかの演出（オープニング・円相が崩れる演出）から煙を足す。
+    // detail: { x, y（画面左下が0、右上が1）, dx, dy（煙を押す速さ）, amount（濃さ）, radius }
+    type SmokePuff = { x: number; y: number; dx: number; dy: number; amount: number; radius: number };
+    const queue: SmokePuff[] = [];
+    const onPuff = (e: Event) => {
+      const d = (e as CustomEvent<SmokePuff>).detail;
+      if (d && queue.length < 64) queue.push(d);
+    };
+    window.addEventListener("ara:smoke", onPuff);
+
     // 最初から煙が漂っている状態にする
-    for (let i = 0; i < 160; i++) {
+    for (let i = 0; i < 50; i++) {
       time += 1 / 30;
       if (i % 2 === 0) emit();
       step(1 / 30);
@@ -396,6 +406,10 @@ export default function Smoke() {
       acc = 0;
       time += dt;
       emit();
+      while (queue.length) {
+        const q = queue.shift()!;
+        splat(q.x, q.y, q.dx, q.dy, q.amount, q.radius);
+      }
       if (pointer.moved) {
         splat(pointer.x, pointer.y, pointer.dx, pointer.dy, 0.06, 0.0018);
         pointer.dx = pointer.dy = 0;
@@ -441,6 +455,7 @@ export default function Smoke() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("ara:smoke", onPuff);
       document.documentElement.removeEventListener("pointerleave", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("resize", onResize);

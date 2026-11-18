@@ -93,7 +93,8 @@ export default function Enso({ className }: { className?: string }) {
     }
 
     redraw();
-    if (!reduce) {
+    // オープニング（IntroReveal）の間は描き始めを待つ
+    const startDraw = () => {
       const t0 = performance.now();
       const tick = (now: number) => {
         const k = Math.min(1, (now - t0) / DURATION);
@@ -106,7 +107,10 @@ export default function Enso({ className }: { className?: string }) {
         if (k < 1) frame = requestAnimationFrame(tick);
       };
       frame = requestAnimationFrame(tick);
-    }
+    };
+    const waiting = !reduce && document.documentElement.classList.contains("intro");
+    if (waiting) window.addEventListener("ara:intro-done", startDraw, { once: true });
+    else if (!reduce) startDraw();
 
     const ro = new ResizeObserver(() => {
       if (canvas.clientWidth !== size) redraw();
@@ -119,6 +123,7 @@ export default function Enso({ className }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(frame);
+      window.removeEventListener("ara:intro-done", startDraw);
       ro.disconnect();
       mq.removeEventListener("change", redraw);
       mo.disconnect();

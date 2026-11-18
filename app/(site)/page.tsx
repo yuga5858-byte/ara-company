@@ -1,5 +1,6 @@
 import { Hero, Portfolio, ContactSection } from "./_parts/sections";
 import LegacyHashRedirect from "./_parts/LegacyHashRedirect";
+import IntroReveal from "../components/IntroReveal";
 import { site, siteUrl } from "../site";
 
 // 検索エンジン向け：サイト名と読み方（Google の検索結果のサイト名に使われる）
@@ -26,6 +27,7 @@ export default function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <LegacyHashRedirect />
+      <IntroReveal />
       <main id="top">
         <Hero />
         <Portfolio />

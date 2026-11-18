@@ -39,3 +39,18 @@
 | 1 | ページ分け・白い墨 | app/(site)/、app/components/Water.tsx、app/sitemap.ts | Claude Code | 完了 | claude/ara-multipage-white-ink | 旧URL（/#story など）は該当ページへ自動で移動 |
 | 2 | レビュー | — | Codex | 完了 | | 指摘1件（ページ移動後にスクロール演出が出ない）を 92d8b76 で修正 |
 | 3 | 本番公開 | — | Claude Code | 完了 | | 2026-11-16 社長の承認で公開（#13）。パソコンの「アニメーションを減らす」設定でも水面がゆっくり動くよう修正済み |
+
+---
+
+## 作業：煙の背景と映画風の演出（2026-11-18／依頼：社長。参考：kazera.jp の雰囲気。素材・コードは使わない）
+
+方針：背景を水から煙（流体シミュレーション）に変え、映画風の枠・煙から現れるオープニング・スクロールで円相が煙に崩れる演出を足す。文章・ページ構成は変えない。重い作業のため分担を書くが、部品どうしが煙の背景に依存するので、実装は Claude Code がまとめて行い、Codex はレビューを担当する。
+
+| No | タスク | 触ってよいファイル | 担当 | 状態 | ブランチ | メモ |
+|---|---|---|---|---|---|---|
+| 1 | 煙の背景（WebGL2 流体。使えない端末は水面に戻す） | app/components/Smoke.tsx、app/(site)/_parts/chrome.tsx | Claude Code | レビュー待ち | claude/ara-smoke-bg | 試作済み（917d015） |
+| 2 | 映画風の枠（下の黒帯・スクロールの進み具合・四隅の SCENE／FRAME／TC） | app/components/CinemaHud.tsx、app/(site)/globals.css | Claude Code | レビュー待ち | claude/ara-smoke-bg | 読み上げ対象外（aria-hidden）。スマホは控えめに |
+| 3 | オープニング：煙の中から「ARA COMPANY」が現れる | app/components/IntroReveal.tsx、app/components/Enso.tsx、app/(site)/layout.tsx、app/layout.tsx | Claude Code | レビュー待ち | claude/ara-smoke-bg | 1回の訪問で1度だけ。クリック・スクロールで飛ばせる。動きを減らす設定では出さない |
+| 4 | スクロールで円相とロゴが煙・砂のように崩れる | app/components/EnsoDissolve.tsx、app/(site)/_parts/sections.tsx | Claude Code | レビュー待ち | claude/ara-smoke-bg | 戻すと元の形に戻る。動きを減らす設定では崩さない |
+| 5 | レビュー（表示崩れ・重さ・アクセシビリティ・内容のルール） | — | Codex | 未着手 | | PR を開くと自動でレビュー |
+| 6 | 本番公開 | — | Claude Code | 未着手 | | 社長の承認後 |

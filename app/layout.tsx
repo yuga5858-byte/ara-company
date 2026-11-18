@@ -34,7 +34,7 @@ export const viewport: Viewport = { viewportFit: "cover", themeColor: "#08090A" 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const fonts = [brush, mincho, gothic, archivo, cormorant].map((f) => f.variable).join(" ");
   return (
-    <html lang="ja" className={fonts}>
+    <html lang="ja" className={fonts} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

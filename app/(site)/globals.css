@@ -314,7 +314,8 @@ html.fx [data-reveal].is-in { opacity: 1; transform: none; filter: none; }
 html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 
 /* トップ：スクロールに合わせて円相が沈み、ゆっくり回る */
-.enso-wrap { transform: translateY(calc(var(--hero-p, 0) * 90px)) rotate(calc(var(--hero-p, 0) * -14deg)) scale(calc(1 - var(--hero-p, 0) * 0.08)); opacity: calc(1 - var(--hero-p, 0) * 0.7); will-change: transform; }
+/* 円相はスクロールで粒になって崩れる（EnsoDissolve）。判子だけ先に薄れる */
+.enso-wrap .seal { opacity: calc(1 - var(--hero-p, 0) * 4); }
 .catch { transform: translateY(calc(var(--hero-p, 0) * -50px)); }
 .hero-side { transform: translateY(calc(var(--hero-p, 0) * -24px)); }
 
@@ -492,3 +493,63 @@ html.fx .unit [data-reveal="ink"] { transition-delay: 0.25s; }
 .page-title + section.block .sec-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .page-title + section.block .sec-head:not(:has(.lead)) { margin-bottom: 0; }
 .page-title + section.contact .wrap { padding-top: clamp(40px, 6vw, 72px); }
+
+
+/* ===== 円相が煙・砂のように崩れる（EnsoDissolve） ===== */
+.enso-dust { position: absolute; left: -30%; top: -75%; width: 210%; height: 195%; pointer-events: none; z-index: 1; }
+.enso-wrap.dissolving .enso, .enso-wrap.dissolving .enso-name { visibility: hidden; }
+
+/* ===== 映画風の枠（CinemaHud） ===== */
+.cinema { position: fixed; inset: 0; pointer-events: none; z-index: 40; }
+.cinema-hud {
+  position: absolute; bottom: 30px; display: flex; flex-direction: column; gap: 3px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 10px; letter-spacing: 0.2em; line-height: 1.4; color: var(--ink-soft); opacity: 0.7;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+.cinema-bl { left: max(28px, env(safe-area-inset-left, 0px)); }
+.cinema-br { right: max(28px, env(safe-area-inset-right, 0px)); text-align: right; }
+.cinema-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; background: #000; }
+.cinema-progress {
+  position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--ink-soft);
+  transform: scaleX(0); transform-origin: left center; opacity: 0.8;
+}
+body { padding-bottom: 18px; }
+@media (max-width: 760px) {
+  .cinema-hud { bottom: 18px; font-size: 9px; letter-spacing: 0.14em; opacity: 0.55; }
+  .cinema-br, .cinema-tc { display: none; }
+  .cinema-bar { height: 8px; }
+  body { padding-bottom: 8px; }
+}
+
+/* ===== オープニング（IntroReveal） ===== */
+.intro-title { display: none; }
+html.intro .intro-title, html.intro-fading .intro-title {
+  display: flex; position: fixed; inset: 0; z-index: 60; pointer-events: none;
+  flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center;
+}
+.intro-name {
+  font-family: var(--f-mincho); font-size: clamp(1.4rem, 4vw, 2.6rem); letter-spacing: 0.6em; padding-left: 0.6em;
+  color: var(--ink);
+}
+.intro-sub { font-family: var(--f-mincho); font-size: clamp(0.75rem, 1.4vw, 0.9rem); letter-spacing: 0.35em; padding-left: 0.35em; color: var(--ink-soft); }
+html.intro .intro-name, html.intro .intro-sub { opacity: 0; }
+html.intro.intro-play .intro-name { animation: intro-in 1.8s 0.25s cubic-bezier(.2,.7,.2,1) both; }
+html.intro.intro-play .intro-sub { animation: intro-in 1.6s 0.8s cubic-bezier(.2,.7,.2,1) both; }
+html.intro-fading .intro-name, html.intro-fading .intro-sub { animation: intro-out 0.8s ease both; }
+@keyframes intro-in {
+  from { opacity: 0; filter: blur(18px); letter-spacing: 1.1em; }
+  to { opacity: 1; filter: blur(0); }
+}
+@keyframes intro-out {
+  from { opacity: 1; filter: blur(0); }
+  to { opacity: 0; filter: blur(14px); transform: translateY(-18px); }
+}
+/* オープニングの間は、煙と文字以外を隠す。終わったらゆっくり現れる */
+html.intro body > :not(.water):not(.intro-title) { opacity: 0; }
+html.intro .enso-wrap .seal { animation: none; opacity: 0; }
+html.intro-fading body > :not(.water):not(.intro-title) { transition: opacity 1.2s ease 0.4s; }
+/* 崩れた粒が横にはみ出しても、ページが横にスクロールしないようにする */
+.hero { overflow-x: clip; }
+/* スマホのメニューを開いているときは、枠の文字を出さない */
+html.menu-open .cinema { display: none; }

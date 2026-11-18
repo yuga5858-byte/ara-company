@@ -2,6 +2,7 @@
 import Link from "next/link";
 import SiteNav from "../../components/SiteNav";
 import Smoke from "../../components/Smoke";
+import CinemaHud from "../../components/CinemaHud";
 import ScrollFx from "../../components/ScrollFx";
 import { site, solutions, contactEnabled } from "../../site";
 import { MESSAGE_EN } from "./shared";
@@ -52,6 +53,7 @@ export function SiteBackground() {
   return (
     <>
       <Smoke />
+      <CinemaHud />
       <ScrollFx />
     </>
   );
