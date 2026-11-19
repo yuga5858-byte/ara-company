@@ -65,8 +65,8 @@ header.site {
 }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-/* ORMO COMPANY のマーク（public/brand/company-mark.webp。ブランドボードの「黒背景・白ロゴ」から切り出し、形は無加工） */
-.logo-mark { display: block; flex-shrink: 0; width: 40px; height: 27px; background: url("/brand/company-mark.webp") center / contain no-repeat; }
+/* ORMO COMPANY のマーク（public/brand/ormo-mark.webp。社長から受け取ったロゴ CONCEPT 01 の黒背景・白ロゴから切り出し、形は無加工） */
+.logo-mark { display: block; flex-shrink: 0; width: 46px; height: 24px; background: url("/brand/ormo-mark.webp") center / contain no-repeat; }
 .logo b { font-family: var(--f-mincho); font-weight: 700; letter-spacing: 0.24em; font-size: 0.9rem; }
 nav.main { display: flex; gap: 24px; flex-wrap: wrap; }
 nav.main a { text-decoration: none; font-family: var(--f-mincho); font-size: 0.88rem; color: var(--ink-soft); }
@@ -562,7 +562,7 @@ html.menu-open .cinema { display: none; }
 /* ===== 前面の煙：触った場所が煙でかすむ（Smoke layer="front"） ===== */
 .smoke-front { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; display: block; pointer-events: none; }
 
-/* トップのロゴ（亀と円相の金の紋章＋「ORMO COMPANY」） */
+/* トップのロゴ（ORMO company のマーク＋文字。社長から受け取ったロゴ CONCEPT 01） */
 .hero-logo { display: flex; flex-direction: column; align-items: center; gap: clamp(14px, 3vw, 26px); }
-.hero-emblem { display: block; width: 74%; height: auto; }
-.hero-word { display: block; width: 56%; height: auto; }
+.hero-emblem { display: block; width: 72%; height: auto; }
+.hero-word { display: block; width: 48%; height: auto; }

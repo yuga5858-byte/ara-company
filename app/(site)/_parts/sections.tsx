@@ -18,9 +18,9 @@ export function Hero() {
             {/* ロゴ：LogoSmoke が煙の粒で描き直す。JS が動かない・動きを減らす設定では、この画像がそのまま見える */}
             <div className="hero-logo">
               {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
-              <img className="hero-emblem" src="/brand/ara-emblem.webp" alt="ORMO COMPANY" width={635} height={633} decoding="async" fetchPriority="high" />
+              <img className="hero-emblem" src="/brand/ormo-mark.webp" alt="ORMO COMPANY" width={686} height={354} decoding="async" fetchPriority="high" />
               {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
-              <img className="hero-word" src="/brand/ormo-wordmark.webp" alt="" width={900} height={62} decoding="async" />
+              <img className="hero-word" src="/brand/ormo-wordmark.webp" alt="" width={670} height={190} decoding="async" />
             </div>
             <LogoSmoke />
           </div>
