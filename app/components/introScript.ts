@@ -1,5 +1,5 @@
 // オープニング（IntroReveal）を出すかどうかを、ページが描かれる前に決める小さなスクリプト。
-// html に .intro を付けると、CSS でページの中身を隠し、煙と「ARA COMPANY」だけを見せる。
+// html に .intro を付けると、CSS でページの中身を隠し、煙と「ORMO COMPANY」だけを見せる。
 // 1回の訪問で1度だけ（sessionStorage）。動きを減らす設定では出さない。
 export const INTRO_KEY = "ara-intro-seen";
 // JavaScript の読み込みに失敗してオープニングが終わらない場合に備え、6秒たったら必ず隠すのをやめる。

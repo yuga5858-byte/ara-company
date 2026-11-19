@@ -1,4 +1,4 @@
-// ARA COMPANY 公式サイトの共有部品と文章（2026-11 にトップ1ページから各ページへ分けたもの。文章は一字一句そのまま）。
+// ORMO COMPANY 公式サイトの共有部品と文章（2026-11 にトップ1ページから各ページへ分けたもの。文章は一字一句そのまま）。
 import ContactForm from "../../components/ContactForm";
 import CopyEmail from "../../components/CopyEmail";
 import MailButton from "../../components/MailButton";
@@ -41,7 +41,7 @@ export const story: { text: string; quote?: boolean }[] = [
   { text: "そして、自分と同じように、怪我や挫折によって夢を諦めかけている人たちの力になりたいと考えるようになりました。" },
   { text: "ただ、誰かを支えるためには、想いだけでは足りません。経済的な力、仕事を生み出す力、そして人が集まる場所が必要です。" },
   { text: "だからこそ、自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えられる会社をつくりたい。" },
-  { text: "その想いから生まれたのが、ARA COMPANYです。" },
+  { text: "その想いから生まれたのが、ORMO COMPANYです。" },
   { text: "私たちは、ファッションをはじめとするさまざまな事業を通じて、人と人をつなぎ、新しい価値を生み出していきます。" },
   { text: "そしていつか、挑戦したいという気持ちを持つ人が、環境や困難によって可能性を閉ざされない社会を実現したいと考えています。" },
 ];
@@ -50,11 +50,11 @@ export const message = [
   "私はこれまで、サッカーを通じて挑戦することの喜びと、思うように進めないことの苦しさを経験してきました。",
   "大きな怪我によって何度も立ち止まり、将来への不安を感じたこともあります。",
   "それでも、周囲の人たちに支えられ、挑戦を続けることができました。",
-  "この経験が、ARA COMPANYを立ち上げようと考えた原点です。",
+  "この経験が、ORMO COMPANYを立ち上げようと考えた原点です。",
   "私たちは、ファッションやテクノロジーをはじめ、さまざまな事業に挑戦していきます。",
   "まずは自分たちの手で価値を生み出し、事業を成長させる。そして、その成長を誰かの新しい可能性につなげていきたいと考えています。",
   "立ち止まることがあっても、そこで終わりではない。",
-  "ARA COMPANYは、挑戦する人とともに成長し続ける会社を目指します。",
+  "ORMO COMPANYは、挑戦する人とともに成長し続ける会社を目指します。",
 ];
 
 export const delay = (i: number) => ({ "--d": i }) as React.CSSProperties;
@@ -92,12 +92,12 @@ export function BusinessUnit({ b }: { b: Business }) {
       </div>
       <div className="unit-side">
         <span className={`status status-${b.status}`}>{statusLabel[b.status]}</span>
-        {b.id === "ormoscia" &&
-          (site.ormosciaUrl ? (
-            <a className="btn" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">ORMOSCIA公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span></a>
+        {b.id === "wear" &&
+          (site.beyondUrl ? (
+            <a className="btn" href={site.beyondUrl} target="_blank" rel="noopener noreferrer">BEyond Station公式サイトを見る <span aria-hidden="true">↗</span><span className="sr-only">（新しいタブで開きます）</span></a>
           ) : (
             <>
-              {contactEnabled && <a className="btn" href="/contact/">ORMOSCIAへのお問い合わせ <span aria-hidden="true">→</span></a>}
+              {contactEnabled && <a className="btn" href="/contact/">BEyond Stationへのお問い合わせ <span aria-hidden="true">→</span></a>}
               <small className="note-sm">ブランドサイトは準備中です。</small>
             </>
           ))}

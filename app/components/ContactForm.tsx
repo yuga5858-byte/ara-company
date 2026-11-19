@@ -25,7 +25,7 @@ export default function ContactForm() {
       <div className="field">
         <label htmlFor="f-topic">お問い合わせの種類</label>
         <select id="f-topic" name="topic">
-          <option>ORMOSCIAについて</option>
+          <option>BEyond Stationについて</option>
           <option>協業のご相談</option>
           <option>取材のご依頼</option>
           <option>その他</option>

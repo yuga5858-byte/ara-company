@@ -28,15 +28,16 @@ export const statusLabel: Record<BusinessStatus, string> = {
 
 export const businesses: Business[] = [
   {
-    id: "ormoscia",
-    name: "ORMOSCIA",
-    category: "Fashion & Culture",
+    id: "wear",
+    name: "ORMO WEAR",
+    category: "Apparel",
     kanji: "装",
-    title: "ORMOSCIA",
+    title: "ORMO WEAR",
     status: "preparing",
     brand: true,
+    brandName: "BEyond Station",
     description:
-      "立ち上げ準備中のファッションブランド。シンプルながら独自性のあるデザインを通じて、ファッションとスポーツカルチャーの融合を目指します。",
+      "立ち上げ準備中のアパレル事業。ブランド「BEyond Station」として、「その挑戦に、ともに。」をコンセプトに、シンプルで上質なスポーツラグジュアリーの服を目指します。",
   },
   {
     id: "technology",

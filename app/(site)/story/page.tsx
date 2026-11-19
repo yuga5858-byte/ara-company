@@ -4,9 +4,9 @@ import { StorySection } from "../_parts/sections";
 
 export const metadata: Metadata = {
   title: "創業の原点",
-  description: "怪我や挫折を経験したサッカーの道から、人が挑戦を続けられる環境をつくりたいと考え、ARA COMPANYを立ち上げました。",
+  description: "怪我や挫折を経験したサッカーの道から、人が挑戦を続けられる環境をつくりたいと考え、ORMO COMPANYを立ち上げました。",
   alternates: { canonical: "/story/" },
-  openGraph: { title: "創業の原点｜ARA COMPANY", description: "怪我や挫折を経験したサッカーの道から、人が挑戦を続けられる環境をつくりたいと考え、ARA COMPANYを立ち上げました。", url: "/story/" },
+  openGraph: { title: "創業の原点｜ORMO COMPANY", description: "怪我や挫折を経験したサッカーの道から、人が挑戦を続けられる環境をつくりたいと考え、ORMO COMPANYを立ち上げました。", url: "/story/" },
 };
 
 export default function Page() {

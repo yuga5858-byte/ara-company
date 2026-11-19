@@ -4,9 +4,9 @@ import { PhilosophySection } from "../_parts/sections";
 
 export const metadata: Metadata = {
   title: "企業理念",
-  description: "挑戦するすべての人に、次の可能性を。ARA COMPANYの経営理念・使命・目指す未来・5つの価値観。",
+  description: "挑戦するすべての人に、次の可能性を。ORMO COMPANYの経営理念・使命・目指す未来・5つの価値観。",
   alternates: { canonical: "/philosophy/" },
-  openGraph: { title: "企業理念｜ARA COMPANY", description: "挑戦するすべての人に、次の可能性を。ARA COMPANYの経営理念・使命・目指す未来・5つの価値観。", url: "/philosophy/" },
+  openGraph: { title: "企業理念｜ORMO COMPANY", description: "挑戦するすべての人に、次の可能性を。ORMO COMPANYの経営理念・使命・目指す未来・5つの価値観。", url: "/philosophy/" },
 };
 
 export default function Page() {

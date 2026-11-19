@@ -75,7 +75,7 @@ export default function SiteShell({
           </nav>
         </div>
         <p className={styles.footerNote}>
-          この会社・店舗は実在しません。ARVR TECH（運営：ARA COMPANY）による Web 制作デモです。
+          この会社・店舗は実在しません。ARVR TECH（運営：ORMO COMPANY）による Web 制作デモです。
         </p>
         <a className={styles.footerLink} href={solutions.url ?? "/#services"}>ARVR TECH の Web 制作について</a>
       </footer>

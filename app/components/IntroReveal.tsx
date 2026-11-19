@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { INTRO_KEY } from "./introScript";
 
-// トップページのオープニング：煙の中から「ARA COMPANY」が浮かび上がり、煙に溶けてからページが現れる。
+// トップページのオープニング：煙の中から「ORMO COMPANY」が浮かび上がり、煙に溶けてからページが現れる。
 // - 1回の訪問で1度だけ（sessionStorage）。動きを減らす設定では出さない
 // - クリック・キー操作・スクロールで、すぐに飛ばせる
 // - html に .intro を付けるのは、表示のちらつきを防ぐため layout の小さなスクリプトで行う（introScript.ts）
@@ -75,7 +75,7 @@ export default function IntroReveal() {
 
   return (
     <div className="intro-title" aria-hidden="true">
-      <span className="intro-name">ARA COMPANY</span>
+      <span className="intro-name">ORMO COMPANY</span>
       <span className="intro-sub">Create the next scenery.</span>
     </div>
   );
