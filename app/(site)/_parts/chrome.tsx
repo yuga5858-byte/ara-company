@@ -11,7 +11,7 @@ export function SiteHeader() {
   return (
     <header className="site band">
       <div className="wrap">
-        <Link className="logo" href="/"><span className="logo-mark" aria-hidden="true" /><b>ARA COMPANY</b></Link>
+        <Link className="logo" href="/"><span className="logo-mark" aria-hidden="true" /><b>ORMO COMPANY</b></Link>
         <SiteNav
           links={[
             { href: "/about/", label: "ABOUT", ja: "私たちについて" },
@@ -33,9 +33,9 @@ export function SiteFooter() {
     <footer className="site band">
       <div className="wrap">
         <span>© {year} {site.name}（{site.nameKana}）</span>
-        {site.ormosciaUrl && (
-          <a className="footer-link" href={site.ormosciaUrl} target="_blank" rel="noopener noreferrer">
-            ORMOSCIA（ファッション）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
+        {site.beyondUrl && (
+          <a className="footer-link" href={site.beyondUrl} target="_blank" rel="noopener noreferrer">
+            BEyond Station（アパレル）<span aria-hidden="true"> ↗</span><span className="sr-only">（新しいタブで開きます）</span>
           </a>
         )}
         {solutions.url && (

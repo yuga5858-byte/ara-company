@@ -154,7 +154,7 @@ export default function KisuLp() {
 
       <footer className={s.lpFooter}>
         <p className={s.logo}>{BRAND}<small>{BRAND_SUB}</small></p>
-        <p>この会社は実在しません。ARVR TECH（運営：ARA COMPANY）による Web 制作デモです。</p>
+        <p>この会社は実在しません。ARVR TECH（運営：ORMO COMPANY）による Web 制作デモです。</p>
         <a href={solutions.url ?? "/#services"}>ARVR TECH の Web 制作について</a>
       </footer>
 

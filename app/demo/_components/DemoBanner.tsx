@@ -7,7 +7,7 @@ export default function DemoBanner({ tone }: { tone: "dark" | "light" }) {
     <div className={`${styles.banner} ${tone === "dark" ? styles.bannerDark : styles.bannerLight}`} role="note">
       <p>
         <strong>制作デモ</strong>
-        このページは ARVR TECH（運営：ARA COMPANY）が制作した営業用のデモです。店舗名・所在地・料金・人物はすべて架空で、実在しません。
+        このページは ARVR TECH（運営：ORMO COMPANY）が制作した営業用のデモです。店舗名・所在地・料金・人物はすべて架空で、実在しません。
       </p>
       <a href={solutions.url ?? "/#services"}>ARVR TECHを見る</a>
     </div>

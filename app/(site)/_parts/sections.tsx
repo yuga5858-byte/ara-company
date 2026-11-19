@@ -1,4 +1,4 @@
-// ARA COMPANY 公式サイトの各セクション（旧トップページの JSX をそのまま移したもの）。
+// ORMO COMPANY 公式サイトの各セクション（旧トップページの JSX をそのまま移したもの）。
 import ContactForm from "../../components/ContactForm";
 import LogoSmoke from "../../components/LogoSmoke";
 import Enso from "../../components/Enso";
@@ -18,16 +18,16 @@ export function Hero() {
             {/* ロゴ：LogoSmoke が煙の粒で描き直す。JS が動かない・動きを減らす設定では、この画像がそのまま見える */}
             <div className="hero-logo">
               {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
-              <img className="hero-emblem" src="/brand/ara-emblem.webp" alt="ARA COMPANY" width={635} height={633} decoding="async" fetchPriority="high" />
+              <img className="hero-emblem" src="/brand/ormo-mark.webp" alt="ORMO COMPANY" width={686} height={354} decoding="async" fetchPriority="high" />
               {/* eslint-disable-next-line @next/next/no-img-element -- 静的書き出しのため画像最適化を使わない */}
-              <img className="hero-word" src="/brand/ara-wordmark.webp" alt="" width={900} height={62} decoding="async" />
+              <img className="hero-word" src="/brand/ormo-wordmark.webp" alt="" width={670} height={190} decoding="async" />
             </div>
             <LogoSmoke />
           </div>
           <div className="hero-side">
             <span className="label">Brand Message</span>
             <p className="en-purpose">{MESSAGE_EN}</p>
-            <p>ARA COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、個人事業として活動しています。</p>
+            <p>ORMO COMPANYは、ファッションを起点に、挑戦する人を支える事業づくりを目指しています。現在は{site.base}を拠点に、個人事業として活動しています。</p>
             <a className="btn" href="/story/">OUR STORY <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -64,7 +64,7 @@ export function AboutSection() {
             <span className="label">About</span>
             <div>
               <h2>ファッションを起点に、<br />挑戦を支える事業を。</h2>
-              <p className="lead">ARA COMPANYは、{site.base}を拠点とする個人事業です。現在は、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
+              <p className="lead">ORMO COMPANYは、{site.base}を拠点とする個人事業です。現在は、アパレル事業「ORMO WEAR」（ブランド「BEyond Station」）の立ち上げ準備と、Webサイト制作・AI導入支援に取り組んでいます。自ら事業を生み出し、成長させ、その利益や仕組みを通じて人の挑戦を支えることを目指しています。</p>
             </div>
           </div>
           <table className="profile" data-reveal>
@@ -121,7 +121,7 @@ export function PhilosophySection() {
               <h3>挑戦する人が、<br />何度でも前を向ける社会へ。</h3>
             </div>
             <div className="prose" data-reveal>
-              <p>ARA COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
+              <p>ORMO COMPANYは、複数の事業を持つ企業へと成長することを目指します。</p>
               <p>その先にあるのは、競技を続けたいアスリートや、夢に向かって努力する人が、経済面・仕事・情報・人とのつながりなど、さまざまな面で支えを得られる環境です。</p>
             </div>
           </div>
@@ -156,7 +156,7 @@ export function BusinessSection() {
             <span className="label">Business</span>
             <div>
               <h2>事業構想</h2>
-              <p className="lead">現在は、ファッションブランド「ORMOSCIA」の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
+              <p className="lead">現在は、アパレル事業「ORMO WEAR」（ブランド「BEyond Station」）の立ち上げを準備しながら、Web・AI事業ブランド「ARVR TECH」としてWeb制作・AI導入のご相談を受け付けています。そのほかの事業は将来構想であり、一つずつ形にしていきます。</p>
             </div>
           </div>
 
@@ -279,7 +279,7 @@ export function StorySection() {
             </div>
             <div className="prose">
               {message.map((m, i) => <p key={i}>{m}</p>)}
-              <p className="sign">ARA COMPANY 代表</p>
+              <p className="sign">ORMO COMPANY 代表</p>
             </div>
           </div>
         </div>
@@ -295,11 +295,11 @@ export function ContactSection() {
           <div data-reveal>
             <span className="label">Contact</span>
             <h2>お問い合わせ</h2>
-            <p className="note">Web制作・AI導入のご相談、ORMOSCIAに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
+            <p className="note">Web制作・AI導入のご相談、BEyond Stationに関するお問い合わせ、協業のご相談、取材のご依頼などは、メールにてご連絡ください。</p>
             <ul className="topics" aria-label="お問い合わせの例">
               <li>Web制作のご相談</li>
               <li>AIシステム導入のご相談</li>
-              <li>ORMOSCIAについて</li>
+              <li>BEyond Stationについて</li>
               <li>協業のご相談</li>
               <li>取材のご依頼</li>
             </ul>

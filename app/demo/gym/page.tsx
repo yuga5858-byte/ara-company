@@ -9,11 +9,11 @@ import s from "./gym.module.css";
 // 架空の口コミは載せない。お客様の声は「掲載イメージ」の枠だけを見せる。
 export const metadata: Metadata = {
   title: "パーソナルジム LP 制作デモ",
-  description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。",
+  description: "ARVR TECH（運営：ORMO COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。",
   robots: { index: false, follow: false },
   // SEOの基本設定の見本（デモ自体は検索結果に出さないため noindex のまま）
-  openGraph: { type: "website", locale: "ja_JP", siteName: "ATELIER KINETIC（制作デモ）", title: "パーソナルジム LP 制作デモ", description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。" },
-  twitter: { card: "summary", title: "パーソナルジム LP 制作デモ", description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。" },
+  openGraph: { type: "website", locale: "ja_JP", siteName: "ATELIER KINETIC（制作デモ）", title: "パーソナルジム LP 制作デモ", description: "ARVR TECH（運営：ORMO COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。" },
+  twitter: { card: "summary", title: "パーソナルジム LP 制作デモ", description: "ARVR TECH（運営：ORMO COMPANY）が制作した、架空の大阪のパーソナルジムのランディングページ（制作デモ）です。" },
 };
 
 const photos: Record<string, Photo> = {
@@ -196,7 +196,7 @@ export default function GymDemo() {
 
       <footer className={s.footer}>
         <p className={s.logo}>ATELIER <span>KINETIC</span></p>
-        <p>この店舗は実在しません。ARVR TECH（運営：ARA COMPANY）による Web 制作デモです。</p>
+        <p>この店舗は実在しません。ARVR TECH（運営：ORMO COMPANY）による Web 制作デモです。</p>
         <a href={solutions.url ?? "/#services"}>ARVR TECH の Web 制作について</a>
       </footer>
 

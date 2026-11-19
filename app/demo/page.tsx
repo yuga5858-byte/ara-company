@@ -6,7 +6,7 @@ import s from "./demo-index.module.css";
 // 営業で見せる制作デモの一覧。どのデモも架空の会社・店舗。
 export const metadata: Metadata = {
   title: "制作デモ一覧",
-  description: "ARVR TECH（運営：ARA COMPANY）が制作した、架空の会社・店舗の Web サイトのデモ一覧です。",
+  description: "ARVR TECH（運営：ORMO COMPANY）が制作した、架空の会社・店舗の Web サイトのデモ一覧です。",
   robots: { index: false, follow: false },
 };
 

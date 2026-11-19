@@ -1,15 +1,15 @@
 // サイト全体の基本情報。手続きや体制が変わったら、ここだけ更新すれば各所に反映される。
 //
 // 現在：2026-11-02 に個人事業として開業（開業届・青色申告承認申請書は提出済み）。法人登記はしていない。
-// ARA COMPANY は屋号（事業名）として表記する。
+// ORMO COMPANY は屋号（事業名）として表記する。2026-11 に ARA COMPANY から改称（社長の判断）。
 // 「株式会社」「法人」「設立済み」などの表現は、実際に手続きが済むまで使わないこと。
 
 export type ProfileRow = { label: string; value: string };
 
 export const site = {
-  name: "ARA COMPANY",
-  // 読み方。検索で「アラカンパニー」と調べた人にも見つかるよう、タイトル・説明・構造化データに入れる
-  nameKana: "アラカンパニー",
+  name: "ORMO COMPANY",
+  // 読み方。検索で「オルモカンパニー」と調べた人にも見つかるよう、タイトル・説明・構造化データに入れる
+  nameKana: "オルモカンパニー",
   base: "大阪府",
   stage: "個人事業として運営（2026年11月開業）",
   policy: "ファッションを起点に、将来的にはAI・テクノロジー、スポーツ支援、コミュニティ事業などへ展開する。",
@@ -29,8 +29,9 @@ export const site = {
   // フォームの送信先。設定するまでフォームは表示しない（メールでの受付のみ）。
   contactEndpoint: null as string | null,
 
-  // ORMOSCIA 公式サイト（公開済み）。ドメインを変えたら NEXT_PUBLIC_ORMOSCIA_URL で上書きする。
-  ormosciaUrl: (process.env.NEXT_PUBLIC_ORMOSCIA_URL || "https://ormoscia.ara-official.workers.dev").replace(/\/$/, "") as string | null,
+  // BEyond Station（ORMO WEAR のブランド）の公式サイト。旧 ORMOSCIA のサイトを作り替えて公開したら URL を入れる。
+  // それまでは null（サイトへのリンクは出さず、「立ち上げ準備中」とだけ表示する）。
+  beyondUrl: null as string | null,
 };
 
 // 公開URL（独自ドメイン）。canonical・sitemap・OGP の URL に使う。
@@ -42,7 +43,7 @@ export const siteUrl = "https://ara-company.jp";
 export const solutions = {
   name: "ARVR TECH",
   url: "https://tech.ara-company.jp" as string | null,
-  relation: "ARVR TECHは、ARA COMPANYが展開するWeb・AI事業ブランドです。",
+  relation: "ARVR TECHは、ORMO COMPANYが展開するWeb・AI事業ブランドです。",
 };
 
 export const contactEnabled = site.email !== null;

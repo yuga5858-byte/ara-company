@@ -12,7 +12,7 @@ const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], preload: false, va
 const cormorant = Cormorant_Garamond({ weight: ["400", "500", "600"], style: ["normal", "italic"], subsets: ["latin"], preload: false, variable: "--font-cormorant" });
 
 const DESCRIPTION =
-  "挑戦が、次の景色をつくる。ARA COMPANY（アラカンパニー）は大阪府を拠点に、ファッションブランド「ORMOSCIA」の立ち上げ準備と、Webサイト制作・運用改善・AIシステム導入支援に取り組んでいます。";
+  "挑戦が、次の景色をつくる。ORMO COMPANY（オルモカンパニー）は大阪府を拠点に、アパレル事業「ORMO WEAR」（ブランド「BEyond Station」）の立ち上げ準備と、Webサイト制作・運用改善・AIシステム導入支援に取り組んでいます。";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,

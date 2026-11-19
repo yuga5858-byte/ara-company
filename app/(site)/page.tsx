@@ -8,14 +8,14 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: site.name,
-  alternateName: [site.nameKana, "アラ カンパニー"],
+  alternateName: [site.nameKana, "オルモ カンパニー", "ARA COMPANY"],
   url: `${siteUrl}/`,
   inLanguage: "ja",
 };
 
 // トップページ：ファーストビューと、各ページへの入口
 const menu = [
-  { href: "/about/", en: "ABOUT", ja: "私たちについて", body: "大阪府を拠点とする個人事業、ARA COMPANYのこと。" },
+  { href: "/about/", en: "ABOUT", ja: "私たちについて", body: "大阪府を拠点とする個人事業、ORMO COMPANYのこと。" },
   { href: "/philosophy/", en: "PHILOSOPHY", ja: "企業理念", body: "挑戦するすべての人に、次の可能性を。" },
   { href: "/business/", en: "BUSINESS", ja: "事業構想", body: "現在の取り組みと、これからの構想。" },
   { href: "/services/", en: "SERVICES", ja: "Web制作・AI導入", body: "ARVR TECHとして承るWeb制作・運用改善・AI導入。" },
@@ -35,7 +35,7 @@ export default function Home() {
           <div className="wrap">
             <div className="sec-head" data-reveal>
               <span className="label">Menu</span>
-              <div><h2 id="menu-title">ARA COMPANYを知る</h2></div>
+              <div><h2 id="menu-title">ORMO COMPANYを知る</h2></div>
             </div>
             <ul className="menu-cards">
               {menu.map((m, i) => (
